@@ -270,6 +270,22 @@
             </div>
         </div>
 
+        <!-- Manage Shifts Modal -->
+        <div id="manage-shifts-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/2 max-h-screen overflow-y-auto animate-fade-in">
+                <h3 class="text-lg font-bold mb-4">Manage Employee Default Shifts</h3>
+                <form id="manage-shifts-form">
+                    <div id="manage-shifts-list" class="space-y-3">
+                        <!-- Employee shift list will be populated here -->
+                    </div>
+                    <div class="flex justify-end space-x-4 mt-6">
+                        <button type="button" id="cancel-manage-shifts-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save All Shifts</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <!-- Authentication Section -->
         <div id="auth-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10 p-8 hidden">
@@ -292,6 +308,15 @@
                     <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <input type="text" id="signup-empid" placeholder="Employee ID" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <input type="text" id="signup-orgid" placeholder="Organization ID" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <div class="mb-4">
+                        <label for="signup-shift" class="block text-sm font-medium text-gray-700">Default Shift</label>
+                        <select id="signup-shift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
+                            <option value="A">A (7am - 2pm)</option>
+                            <option value="B">B (2pm - 9pm)</option>
+                            <option value="C">C (9pm - 7am)</option>
+                            <option value="G" selected>General (9am - 6pm)</option>
+                        </select>
+                    </div>
                     <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Sign Up</button>
                 </form>
@@ -324,13 +349,14 @@
                 <!-- Admin Attendance View -->
                 <div id="admin-attendance-view">
                     <h2 class="text-xl font-semibold mb-4">Admin Panel: All Employee Records</h2>
-                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mb-4">
+                    <div class="flex flex-col md:flex-row flex-wrap gap-2 mb-4">
                         <input type="date" id="filter-date" class="p-2 border rounded-lg">
                         <input type="text" id="filter-name" placeholder="Filter by Employee Name" class="p-2 border rounded-lg flex-grow">
                         <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Export Daily</button>
                         <button id="monthly-report-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Monthly Report</button>
                         <button id="set-week-off-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Set Week Offs</button>
                         <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Set Holidays</button>
+                        <button id="manage-shifts-btn" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Manage Shifts</button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
@@ -465,7 +491,14 @@
         
         // Office Geofence Configuration
         const OFFICE_LOCATION = { latitude: 28.530243, longitude: 77.357587 };
-        const GEOFENCE_RADIUS_METERS = 100;
+        const GEOFENCE_RADIUS_METERS = 50;
+
+        const SHIFT_TIMES = {
+            'A': { start: '07:00' },
+            'B': { start: '14:00' },
+            'C': { start: '21:00' },
+            'G': { start: '09:00' }
+        };
         
         // --- DOM ELEMENT REFERENCES ---
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -522,6 +555,11 @@
         const adminRequestsBody = document.getElementById('admin-requests-body');
         const termsModal = document.getElementById('terms-modal');
         const acceptTermsBtn = document.getElementById('accept-terms-btn');
+        const manageShiftsBtn = document.getElementById('manage-shifts-btn');
+        const manageShiftsModal = document.getElementById('manage-shifts-modal');
+        const manageShiftsForm = document.getElementById('manage-shifts-form');
+        const manageShiftsList = document.getElementById('manage-shifts-list');
+        const cancelManageShiftsBtn = document.getElementById('cancel-manage-shifts-btn');
         
         let currentUser = null;
         let userUnsubscribe = null;
@@ -712,6 +750,7 @@
                 const password = document.getElementById('signup-password').value;
                 const empId = document.getElementById('signup-empid').value;
                 const orgId = document.getElementById('signup-orgid').value;
+                const defaultShift = document.getElementById('signup-shift').value;
 
                 if (orgId !== `AN01${empId}`) {
                     showMessage("Invalid Organization ID. Please check your details.");
@@ -726,7 +765,8 @@
                         uid: userCredential.user.uid,
                         name: name,
                         email: email,
-                        empId: empId
+                        empId: empId,
+                        defaultShift: defaultShift
                     });
                 } catch (error) {
                     showMessage(error.message);
@@ -1520,6 +1560,53 @@
                 adminShiftRequestsView.classList.remove('hidden');
                 tabShiftRequests.classList.add('border-indigo-500', 'text-indigo-600');
                 tabAttendance.classList.remove('border-indigo-500', 'text-indigo-600');
+            });
+
+            // --- MANAGE SHIFTS LOGIC ---
+            manageShiftsBtn.addEventListener('click', () => {
+                manageShiftsList.innerHTML = '';
+                allUsers.forEach(user => {
+                    const userDiv = document.createElement('div');
+                    userDiv.className = 'flex items-center justify-between p-2 border rounded';
+                    userDiv.innerHTML = `
+                        <p class="font-semibold">${user.name} (${user.empId})</p>
+                        <select data-uid="${user.uid}" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm">
+                            <option value="A" ${user.defaultShift === 'A' ? 'selected' : ''}>A (7am - 2pm)</option>
+                            <option value="B" ${user.defaultShift === 'B' ? 'selected' : ''}>B (2pm - 9pm)</option>
+                            <option value="C" ${user.defaultShift === 'C' ? 'selected' : ''}>C (9pm - 7am)</option>
+                            <option value="G" ${user.defaultShift === 'G' || !user.defaultShift ? 'selected' : ''}>General (9am - 6pm)</option>
+                        </select>
+                    `;
+                    manageShiftsList.appendChild(userDiv);
+                });
+                manageShiftsModal.classList.remove('hidden');
+            });
+
+            cancelManageShiftsBtn.addEventListener('click', () => {
+                manageShiftsModal.classList.add('hidden');
+            });
+
+            manageShiftsForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                toggleLoader(true);
+                try {
+                    const batch = writeBatch(db);
+                    const selects = manageShiftsList.querySelectorAll('select');
+                    selects.forEach(select => {
+                        const uid = select.dataset.uid;
+                        const newShift = select.value;
+                        const userDocRef = doc(db, 'users', uid);
+                        batch.update(userDocRef, { defaultShift: newShift });
+                    });
+                    await batch.commit();
+                    await fetchAllUsers(); // Refresh local user data
+                    showMessage("Default shifts updated successfully!");
+                    manageShiftsModal.classList.add('hidden');
+                } catch (error) {
+                    showMessage("Error updating shifts: " + error.message);
+                } finally {
+                    toggleLoader(false);
+                }
             });
 
         }
