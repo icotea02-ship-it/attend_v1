@@ -342,7 +342,10 @@
                 <div class="mb-4 border-b border-gray-200">
                     <nav class="flex space-x-4" aria-label="Tabs">
                         <button id="tab-attendance" class="tab-btn text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent">Attendance Records</button>
-                        <button id="tab-shift-requests" class="tab-btn text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent">Shift Change Requests</button>
+                        <button id="tab-shift-requests" class="tab-btn text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent relative">
+                            Shift Change Requests
+                            <span id="shift-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
+                        </button>
                     </nav>
                 </div>
 
@@ -731,10 +734,15 @@
                         listenForAdminShiftRequests();
 
                         // Engineer-specific UI changes
-                        if(is_engineer) {
+                        if(is_engineer && !is_admin) {
                             monthlyReportBtn.classList.add('hidden');
                             setHolidaysBtn.classList.add('hidden');
                             manageShiftsBtn.classList.add('hidden');
+                        } else {
+                            // Ensure full admin sees all buttons
+                            monthlyReportBtn.classList.remove('hidden');
+                            setHolidaysBtn.classList.remove('hidden');
+                            manageShiftsBtn.classList.remove('hidden');
                         }
 
                     } else {
@@ -1497,10 +1505,12 @@
                     const requests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     
                     const pendingCount = requests.filter(req => req.status === 'pending').length;
-                    const tabButton = document.getElementById('tab-shift-requests');
-                    tabButton.innerHTML = 'Shift Change Requests'; // Reset
+                    const counter = document.getElementById('shift-request-counter');
                     if (pendingCount > 0) {
-                        tabButton.innerHTML += ` <span class="bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1">${pendingCount}</span>`;
+                        counter.textContent = pendingCount;
+                        counter.classList.remove('hidden');
+                    } else {
+                        counter.classList.add('hidden');
                     }
 
                     adminRequestsBody.innerHTML = '';
