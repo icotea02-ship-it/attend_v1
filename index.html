@@ -397,8 +397,8 @@
                 </div>
             </div>
 
-            <!-- Actions Section -->
-            <div class="bg-white rounded-xl shadow-lg p-6 mb-8 transition-shadow hover:shadow-xl animate-fade-in-slide-up" style="animation-delay: 200ms;">
+            <!-- Employee Actions Section (hidden for admin) -->
+            <div id="employee-actions-section" class="bg-white rounded-xl shadow-lg p-6 mb-8 transition-shadow hover:shadow-xl animate-fade-in-slide-up" style="animation-delay: 200ms;">
                 <h2 class="text-xl font-semibold mb-4">Actions</h2>
                 <div class="flex flex-wrap gap-4">
                     <button id="clock-in-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock In</button>
@@ -408,8 +408,8 @@
                  <p id="location-status" class="mt-4 text-sm text-gray-600">Fetching location...</p>
             </div>
 
-            <!-- Employee's Data Section -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 animate-fade-in-slide-up" style="animation-delay: 300ms;">
+            <!-- Employee Data Section (hidden for admin) -->
+            <div id="employee-data-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 animate-fade-in-slide-up" style="animation-delay: 300ms;">
                 <!-- My Attendance Table -->
                 <div class="bg-white rounded-xl shadow-lg p-6 transition-shadow hover:shadow-xl">
                     <h2 class="text-xl font-semibold mb-4">My Attendance Records</h2>
@@ -488,10 +488,12 @@
         };
         
         const ADMIN_UID = 'LZC3oe3qOMQnGEN3FGppJIRyO462';
+        // **ZAROORI**: Apne engineers ke UIDs yahan daalein
+        const ENGINEER_UIDS = ['I14JL1kidHfhRTiFHcBw5YdtlNH2', '103BiCUsRThS2i610GMvMog9Wj22']; 
         
         // Office Geofence Configuration
         const OFFICE_LOCATION = { latitude: 28.530243, longitude: 77.357587 };
-        const GEOFENCE_RADIUS_METERS = 100;
+        const GEOFENCE_RADIUS_METERS = 50;
 
         const SHIFT_TIMES = {
             'A': { start: '07:00' },
@@ -560,6 +562,8 @@
         const manageShiftsForm = document.getElementById('manage-shifts-form');
         const manageShiftsList = document.getElementById('manage-shifts-list');
         const cancelManageShiftsBtn = document.getElementById('cancel-manage-shifts-btn');
+        const employeeActionsSection = document.getElementById('employee-actions-section');
+        const employeeDataSection = document.getElementById('employee-data-section');
         
         let currentUser = null;
         let userUnsubscribe = null;
@@ -715,8 +719,31 @@
                     authSection.classList.add('hidden');
                     appContent.classList.remove('hidden');
 
-                    listenForUserRecords(user.uid);
-                    listenForUserShiftRequests(user.uid);
+                    const is_admin = user.uid === ADMIN_UID;
+                    const is_engineer = ENGINEER_UIDS.includes(user.uid);
+
+                    if (is_admin || is_engineer) {
+                        adminDashboard.classList.remove('hidden');
+                        employeeActionsSection.classList.add('hidden');
+                        employeeDataSection.classList.add('hidden');
+                        fetchAllUsers();
+                        listenForAdminRecords(is_admin);
+                        listenForAdminShiftRequests();
+
+                        // Engineer-specific UI changes
+                        if(is_engineer) {
+                            monthlyReportBtn.classList.add('hidden');
+                            setHolidaysBtn.classList.add('hidden');
+                            manageShiftsBtn.classList.add('hidden');
+                        }
+
+                    } else {
+                        adminDashboard.classList.add('hidden');
+                        employeeActionsSection.classList.remove('hidden');
+                        employeeDataSection.classList.remove('hidden');
+                        listenForUserRecords(user.uid);
+                        listenForUserShiftRequests(user.uid);
+                    }
                 } else {
                     currentUser = null;
                     if (localStorage.getItem('termsAccepted') === 'true') {
@@ -892,10 +919,10 @@
                 }
             });
             
-            function renderTable(tableBody, records, isAdminView = false) {
+            function renderTable(tableBody, records, isAdminView = false, isFullAdmin = false) {
                 tableBody.innerHTML = '';
                 if (records.length === 0) {
-                    const colSpan = isAdminView ? 6 : 4;
+                    const colSpan = isAdminView ? (isFullAdmin ? 6 : 5) : 4;
                     tableBody.innerHTML = `<tr><td colspan="${colSpan}" class="text-center p-4">No records found.</td></tr>`;
                     return;
                 }
@@ -924,17 +951,19 @@
                         <td class="p-3">${rec.total_hours || 'N/A'}</td>
                     `;
 
-                    const adminColumns = `
+                    let adminColumns = `
                         <td class="p-3">${rec.date}</td>
                         <td class="p-3 font-medium">${rec.employee_name || 'N/A'}</td>
                         <td class="p-3">${inTime}</td>
                         <td class="p-3">${outTime}</td>
                         <td class="p-3">${rec.total_hours || 'N/A'}</td>
-                        <td class="p-3 space-x-2 whitespace-nowrap">
+                    `;
+                    if(isFullAdmin) {
+                        adminColumns += `<td class="p-3 space-x-2 whitespace-nowrap">
                             <button class="edit-btn bg-yellow-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Edit</button>
                             <button class="delete-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Delete</button>
-                        </td>
-                    `;
+                        </td>`;
+                    }
 
                     row.innerHTML = isAdminView ? adminColumns : employeeColumns;
                     tableBody.appendChild(row);
@@ -953,26 +982,18 @@
                     const records = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     renderTable(employeeTableBody, records, false);
                     updateClockButtons(uid);
-                    if (uid === ADMIN_UID) {
-                        adminDashboard.classList.remove('hidden');
-                        fetchAllUsers();
-                        listenForAdminRecords();
-                        listenForAdminShiftRequests();
-                    } else {
-                        adminDashboard.classList.add('hidden');
-                    }
                 }, (error) => console.error("Error listening to user records: ", error));
             }
 
-            function listenForAdminRecords() {
+            function listenForAdminRecords(isFullAdmin) {
                 const q = query(collection(db, `attendance`));
                 adminUnsubscribe = onSnapshot(q, (snapshot) => {
                     allAdminRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    applyAdminFilters();
+                    applyAdminFilters(isFullAdmin);
                 }, (error) => console.error("Error listening to admin records: ", error));
             }
             
-            function applyAdminFilters() {
+            function applyAdminFilters(isFullAdmin) {
                 const date = filterDate.value;
                 const name = filterName.value.toLowerCase();
                 
@@ -982,11 +1003,11 @@
                     return nameMatch && dateMatch;
                 });
                 
-                renderTable(adminTableBody, filteredRecords, true);
+                renderTable(adminTableBody, filteredRecords, true, isFullAdmin);
             }
 
-            filterDate.addEventListener('input', applyAdminFilters);
-            filterName.addEventListener('input', applyAdminFilters);
+            filterDate.addEventListener('input', () => applyAdminFilters(currentUser.uid === ADMIN_UID));
+            filterName.addEventListener('input', () => applyAdminFilters(currentUser.uid === ADMIN_UID));
             
             // --- EDIT, DELETE, AND EXPORT LOGIC ---
             
@@ -1198,12 +1219,12 @@
                 for (let i = 1; i <= daysToReport; i++) {
                     headers.push(`${i}-${month}-${year}`);
                 }
-                headers.push('TOTAL "P"', 'TOTAL "A"', 'TOTAL "WO"', 'TOTAL "H"', 'TOTAL CO', 'GRAND TOTAL');
+                headers.push('TOTAL "P"', 'TOTAL "A"', 'TOTAL "WO"', 'TOTAL "H"', 'TOTAL CO', 'GRAND TOTAL', 'SHIFT CHANGES', 'LATE ARRIVALS');
 
                 const rows = Object.keys(reportData).map(uid => {
                     const emp = reportData[uid];
                     const row = [ `"${emp.name}"`, `"${emp.empId}"` ];
-                    let pCount = 0, aCount = 0, woCount = 0, hCount = 0;
+                    let pCount = 0, aCount = 0, woCount = 0, hCount = 0, lateCount = 0;
 
                     for (let i = 1; i <= daysToReport; i++) {
                         row.push(emp.days[i]);
@@ -1216,7 +1237,7 @@
                     
                     const totalCO = monthCoffs[uid] || 0;
                     
-                    row.push(pCount, aCount, woCount, hCount, totalCO, pCount + totalCO);
+                    row.push(pCount, aCount, woCount, hCount, totalCO, pCount + totalCO, 0, 0); // Placeholders for now
                     return row.join(',');
                 });
 
@@ -1474,6 +1495,14 @@
                 const q = query(collection(db, 'shift_requests'));
                 shiftRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
                     const requests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    
+                    const pendingCount = requests.filter(req => req.status === 'pending').length;
+                    const tabButton = document.getElementById('tab-shift-requests');
+                    tabButton.innerHTML = 'Shift Change Requests'; // Reset
+                    if (pendingCount > 0) {
+                        tabButton.innerHTML += ` <span class="bg-red-500 text-white text-xs font-bold rounded-full px-2 py-1">${pendingCount}</span>`;
+                    }
+
                     adminRequestsBody.innerHTML = '';
                      if (requests.length === 0) {
                         adminRequestsBody.innerHTML = `<tr><td colspan="7" class="text-center p-4">No shift change requests.</td></tr>`;
