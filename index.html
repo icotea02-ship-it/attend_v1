@@ -9,6 +9,7 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5; /* Lighter gray background */
         }
         /* Simple scrollbar styling */
         ::-webkit-scrollbar {
@@ -18,15 +19,15 @@
             background: #f1f1f1;
         }
         ::-webkit-scrollbar-thumb {
-            background: #888;
+            background: #a8a29e; /* Stone 400 */
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #78716c; /* Stone 500 */
         }
         .loader {
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
+            border-top: 4px solid #3b82f6;
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -43,14 +44,14 @@
             to { opacity: 1; }
         }
         @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in {
             animation: fadeIn 0.5s ease-out forwards;
         }
         .animate-fade-in-slide-up {
-            animation: fadeInSlideUp 0.6s ease-out forwards;
+            animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
         }
 
         /* Colorful Placeholders */
@@ -60,6 +61,9 @@
         }
         :focus::placeholder {
             color: #3b82f6; /* Blue 500 */
+        }
+        .card-gradient {
+            background-image: linear-gradient(to top right, #ffffff, #f9fafb);
         }
     </style>
 </head>
@@ -401,8 +405,8 @@
             </div>
 
             <!-- Employee Actions Section (hidden for admin) -->
-            <div id="employee-actions-section" class="bg-white rounded-xl shadow-lg p-6 mb-8 transition-shadow hover:shadow-xl animate-fade-in-slide-up" style="animation-delay: 200ms;">
-                <h2 class="text-xl font-semibold mb-4">Actions</h2>
+            <div id="employee-actions-section" class="card-gradient rounded-xl shadow-lg p-6 mb-8 transition-shadow hover:shadow-2xl animate-fade-in-slide-up" style="animation-delay: 200ms;">
+                <h2 class="text-xl font-semibold mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>Actions</h2>
                 <div class="flex flex-wrap gap-4">
                     <button id="clock-in-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock In</button>
                     <button id="clock-out-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock Out</button>
@@ -414,8 +418,8 @@
             <!-- Employee Data Section (hidden for admin) -->
             <div id="employee-data-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 animate-fade-in-slide-up" style="animation-delay: 300ms;">
                 <!-- My Attendance Table -->
-                <div class="bg-white rounded-xl shadow-lg p-6 transition-shadow hover:shadow-xl">
-                    <h2 class="text-xl font-semibold mb-4">My Attendance Records</h2>
+                <div class="card-gradient rounded-xl shadow-lg p-6 transition-shadow hover:shadow-2xl">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>My Attendance Records</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
@@ -431,8 +435,8 @@
                     </div>
                 </div>
                 <!-- My Shift Change Requests -->
-                <div class="bg-white rounded-xl shadow-lg p-6 transition-shadow hover:shadow-xl">
-                    <h2 class="text-xl font-semibold mb-4">My Shift Change Requests</h2>
+                <div class="card-gradient rounded-xl shadow-lg p-6 transition-shadow hover:shadow-2xl">
+                    <h2 class="text-xl font-semibold mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>My Shift Change Requests</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
                             <thead>
@@ -496,7 +500,7 @@
         
         // Office Geofence Configuration
         const OFFICE_LOCATION = { latitude: 28.530243, longitude: 77.357587 };
-        const GEOFENCE_RADIUS_METERS = 150;
+        const GEOFENCE_RADIUS_METERS = 50;
 
         const SHIFT_TIMES = {
             'A': { start: '07:00' },
@@ -829,22 +833,20 @@
 
             // --- FIRESTORE & APP LOGIC ---
             async function updateClockButtons(uid) {
-                const todayStr = formatDate(new Date());
                 const attendanceCol = collection(db, `attendance`);
-                const q = query(attendanceCol, where("uid", "==", uid), where("date", "==", todayStr));
+                // Find any record that is clocked in but not clocked out for this user
+                const q = query(attendanceCol, where("uid", "==", uid), where("out_time", "==", null));
                 
                 const querySnapshot = await getDocs(q);
                 
-                clockInBtn.disabled = true;
-                clockOutBtn.disabled = true;
-
                 if (querySnapshot.empty) {
+                    // No open shifts, allow clock in
                     clockInBtn.disabled = false;
+                    clockOutBtn.disabled = true;
                 } else {
-                    const todayRecord = querySnapshot.docs[0].data();
-                    if (todayRecord.in_time && !todayRecord.out_time) {
-                        clockOutBtn.disabled = false;
-                    }
+                    // Open shift found, allow clock out
+                    clockInBtn.disabled = true;
+                    clockOutBtn.disabled = false;
                 }
             }
 
@@ -900,10 +902,10 @@
                 try {
                     const location = await checkLocation(); // This will now reject if outside radius
                     const now = new Date();
-                    const todayStr = formatDate(now);
-
+                    
                     const attendanceCol = collection(db, `attendance`);
-                    const q = query(attendanceCol, where("uid", "==", currentUser.uid), where("date", "==", todayStr), where("out_time", "==", null));
+                    // Find the open shift to clock out
+                    const q = query(attendanceCol, where("uid", "==", currentUser.uid), where("out_time", "==", null));
                     const querySnapshot = await getDocs(q);
                     
                     if (!querySnapshot.empty) {
@@ -917,7 +919,7 @@
                         });
                         showMessage("Successfully clocked out!");
                     } else {
-                        showMessage("Could not find an open clock-in record for today.");
+                        showMessage("Could not find an open clock-in record.");
                     }
                 } catch (error) {
                     console.error("Clock-out error: ", error);
