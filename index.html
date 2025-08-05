@@ -307,7 +307,6 @@
                             <input type="date" id="filter-date" class="p-2 border rounded-lg w-full sm:w-auto">
                             <input type="text" id="filter-name" placeholder="Filter by Employee Name" class="p-2 border rounded-lg w-full sm:w-auto flex-grow">
                         </div>
-                        <!-- BUTTON ALIGNMENT FIX -->
                         <div class="flex flex-wrap items-center gap-2">
                             <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Export Daily</button>
                             <button id="monthly-report-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">Monthly Report</button>
@@ -614,7 +613,6 @@
                     showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                 }
                 
-                // FIX: This now fetches from `allUsers` array which is available to all users.
                 const userDoc = allUsers.find(u => u.uid === currentUser.uid);
                 await addDoc(collection(db, "attendance"), { 
                     uid: currentUser.uid, 
@@ -704,7 +702,7 @@
             filtered.sort((a,b) => (b.in_time?.toDate() || 0) - (a.in_time?.toDate() || 0));
             adminTableBody.innerHTML = filtered.map(rec => {
                 const user = allUsers.find(u => u.uid === rec.uid);
-                const designation = user ? user.designation : 'N/A';
+                const designation = user ? user.designation : (rec.designation || 'N/A');
                 return `<tr>
                             <td class="p-3">${rec.date}</td>
                             <td class="p-3 font-medium">${rec.employee_name||'N/A'}</td>
@@ -1116,17 +1114,16 @@
             document.getElementById('shift-g-count').textContent = counts.G;
         }
 
+        // FIXED DEPARTMENT SUMMARY FUNCTION
         function updateDepartmentSummary() {
-            if (!allAdminRecords.length || !allUsers.length) return;
-
+            if (!allAdminRecords.length) return;
+            
             const departmentCounts = {};
             const activeToday = allAdminRecords.filter(r => r.date === formatDate(new Date()) && r.in_time && !r.out_time);
 
             activeToday.forEach(record => {
-                // Here we use the department data saved directly in the attendance record
-                if (record.department && record.department !== 'N/A') {
-                    departmentCounts[record.department] = (departmentCounts[record.department] || 0) + 1;
-                }
+                const department = record.department || 'N/A';
+                departmentCounts[department] = (departmentCounts[department] || 0) + 1;
             });
 
             const container = document.getElementById('department-live-counts');
