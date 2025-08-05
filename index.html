@@ -1,4 +1,3 @@
-html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,22 +9,12 @@ html
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5; /* Lighter gray background */
+            background-color: #f0f2f5;
         }
-        /* Simple scrollbar styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #a8a29e; /* Stone 400 */
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #78716c; /* Stone 500 */
-        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #a8a29e; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #78716c; }
         .loader {
             border: 4px solid #f3f3f3;
             border-top: 4px solid #3b82f6;
@@ -34,38 +23,10 @@ html
             height: 40px;
             animation: spin 1s linear infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes fadeInSlideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.5s ease-out forwards;
-        }
-        .animate-fade-in-slide-up {
-            animation: fadeInSlideUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-        }
-
-        /* Colorful Placeholders */
-        ::placeholder {
-            color: #a1a1aa; /* Zinc 400 */
-            transition: color 0.3s;
-        }
-        :focus::placeholder {
-            color: #3b82f6; /* Blue 500 */
-        }
-        .card-gradient {
-            background-image: linear-gradient(to top right, #ffffff, #f9fafb);
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        .card-gradient { background-image: linear-gradient(to top right, #ffffff, #f9fafb); }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -85,37 +46,17 @@ html
                 <div class="text-sm text-gray-600 space-y-3 overflow-y-auto pr-2">
                     <p><strong>Last updated: August 2, 2025</strong></p>
                     <p>Welcome to the Employee Attendance Tracker. By using this application, you agree to the following terms and conditions.</p>
-                    
                     <h3 class="font-bold text-gray-700 mt-2">1. Data Collection and Usage</h3>
-                    <p>To provide our services, we collect the following information:</p>
-                    <ul class="list-disc list-inside ml-4">
-                        <li><strong>Personal Information:</strong> Your Name, Email, and Employee ID for account creation and identification.</li>
-                        <li><strong>Location Data:</strong> Your precise geolocation (latitude and longitude) is collected ONLY at the time of "Clock In" and "Clock Out". This is used to verify that you are within the designated office premises.</li>
-                        <li><strong>Attendance Data:</strong> Your clock-in/out times are recorded to calculate your work hours.</li>
-                    </ul>
-
+                    <p>To provide our services, we collect: Your Name, Email, Employee ID, Geolocation (at clock-in/out only), and Attendance Times.</p>
                     <h3 class="font-bold text-gray-700 mt-2">2. Purpose of Data Use</h3>
-                    <p>Your data is used exclusively for:</p>
-                     <ul class="list-disc list-inside ml-4">
-                        <li>Marking your daily attendance.</li>
-                        <li>Calculating your total work hours.</li>
-                        <li>Allowing administrators to manage attendance records and generate reports.</li>
-                        <li>Verifying your location for attendance purposes.</li>
-                    </ul>
-
+                    <p>Your data is used exclusively for marking attendance, calculating work hours, and allowing administrators to manage records.</p>
                     <h3 class="font-bold text-gray-700 mt-2">3. Privacy and Security</h3>
-                    <p>We do not share your personal data with any third parties. All data is securely stored using Firebase's industry-standard security measures. Your location is not tracked continuously; it is only captured at the moment you press the clock-in or clock-out button.</p>
-                    
-                    <h3 class="font-bold text-gray-700 mt-2">4. User Responsibilities</h3>
-                     <p>You are responsible for providing accurate information. Misuse of this application for fraudulent attendance marking is strictly prohibited.</p>
-
-                    <h3 class="font-bold text-gray-700 mt-2">5. Acceptance</h3>
-                    <p>By clicking "Accept & Continue", you acknowledge that you have read, understood, and agree to these terms. If you do not agree, you will not be able to use this application.</p>
+                    <p>We do not share your data. It is stored securely. Your location is not tracked continuously.</p>
+                    <h3 class="font-bold text-gray-700 mt-2">4. Acceptance</h3>
+                    <p>By clicking "Accept & Continue", you agree to these terms.</p>
                 </div>
                 <div class="mt-6 text-center">
-                    <button id="accept-terms-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105 duration-300">
-                        Accept & Continue
-                    </button>
+                    <button id="accept-terms-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">Accept & Continue</button>
                 </div>
             </div>
         </div>
@@ -124,9 +65,7 @@ html
         <div id="message-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 text-center animate-fade-in">
                 <p id="message-text" class="text-lg mb-4"></p>
-                <button onclick="document.getElementById('message-modal').classList.add('hidden')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">
-                    Close
-                </button>
+                <button onclick="document.getElementById('message-modal').classList.add('hidden')" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Close</button>
             </div>
         </div>
 
@@ -150,19 +89,19 @@ html
                     <input type="hidden" id="edit-doc-id">
                     <div class="mb-4">
                         <label for="edit-date" class="block text-sm font-medium text-gray-700">Date</label>
-                        <input type="date" id="edit-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <input type="date" id="edit-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="mb-4">
                         <label for="edit-in-time" class="block text-sm font-medium text-gray-700">In Time</label>
-                        <input type="time" id="edit-in-time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <input type="time" id="edit-in-time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
                      <div class="mb-4">
                         <label for="edit-out-time" class="block text-sm font-medium text-gray-700">Out Time</label>
-                        <input type="time" id="edit-out-time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <input type="time" id="edit-out-time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
                     </div>
                     <div class="flex justify-end space-x-4 mt-6">
                         <button type="button" id="cancel-edit-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
-                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save Changes</button>
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
                     </div>
                 </form>
             </div>
@@ -175,7 +114,7 @@ html
                 <form id="monthly-report-form">
                     <div class="mb-4">
                         <label for="report-month" class="block text-sm font-medium text-gray-700">Select Month</label>
-                        <input type="month" id="report-month" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <input type="month" id="report-month" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
                     <div class="flex justify-end space-x-4 mt-6">
                         <button type="button" id="cancel-monthly-report-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
@@ -192,14 +131,12 @@ html
                 <div class="flex items-end space-x-2 mb-4">
                     <div class="flex-grow">
                         <label for="week-off-month" class="block text-sm font-medium text-gray-700">Select Month</label>
-                        <input type="month" id="week-off-month" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <input type="month" id="week-off-month" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
                     <button id="load-employees-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Load Employees</button>
                 </div>
                 <form id="week-off-form">
-                    <div id="week-off-employee-list" class="space-y-4">
-                        <!-- Employee list will be populated here -->
-                    </div>
+                    <div id="week-off-employee-list" class="space-y-4"></div>
                     <div class="flex justify-end space-x-4 mt-6">
                         <button type="button" id="cancel-week-off-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
                         <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save Week Offs</button>
@@ -215,13 +152,11 @@ html
                 <div class="flex items-end space-x-2 mb-4">
                     <div class="flex-grow">
                         <label for="holidays-month" class="block text-sm font-medium text-gray-700">Select Month</label>
-                        <input type="month" id="holidays-month" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+                        <input type="month" id="holidays-month" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
                     </div>
                 </div>
                 <form id="holidays-form">
-                    <div id="holidays-list" class="flex flex-wrap mt-2">
-                        <!-- Holiday checkboxes will be populated here -->
-                    </div>
+                    <div id="holidays-list" class="flex flex-wrap mt-2"></div>
                     <div class="flex justify-end space-x-4 mt-6">
                         <button type="button" id="cancel-holidays-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
                         <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save Holidays</button>
@@ -229,189 +164,88 @@ html
                 </form>
             </div>
         </div>
-        
-        <!-- Shift Change Modal -->
+
+        <!-- ALL REQUEST MODALS (Shift, PP, C/Off, Leave) -->
         <div id="shift-change-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
                 <h3 class="text-lg font-bold mb-4">Request Shift Change</h3>
                 <form id="shift-change-form">
-                    <div class="mb-4">
-                        <label for="shift-change-date" class="block text-sm font-medium text-gray-700">Date</label>
-                        <input type="date" id="shift-change-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                    </div>
+                    <div class="mb-4"><label for="shift-change-date" class="block text-sm font-medium text-gray-700">Date</label><input type="date" id="shift-change-date" name="change_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
                     <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label for="my-shift" class="block text-sm font-medium text-gray-700">My Shift</label>
-                            <select id="my-shift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                                <option value="A">A (7am - 2pm)</option>
-                                <option value="B">B (2pm - 9pm)</option>
-                                <option value="C">C (9pm - 7am)</option>
-                                <option value="G">General (9am - 6pm)</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="colleague-shift" class="block text-sm font-medium text-gray-700">Colleague's Shift</label>
-                            <select id="colleague-shift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                                <option value="A">A (7am - 2pm)</option>
-                                <option value="B">B (2pm - 9pm)</option>
-                                <option value="C">C (9pm - 7am)</option>
-                                <option value="G">General (9am - 6pm)</option>
-                            </select>
-                        </div>
+                        <div><label for="my-shift" class="block text-sm font-medium text-gray-700">My Shift</label><select id="my-shift" name="requester_shift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="G">G</option></select></div>
+                        <div><label for="colleague-shift" class="block text-sm font-medium text-gray-700">Colleague's Shift</label><select id="colleague-shift" name="colleague_shift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="G">G</option></select></div>
                     </div>
-                    <div class="mb-4">
-                        <label for="colleague-empid" class="block text-sm font-medium text-gray-700">Colleague's Employee ID</label>
-                        <input type="text" id="colleague-empid" placeholder="Enter Colleague's EMP ID" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="shift-change-remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
-                        <textarea id="shift-change-remarks" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
-                    </div>
-                    <div class="flex justify-end space-x-4 mt-6">
-                        <button type="button" id="cancel-shift-change-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Send Request</button>
-                    </div>
+                    <div class="mb-4"><label for="colleague-empid" class="block text-sm font-medium text-gray-700">Colleague's Employee ID</label><input type="text" id="colleague-empid" name="colleague_empid" placeholder="Enter Colleague's EMP ID" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
+                    <div class="mb-4"><label for="shift-change-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="shift-change-remarks" name="remarks" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Send</button></div>
                 </form>
             </div>
         </div>
-
-        <!-- PP Request Modal -->
         <div id="pp-request-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
+             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
                 <h3 class="text-lg font-bold mb-4">Apply for Additional Present (PP)</h3>
                 <form id="pp-request-form">
-                    <div class="mb-4">
-                        <label for="pp-request-date" class="block text-sm font-medium text-gray-700">Date for PP</label>
-                        <input type="date" id="pp-request-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="pp-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
-                        <textarea id="pp-request-remarks" rows="3" placeholder="Reason for dual shift..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
-                    </div>
-                    <div class="flex justify-end space-x-4 mt-6">
-                        <button type="button" id="cancel-pp-request-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Submit Request</button>
-                    </div>
+                    <div class="mb-4"><label for="pp-request-date" class="block text-sm font-medium text-gray-700">Date for PP</label><input type="date" id="pp-request-date" name="request_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
+                    <div class="mb-4"><label for="pp-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="pp-request-remarks" name="remarks" rows="3" placeholder="Reason for dual shift..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Submit</button></div>
                 </form>
             </div>
         </div>
-
-        <!-- PP Approval Modal -->
-        <div id="pp-approval-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
-                <h3 class="text-lg font-bold mb-4">PP Request Approval</h3>
-                <div id="pp-approval-details" class="text-left mb-4 space-y-2"></div>
-                <form id="pp-approval-form">
-                    <input type="hidden" id="pp-approval-doc-id">
-                    <input type="hidden" id="pp-approval-action">
-                    <div class="mb-4">
-                        <label for="pp-approval-comment" class="block text-sm font-medium text-gray-700">Comment</label>
-                        <textarea id="pp-approval-comment" rows="3" placeholder="Add your comment..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
-                    </div>
-                    <div class="flex justify-end space-x-4 mt-6">
-                        <button type="button" id="cancel-pp-approval-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
-                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Confirm</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <!-- C/Off Request Modal -->
         <div id="coff-request-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
                 <h3 class="text-lg font-bold mb-4">Apply for Compensatory Off (C/Off)</h3>
                 <form id="coff-request-form">
-                    <div class="mb-4">
-                        <label for="coff-avail-date" class="block text-sm font-medium text-gray-700">Date to Avail C/Off</label>
-                        <input type="date" id="coff-avail-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                    </div>
-                    <div class="mb-4">
-                        <label for="coff-earned-select" class="block text-sm font-medium text-gray-700">Against which earned C/Off?</label>
-                        <select id="coff-earned-select" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                            <!-- Options will be populated by JS -->
-                        </select>
-                        <p id="no-coff-message" class="text-sm text-red-500 mt-1 hidden">You have no available C/Offs to apply for. Contact admin or engineer for manual creation if you have worked on a week off/holiday.</p>
-                    </div>
-                    <div class="mb-4">
-                        <label for="coff-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
-                        <textarea id="coff-request-remarks" rows="3" placeholder="Reason for request..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
-                    </div>
-                    <div class="flex justify-end space-x-4 mt-6">
-                        <button type="button" id="cancel-coff-request-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
-                        <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg">Submit Request</button>
-                    </div>
+                    <div class="mb-4"><label for="coff-avail-date" class="block text-sm font-medium text-gray-700">Date to Avail C/Off</label><input type="date" id="coff-avail-date" name="avail_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
+                    <div class="mb-4"><label for="coff-earned-select" class="block text-sm font-medium text-gray-700">Against which earned C/Off?</label><select id="coff-earned-select" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select><p id="no-coff-message" class="text-sm text-red-500 mt-1 hidden">You have no available C/Offs.</p></div>
+                    <div class="mb-4"><label for="coff-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="coff-request-remarks" name="remarks" rows="3" placeholder="Reason..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg">Submit</button></div>
                 </form>
             </div>
         </div>
-
-        <!-- Leave Request Modal -->
         <div id="leave-request-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
                 <h3 class="text-lg font-bold mb-4">Apply for Leave</h3>
                 <form id="leave-request-form">
                     <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label for="leave-start-date" class="block text-sm font-medium text-gray-700">Start Date</label>
-                            <input type="date" id="leave-start-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                        </div>
-                        <div>
-                            <label for="leave-end-date" class="block text-sm font-medium text-gray-700">End Date</label>
-                            <input type="date" id="leave-end-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                        </div>
+                        <div><label for="leave-start-date" class="block text-sm font-medium text-gray-700">Start Date</label><input type="date" id="leave-start-date" name="start_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
+                        <div><label for="leave-end-date" class="block text-sm font-medium text-gray-700">End Date</label><input type="date" id="leave-end-date" name="end_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
                     </div>
                     <p class="text-center text-sm font-medium text-gray-700 mb-4">Total Days: <span id="leave-total-days">0</span></p>
-                     <div class="mb-4">
-                        <label for="leave-request-remarks" class="block text-sm font-medium text-gray-700">Reason</label>
-                        <textarea id="leave-request-remarks" rows="3" placeholder="Reason for leave..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
-                    </div>
-                    <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
-                        <label class="flex items-start">
-                            <input type="checkbox" id="leave-terms-ack" class="h-4 w-4 text-orange-600 mt-1">
-                            <span class="ml-2 text-xs text-gray-600">I acknowledge that leave approval is subject to company terms and conditions. The on-site team and management hold no responsibility for the final decision.</span>
-                        </label>
-                    </div>
-                    <div class="flex justify-end space-x-4 mt-6">
-                        <button type="button" id="cancel-leave-request-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
-                        <button type="submit" id="submit-leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg disabled:bg-gray-400" disabled>Submit Request</button>
-                    </div>
+                    <div class="mb-4"><label for="leave-request-remarks" class="block text-sm font-medium text-gray-700">Reason</label><textarea id="leave-request-remarks" name="reason" rows="3" placeholder="Reason..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md"><label class="flex items-start"><input type="checkbox" id="leave-terms-ack" class="h-4 w-4 text-orange-600 mt-1"><span class="ml-2 text-xs text-gray-600">I acknowledge leave approval is subject to company policy.</span></label></div>
+                    <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" id="submit-leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg disabled:bg-gray-400" disabled>Submit</button></div>
                 </form>
             </div>
         </div>
 
         <!-- Authentication Section -->
-        <div id="auth-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10 p-8 hidden">
+        <div id="auth-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden p-8 mt-10 hidden">
             <h2 class="text-2xl font-bold text-center text-gray-700 mb-6">Employee Login</h2>
             <div id="auth-container">
-                <!-- Login Form -->
                 <form id="login-form" class="space-y-4">
-                    <input type="email" id="login-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <input type="password" id="login-password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Login</button>
+                    <input type="email" id="login-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg" required>
+                    <input type="password" id="login-password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg" required>
+                    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Login</button>
                 </form>
-                <p class="text-center mt-4">
-                    Don't have an account? <a href="#" id="show-signup" class="text-blue-500 hover:underline">Sign Up</a>
-                </p>
+                <p class="text-center mt-4">Don't have an account? <a href="#" id="show-signup" class="text-blue-500 hover:underline">Sign Up</a></p>
             </div>
             <div id="signup-container" class="hidden">
-                 <!-- Signup Form -->
                 <form id="signup-form" class="space-y-4">
-                    <input type="text" id="signup-name" placeholder="Full Name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <input type="text" id="signup-empid" placeholder="Employee ID" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <input type="text" id="signup-orgid" placeholder="Organization ID" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Sign Up</button>
+                    <input type="text" id="signup-name" placeholder="Full Name" class="w-full px-4 py-2 border rounded-lg" required>
+                    <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg" required>
+                    <input type="text" id="signup-empid" placeholder="Employee ID" class="w-full px-4 py-2 border rounded-lg" required>
+                    <input type="text" id="signup-orgid" placeholder="Organization ID" class="w-full px-4 py-2 border rounded-lg" required>
+                    <input type="password" id="signup-password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg" required>
+                    <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Sign Up</button>
                 </form>
-                <p class="text-center mt-4">
-                    Already have an account? <a href="#" id="show-login" class="text-blue-500 hover:underline">Login</a>
-                </p>
+                <p class="text-center mt-4">Already have an account? <a href="#" id="show-login" class="text-blue-500 hover:underline">Login</a></p>
             </div>
         </div>
 
         <!-- Main App Content (Hidden by default) -->
         <div id="app-content" class="hidden">
             <!-- Header -->
-            <header class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-4 rounded-xl shadow-md animate-fade-in-slide-up">
+            <header class="flex flex-col md:flex-row justify-between items-center mb-8 bg-white p-4 rounded-xl shadow-md">
                 <h1 class="text-3xl font-bold text-gray-800">Attendance Dashboard</h1>
                 <div class="text-right mt-4 md:mt-0">
                     <p id="user-info" class="text-md"></p>
@@ -420,215 +254,84 @@ html
                 </div>
             </header>
             
-            <!-- Admin Dashboard (Moved to top) -->
-            <div id="admin-dashboard" class="hidden bg-white rounded-xl shadow-lg p-6 mb-8 animate-fade-in-slide-up" style="animation-delay: 100ms;">
-                <!-- Today's Shift Summary Card -->
-                <div id="shift-summary-card" class="mb-6 p-4 bg-gradient-to-r from-gray-700 to-gray-800 text-white rounded-xl shadow-lg">
+            <!-- Admin Dashboard -->
+            <div id="admin-dashboard" class="hidden bg-white rounded-xl shadow-lg p-6 mb-8">
+                <div class="mb-6 p-4 bg-gradient-to-r from-gray-700 to-gray-800 text-white rounded-xl shadow-lg">
                     <h3 class="text-lg font-bold mb-4">Today's Live Shift Count</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-                        <div>
-                            <p class="text-2xl font-bold" id="shift-a-count">0</p>
-                            <p class="text-sm text-gray-300">A Shift</p>
-                        </div>
-                        <div>
-                            <p class="text-2xl font-bold" id="shift-b-count">0</p>
-                            <p class="text-sm text-gray-300">B Shift</p>
-                        </div>
-                        <div>
-                            <p class="text-2xl font-bold" id="shift-c-count">0</p>
-                            <p class="text-sm text-gray-300">C Shift</p>
-                        </div>
-                        <div>
-                            <p class="text-2xl font-bold" id="shift-g-count">0</p>
-                            <p class="text-sm text-gray-300">General</p>
-                        </div>
+                        <div><p class="text-2xl font-bold" id="shift-a-count">0</p><p class="text-sm text-gray-300">A Shift</p></div>
+                        <div><p class="text-2xl font-bold" id="shift-b-count">0</p><p class="text-sm text-gray-300">B Shift</p></div>
+                        <div><p class="text-2xl font-bold" id="shift-c-count">0</p><p class="text-sm text-gray-300">C Shift</p></div>
+                        <div><p class="text-2xl font-bold" id="shift-g-count">0</p><p class="text-sm text-gray-300">General</p></div>
                     </div>
                 </div>
 
                 <div class="mb-4 border-b border-gray-200">
-                    <nav class="flex space-x-1" aria-label="Tabs">
-                        <button id="tab-attendance" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg">Attendance</button>
-                        <button id="tab-shift-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
-                            Shift Changes
-                            <span id="shift-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
-                        </button>
-                         <button id="tab-pp-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
-                            PP Requests
-                            <span id="pp-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
-                        </button>
-                         <button id="tab-coff-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
-                            C/Off Requests
-                            <span id="coff-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
-                        </button>
-                        <button id="tab-leave-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
-                            Leave Requests
-                            <span id="leave-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
-                        </button>
+                    <nav class="flex space-x-1 overflow-x-auto pb-2" aria-label="Tabs">
+                        <button id="tab-attendance" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg flex-shrink-0">Attendance</button>
+                        <button id="tab-shift-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">Shift Changes<span id="shift-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
+                        <button id="tab-pp-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">PP Requests<span id="pp-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
+                        <button id="tab-coff-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">C/Off Requests<span id="coff-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
+                        <button id="tab-leave-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">Leave Requests<span id="leave-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
                     </nav>
                 </div>
 
-                <!-- Admin Attendance View -->
+                <!-- Admin Views -->
                 <div id="admin-attendance-view">
-                    <h2 class="text-xl font-semibold mb-4">Admin Panel: All Employee Records</h2>
-                    <div class="flex flex-col md:flex-row flex-wrap gap-2 mb-4">
-                        <input type="date" id="filter-date" class="p-2 border rounded-lg">
-                        <input type="text" id="filter-name" placeholder="Filter by Employee Name" class="p-2 border rounded-lg flex-grow">
-                        <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Export Daily</button>
-                        <button id="monthly-report-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Monthly Report</button>
-                        <button id="set-week-off-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Set Week Offs</button>
-                        <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Set Holidays</button>
+                    <h2 class="text-xl font-semibold mb-4">All Employee Records</h2>
+                    <div class="space-y-4 mb-4">
+                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                            <input type="date" id="filter-date" class="p-2 border rounded-lg w-full sm:w-auto">
+                            <input type="text" id="filter-name" placeholder="Filter by Employee Name" class="p-2 border rounded-lg w-full sm:w-auto flex-grow">
+                            <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg w-full sm:w-auto flex-shrink-0">Export Daily</button>
+                        </div>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <button id="monthly-report-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">Monthly Report</button>
+                            <button id="set-week-off-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg">Set Week Offs</button>
+                            <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Set Holidays</button>
+                        </div>
                     </div>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="p-3">Date</th>
-                                    <th class="p-3">Employee Name</th>
-                                    <th class="p-3">In Time</th>
-                                    <th class="p-3">Out Time</th>
-                                    <th class="p-3">Hours</th>
-                                    <th class="p-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-table-body"></tbody>
-                        </table>
-                    </div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Name</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-table-body"></tbody></table></div>
                 </div>
-
-                <!-- Admin Shift Change Requests View -->
                 <div id="admin-shift-requests-view" class="hidden">
-                     <h2 class="text-xl font-semibold mb-4">Admin Panel: Shift Change Requests</h2>
-                     <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="p-3">Date</th>
-                                    <th class="p-3">Requester</th>
-                                    <th class="p-3">Colleague</th>
-                                    <th class="p-3">Shift Change</th>
-                                    <th class="p-3">Remarks</th>
-                                    <th class="p-3">Status</th>
-                                    <th class="p-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-requests-body"></tbody>
-                        </table>
-                    </div>
+                     <h2 class="text-xl font-semibold mb-4">Shift Change Requests</h2>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
                 </div>
-
-                <!-- Admin PP Requests View -->
                 <div id="admin-pp-requests-view" class="hidden">
-                     <h2 class="text-xl font-semibold mb-4">Admin Panel: Additional Present (PP) Requests</h2>
-                     <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="p-3">Request Date</th>
-                                    <th class="p-3">Employee Name</th>
-                                    <th class="p-3">Remarks</th>
-                                    <th class="p-3">Engineer Comment</th>
-                                    <th class="p-3">Status</th>
-                                    <th class="p-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-pp-requests-body"></tbody>
-                        </table>
-                    </div>
+                     <h2 class="text-xl font-semibold mb-4">PP Requests</h2>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
                 </div>
-
-                <!-- Admin C/Off Requests View -->
                 <div id="admin-coff-requests-view" class="hidden">
-                    <h2 class="text-xl font-semibold mb-4">Admin Panel: C/Off Requests</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="p-3">Employee</th>
-                                    <th class="p-3">Avail Date</th>
-                                    <th class="p-3">Earned Date</th>
-                                    <th class="p-3">Remarks</th>
-                                    <th class="p-3">Engineer Comment</th>
-                                    <th class="p-3">Status</th>
-                                    <th class="p-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-coff-requests-body"></tbody>
-                        </table>
-                    </div>
+                    <h2 class="text-xl font-semibold mb-4">C/Off Requests</h2>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
                 </div>
-
-                <!-- Admin Leave Requests View -->
                 <div id="admin-leave-requests-view" class="hidden">
-                    <h2 class="text-xl font-semibold mb-4">Admin Panel: Leave Requests</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="p-3">Employee</th>
-                                    <th class="p-3">From</th>
-                                    <th class="p-3">To</th>
-                                    <th class="p-3">Total Days</th>
-                                    <th class="p-3">Reason</th>
-                                    <th class="p-3">Engineer Comment</th>
-                                    <th class="p-3">Status</th>
-                                    <th class="p-3">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-leave-requests-body"></tbody>
-                        </table>
-                    </div>
+                    <h2 class="text-xl font-semibold mb-4">Leave Requests</h2>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
                 </div>
             </div>
 
-            <!-- Employee Actions Section (hidden for admin) -->
-            <div id="employee-actions-section" class="card-gradient rounded-xl shadow-lg p-6 mb-8 transition-shadow hover:shadow-2xl animate-fade-in-slide-up" style="animation-delay: 200ms;">
-                <h2 class="text-xl font-semibold mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>Actions</h2>
+            <!-- Employee View -->
+            <div id="employee-actions-section" class="card-gradient rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-xl font-semibold mb-4">Actions</h2>
                 <div class="flex flex-wrap gap-4">
-                    <button id="clock-in-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock In</button>
-                    <button id="clock-out-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock Out</button>
-                    <button id="shift-change-request-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Request Shift Change</button>
-                    <button id="pp-request-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Apply for Additional P</button>
-                    <button id="coff-request-btn" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Apply for C/Off</button>
-                    <button id="leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Apply for Leave</button>
+                    <button id="clock-in-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg disabled:bg-gray-400">Clock In</button>
+                    <button id="clock-out-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg disabled:bg-gray-400">Clock Out</button>
+                    <button id="shift-change-request-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg">Shift Change</button>
+                    <button id="pp-request-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg">Apply for PP</button>
+                    <button id="coff-request-btn" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg">Apply for C/Off</button>
+                    <button id="leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg">Apply for Leave</button>
                 </div>
-                 <p id="location-status" class="mt-4 text-sm text-gray-600">Fetching location...</p>
+                 <p id="location-status" class="mt-4 text-sm text-gray-600"></p>
             </div>
-
-            <!-- Employee Data Section (hidden for admin) -->
-            <div id="employee-data-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8 animate-fade-in-slide-up" style="animation-delay: 300ms;">
-                <!-- My Attendance Table -->
-                <div class="card-gradient rounded-xl shadow-lg p-6 transition-shadow hover:shadow-2xl">
-                    <h2 class="text-xl font-semibold mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>My Attendance Records</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="p-3">Date</th>
-                                    <th class="p-3">In Time</th>
-                                    <th class="p-3">Out Time</th>
-                                    <th class="p-3">Hours</th>
-                                </tr>
-                            </thead>
-                            <tbody id="employee-table-body"></tbody>
-                        </table>
-                    </div>
+            <div id="employee-data-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                <div class="card-gradient rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">My Attendance</h2>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th></tr></thead><tbody id="employee-table-body"></tbody></table></div>
                 </div>
-                <!-- My Shift Change Requests -->
-                <div class="card-gradient rounded-xl shadow-lg p-6 transition-shadow hover:shadow-2xl">
-                    <h2 class="text-xl font-semibold mb-4 flex items-center"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" /></svg>My Shift Change Requests</h2>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left">
-                            <thead>
-                                <tr class="bg-gray-200">
-                                    <th class="p-3">Date</th>
-                                    <th class="p-3">With</th>
-                                    <th class="p-3">My Shift ↔ Their Shift</th>
-                                    <th class="p-3">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="employee-requests-body"></tbody>
-                        </table>
-                    </div>
+                <div class="card-gradient rounded-xl shadow-lg p-6">
+                    <h2 class="text-xl font-semibold mb-4">My Requests</h2>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Details</th><th class="p-3">Status</th></tr></thead><tbody id="employee-requests-body"></tbody></table></div>
                 </div>
             </div>
 
@@ -636,31 +339,9 @@ html
     </div>
 
     <script type="module">
-        // Import Firebase modules
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { 
-            getAuth, 
-            createUserWithEmailAndPassword, 
-            signInWithEmailAndPassword, 
-            onAuthStateChanged, 
-            signOut
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { 
-            getFirestore, 
-            collection, 
-            addDoc, 
-            query, 
-            where, 
-            getDocs, 
-            onSnapshot,
-            doc,
-            updateDoc,
-            setDoc,
-            deleteDoc,
-            getDoc,
-            Timestamp,
-            writeBatch
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, query, where, getDocs, onSnapshot, doc, updateDoc, setDoc, deleteDoc, getDoc, Timestamp, writeBatch } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- CONFIGURATION ---
         const firebaseConfig = {
@@ -672,43 +353,17 @@ html
             appId: "1:48434901520:web:dada602a58d99405505095",
             measurementId: "G-GC63DF4N8G"
         };
-        
         const ADMIN_UID = 'LZC3oe3qOMQnGEN3FGppJIRyO462';
-        // **ZAROORI**: Apne engineers ke UIDs yahan daalein
-        const ENGINEER_UIDS = ['I14JL1kidHfhRTiFHcBw5YdtlNH2', '103BiCUsRThS2i610GMvMog9Wj22']; 
-        
-        // Office Geofence Configuration
+        const ENGINEER_UIDS = ['I14JL1kidHfhRTiFHcBw5YdtlNH2', '103BiCUsRThS2i610GMvMog9Wj22'];
         const OFFICE_LOCATION = { latitude: 28.530243, longitude: 77.357587 };
-        const GEOFENCE_RADIUS_METERS = 50;
+        const GEOFENCE_RADIUS_METERS = 100;
 
-        const SHIFT_TIMES = {
-            'A': { start: '07:00', end: '14:00' },
-            'B': { start: '14:00', end: '21:00' },
-            'C': { start: '21:00', end: '07:00' }, // End is next day
-            'G': { start: '09:00', end: '18:00' }
-        };
-        
-        const SPECIAL_SHIFT_USERS = {
-            "Rajan tyagi": {
-                'A': { start: '07:00', end: '16:00' }, // 4 PM
-                'B': { start: '11:00', end: '20:00' }  // 8 PM
-            },
-            "Sudhir Singh": {
-                'A': { start: '07:00', end: '16:00' },
-                'B': { start: '11:00', end: '20:00' }
-            }
-        };
-        
         // --- DOM ELEMENT REFERENCES ---
         const loadingOverlay = document.getElementById('loading-overlay');
         const authSection = document.getElementById('auth-section');
         const appContent = document.getElementById('app-content');
         const loginForm = document.getElementById('login-form');
         const signupForm = document.getElementById('signup-form');
-        const showSignup = document.getElementById('show-signup');
-        const showLogin = document.getElementById('show-login');
-        const signupContainer = document.getElementById('signup-container');
-        const authContainer = document.getElementById('auth-container');
         const userInfo = document.getElementById('user-info');
         const logoutBtn = document.getElementById('logout-btn');
         const clockInBtn = document.getElementById('clock-in-btn');
@@ -742,1665 +397,675 @@ html
         const holidaysMonthInput = document.getElementById('holidays-month');
         const holidaysList = document.getElementById('holidays-list');
         const cancelHolidaysBtn = document.getElementById('cancel-holidays-btn');
-        const shiftChangeRequestBtn = document.getElementById('shift-change-request-btn');
-        const shiftChangeModal = document.getElementById('shift-change-modal');
-        const shiftChangeForm = document.getElementById('shift-change-form');
-        const cancelShiftChangeBtn = document.getElementById('cancel-shift-change-btn');
         const employeeRequestsBody = document.getElementById('employee-requests-body');
-        const tabAttendance = document.getElementById('tab-attendance');
-        const tabShiftRequests = document.getElementById('tab-shift-requests');
-        const adminAttendanceView = document.getElementById('admin-attendance-view');
-        const adminShiftRequestsView = document.getElementById('admin-shift-requests-view');
-        const adminRequestsBody = document.getElementById('admin-requests-body');
         const termsModal = document.getElementById('terms-modal');
         const acceptTermsBtn = document.getElementById('accept-terms-btn');
         const employeeActionsSection = document.getElementById('employee-actions-section');
         const employeeDataSection = document.getElementById('employee-data-section');
         const onDutySupervisorElement = document.getElementById('on-duty-supervisor');
         
-        // PP Request Elements
-        const ppRequestBtn = document.getElementById('pp-request-btn');
-        const ppRequestModal = document.getElementById('pp-request-modal');
-        const ppRequestForm = document.getElementById('pp-request-form');
-        const cancelPpRequestBtn = document.getElementById('cancel-pp-request-btn');
-        const tabPpRequests = document.getElementById('tab-pp-requests');
-        const adminPpRequestsView = document.getElementById('admin-pp-requests-view');
-        const adminPpRequestsBody = document.getElementById('admin-pp-requests-body');
-        const ppApprovalModal = document.getElementById('pp-approval-modal');
-        const ppApprovalForm = document.getElementById('pp-approval-form');
-        const cancelPpApprovalBtn = document.getElementById('cancel-pp-approval-btn');
-        const ppApprovalDetails = document.getElementById('pp-approval-details');
-
-        // C/Off Request Elements
-        const coffRequestBtn = document.getElementById('coff-request-btn');
-        const coffRequestModal = document.getElementById('coff-request-modal');
-        const coffRequestForm = document.getElementById('coff-request-form');
-        const cancelCoffRequestBtn = document.getElementById('cancel-coff-request-btn');
-        const noCoffMessage = document.getElementById('no-coff-message');
-        const coffEarnedSelect = document.getElementById('coff-earned-select');
-        const tabCoffRequests = document.getElementById('tab-coff-requests');
-        const adminCoffRequestsView = document.getElementById('admin-coff-requests-view');
-        const adminCoffRequestsBody = document.getElementById('admin-coff-requests-body');
-
-        // Leave Request Elements
-        const leaveRequestBtn = document.getElementById('leave-request-btn');
-        const leaveRequestModal = document.getElementById('leave-request-modal');
-        const leaveRequestForm = document.getElementById('leave-request-form');
-        const cancelLeaveRequestBtn = document.getElementById('cancel-leave-request-btn');
-        const leaveTotalDays = document.getElementById('leave-total-days');
-        const leaveTermsAck = document.getElementById('leave-terms-ack');
-        const submitLeaveRequestBtn = document.getElementById('submit-leave-request-btn');
-        const tabLeaveRequests = document.getElementById('tab-leave-requests');
-        const adminLeaveRequestsView = document.getElementById('admin-leave-requests-view');
-        const adminLeaveRequestsBody = document.getElementById('admin-leave-requests-body');
-
+        const requestForms = {
+            shift: { btn: document.getElementById('shift-change-request-btn'), modal: document.getElementById('shift-change-modal'), form: document.getElementById('shift-change-form'), collection: 'shift_requests' },
+            pp: { btn: document.getElementById('pp-request-btn'), modal: document.getElementById('pp-request-modal'), form: document.getElementById('pp-request-form'), collection: 'pp_requests' },
+            coff: { btn: document.getElementById('coff-request-btn'), modal: document.getElementById('coff-request-modal'), form: document.getElementById('coff-request-form'), collection: 'coff_requests' },
+            leave: { btn: document.getElementById('leave-request-btn'), modal: document.getElementById('leave-request-modal'), form: document.getElementById('leave-request-form'), collection: 'leave_requests' },
+        };
+        const adminViews = {
+            attendance: { tab: document.getElementById('tab-attendance'), view: document.getElementById('admin-attendance-view') },
+            shift: { tab: document.getElementById('tab-shift-requests'), view: document.getElementById('admin-shift-requests-view'), table: document.getElementById('admin-requests-body'), counter: document.getElementById('shift-request-counter'), collection: 'shift_requests'},
+            pp: { tab: document.getElementById('tab-pp-requests'), view: document.getElementById('admin-pp-requests-view'), table: document.getElementById('admin-pp-requests-body'), counter: document.getElementById('pp-request-counter'), collection: 'pp_requests'},
+            coff: { tab: document.getElementById('tab-coff-requests'), view: document.getElementById('admin-coff-requests-view'), table: document.getElementById('admin-coff-requests-body'), counter: document.getElementById('coff-request-counter'), collection: 'coff_requests'},
+            leave: { tab: document.getElementById('tab-leave-requests'), view: document.getElementById('admin-leave-requests-view'), table: document.getElementById('admin-leave-requests-body'), counter: document.getElementById('leave-request-counter'), collection: 'leave_requests'},
+        };
 
         let currentUser = null;
-        let userUnsubscribe = null;
-        let adminUnsubscribe = null;
-        let shiftRequestsUnsubscribe = null;
-        let ppRequestsUnsubscribe = null;
-        let coffRequestsUnsubscribe = null;
-        let leaveRequestsUnsubscribe = null;
-        let allAdminRecords = [];
+        let allUnsubscribes = [];
         let allUsers = [];
+        let allAdminRecords = [];
         let docIdToDelete = null;
-        let allShiftRequests = [];
-        let allPpRequests = [];
-        let allCoffRequests = [];
-        let allLeaveRequests = [];
 
         // --- UTILITY FUNCTIONS ---
-        
-        function showMessage(message) {
-            document.getElementById('message-text').textContent = message;
-            document.getElementById('message-modal').classList.remove('hidden');
-        }
-
-        function toggleLoader(show) {
-            loadingOverlay.classList.toggle('hidden', !show);
-        }
-
-        function getDistance(loc1, loc2) {
-            const R = 6371e3; // metres
-            const φ1 = loc1.latitude * Math.PI/180;
-            const φ2 = loc2.latitude * Math.PI/180;
-            const Δφ = (loc2.latitude-loc1.latitude) * Math.PI/180;
-            const Δλ = (loc2.longitude-loc1.longitude) * Math.PI/180;
-            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            return R * c;
-        }
-        
-        function checkLocation() {
-            return new Promise((resolve, reject) => {
-                if (!navigator.geolocation) {
-                    locationStatus.textContent = "Geolocation is not supported by your browser.";
-                    return reject("Geolocation Not Supported");
+        const showMessage = (message) => { document.getElementById('message-text').textContent = message; document.getElementById('message-modal').classList.remove('hidden'); };
+        const toggleLoader = (show) => loadingOverlay.classList.toggle('hidden', !show);
+        const getDistance = (loc1, loc2) => {
+            const R = 6371e3;
+            const φ1 = loc1.latitude * Math.PI / 180, φ2 = loc2.latitude * Math.PI / 180;
+            const Δλ = (loc2.longitude - loc1.longitude) * Math.PI / 180;
+            return Math.acos(Math.sin(φ1) * Math.sin(φ2) + Math.cos(φ1) * Math.cos(φ2) * Math.cos(Δλ)) * R;
+        };
+        const checkLocation = () => new Promise((resolve, reject) => {
+            if (!navigator.geolocation) return reject("Geolocation Not Supported");
+            locationStatus.textContent = "Fetching location...";
+            navigator.geolocation.getCurrentPosition(pos => {
+                const userLoc = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+                const distance = getDistance(userLoc, OFFICE_LOCATION);
+                if (distance <= GEOFENCE_RADIUS_METERS) {
+                    locationStatus.textContent = "Status: You are within the office location.";
+                    resolve("Within Location");
+                } else {
+                    locationStatus.textContent = `Error: Outside office radius (${distance.toFixed(0)}m away).`;
+                    reject(`You are outside the allowed radius.`);
                 }
-                locationStatus.textContent = "Fetching location...";
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const userLocation = { latitude: position.coords.latitude, longitude: position.coords.longitude };
-                        const distance = getDistance(userLocation, OFFICE_LOCATION);
-                        if (distance <= GEOFENCE_RADIUS_METERS) {
-                            locationStatus.textContent = "Status: You are within the office location.";
-                            resolve("Within Location");
-                        } else {
-                            locationStatus.textContent = `Error: You are outside the office location (${distance.toFixed(0)}m away). Clock-in/out is disabled.`;
-                            reject(`You are outside the allowed radius.`);
-                        }
-                    },
-                    () => {
-                        locationStatus.textContent = "Error: Location permission denied. Cannot clock in/out without location.";
-                        reject("Location permission denied");
-                    }
-                );
-            });
-        }
-        
-        function formatTime(date) {
-            if (!date) return '';
-            return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
-        }
-        
-        function formatTimeForInput(date) {
-            if (!date) return '';
-            let hours = date.getHours().toString().padStart(2, '0');
-            let minutes = date.getMinutes().toString().padStart(2, '0');
-            return `${hours}:${minutes}`;
-        }
-
-        function formatDate(date) {
-            const d = new Date(date);
-            let month = '' + (d.getMonth() + 1);
-            let day = '' + d.getDate();
-            const year = d.getFullYear();
-            if (month.length < 2) month = '0' + month;
-            if (day.length < 2) day = '0' + day;
-            return [year, month, day].join('-');
-        }
-
-        function calculateTotalHours(inTime, outTime) {
+            }, () => reject("Location permission denied."));
+        });
+        const formatTime = (date) => date ? date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }) : '';
+        const formatTimeForInput = (date) => date ? date.toTimeString().slice(0, 5) : '';
+        const formatDate = (date) => date.toISOString().split('T')[0];
+        const calculateTotalHours = (inTime, outTime) => {
             if (!inTime || !outTime) return "N/A";
-            const diffMs = outTime.getTime() - inTime.getTime();
+            const diffMs = outTime - inTime;
             if (diffMs < 0) return "Invalid";
-            const diffHrs = Math.floor(diffMs / 3600000);
-            const diffMins = Math.round((diffMs % 3600000) / 60000);
-            return `${String(diffHrs).padStart(2, '0')}:${String(diffMins).padStart(2, '0')}`;
-        }
-        
-        function getStatusBadge(status) {
-            switch(status) {
-                case 'approved': return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>`;
-                case 'rejected': return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>`;
-                case 'pending_admin': return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Pending Admin</span>`;
-                default: return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Engineer</span>`;
-            }
-        }
-
-        function getShiftTimings(userName, shiftLetter) {
-            if (SPECIAL_SHIFT_USERS[userName] && SPECIAL_SHIFT_USERS[userName][shiftLetter]) {
-                return SPECIAL_SHIFT_USERS[userName][shiftLetter];
-            }
-            return SHIFT_TIMES[shiftLetter];
-        }
+            return `${String(Math.floor(diffMs / 3600000)).padStart(2, '0')}:${String(Math.round((diffMs % 3600000) / 60000)).padStart(2, '0')}`;
+        };
+        const getStatusBadge = (status) => {
+            const colors = { approved: 'green', rejected: 'red', pending_admin: 'blue', pending_engineer: 'yellow' };
+            const statusKey = status || 'pending_engineer';
+            const text = statusKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+            return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${colors[statusKey]}-100 text-${colors[statusKey]}-800">${text}</span>`;
+        };
 
         // --- FIREBASE INITIALIZATION & APP LOGIC ---
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        if (!firebaseConfig || !firebaseConfig.apiKey || firebaseConfig.apiKey.includes("YOUR_API_KEY")) {
-            document.addEventListener('DOMContentLoaded', () => {
-                toggleLoader(false);
-                authSection.innerHTML = `
-                    <div class="text-center text-red-500 p-4 border border-red-500 rounded-lg">
-                        <h2 class="font-bold text-lg">Firebase Configuration Error</h2>
-                        <p>Aapki API key sahi nahi hai. Please code mein apni Firebase project ki details daalein.</p>
-                    </div>
-                `;
-                 authSection.classList.remove('hidden');
-            });
-        } else {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-
-            // --- TERMS OF USE LOGIC ---
-            document.addEventListener('DOMContentLoaded', () => {
-                if (localStorage.getItem('termsAccepted') === 'true') {
-                    authSection.classList.remove('hidden');
-                } else {
-                    termsModal.classList.remove('hidden');
-                }
-            });
-
-            acceptTermsBtn.addEventListener('click', () => {
-                localStorage.setItem('termsAccepted', 'true');
-                termsModal.classList.add('hidden');
+        document.addEventListener('DOMContentLoaded', () => {
+            toggleLoader(false);
+            if (localStorage.getItem('termsAccepted') === 'true') {
                 authSection.classList.remove('hidden');
-            });
+            } else {
+                termsModal.classList.remove('hidden');
+            }
+        });
+        acceptTermsBtn.addEventListener('click', () => {
+            localStorage.setItem('termsAccepted', 'true');
+            termsModal.classList.add('hidden');
+            authSection.classList.remove('hidden');
+        });
 
-            // --- AUTHENTICATION LOGIC ---
-            onAuthStateChanged(auth, async (user) => {
-                if (userUnsubscribe) userUnsubscribe();
-                if (adminUnsubscribe) adminUnsubscribe();
-                if (shiftRequestsUnsubscribe) shiftRequestsUnsubscribe();
-                if (ppRequestsUnsubscribe) ppRequestsUnsubscribe();
-                if (coffRequestsUnsubscribe) coffRequestsUnsubscribe();
-                if (leaveRequestsUnsubscribe) leaveRequestsUnsubscribe();
-
-                if (user && !user.isAnonymous) {
-                    currentUser = user;
-                    const usersColPath = `users`;
-                    const userQuery = query(collection(db, usersColPath), where("uid", "==", user.uid));
-                    const userDocSnap = await getDocs(userQuery);
-                    
-                    let userName = user.email;
-                    if (!userDocSnap.empty) {
-                        const userData = userDocSnap.docs[0].data();
-                        userName = userData.name;
-                        currentUser.empId = userData.empId;
-                    }
-                    
-                    currentUser.displayName = userName;
-
-                    userInfo.textContent = `Welcome, ${userName}`;
-                    authSection.classList.add('hidden');
-                    appContent.classList.remove('hidden');
-
-                    const is_admin = user.uid === ADMIN_UID;
-                    const is_engineer = ENGINEER_UIDS.includes(user.uid);
-                    currentUser.is_admin = is_admin;
-                    currentUser.is_engineer = is_engineer;
-
-                    if (is_admin || is_engineer) {
-                        adminDashboard.classList.remove('hidden');
-                        employeeActionsSection.classList.add('hidden');
-                        employeeDataSection.classList.add('hidden');
-                        await fetchAllUsers(); // Wait for users to be fetched
-                        listenForAdminRecords(is_admin);
-                        listenForAdminShiftRequests();
-                        listenForPPRequests();
-                        listenForCoffRequests();
-                        listenForLeaveRequests();
-
-                        // Engineer-specific UI changes
-                        if(is_engineer && !is_admin) {
-                            monthlyReportBtn.classList.add('hidden');
-                            setHolidaysBtn.classList.add('hidden');
-                        } else {
-                            // Ensure full admin sees all buttons
-                            monthlyReportBtn.classList.remove('hidden');
-                            setHolidaysBtn.classList.remove('hidden');
-                        }
-
-                    } else {
-                        adminDashboard.classList.add('hidden');
-                        employeeActionsSection.classList.remove('hidden');
-                        employeeDataSection.classList.remove('hidden');
-                        listenForUserRecords(user.uid);
-                        listenForUserShiftRequests(user.uid);
-                    }
-                    updateOnDutySupervisor();
-                    setInterval(updateOnDutySupervisor, 60000); // Update every minute
-                } else {
-                    currentUser = null;
-                    if (localStorage.getItem('termsAccepted') === 'true') {
-                        authSection.classList.remove('hidden');
-                    }
-                    appContent.classList.add('hidden');
-                    adminDashboard.classList.add('hidden');
-                }
-                toggleLoader(false);
-            });
+        onAuthStateChanged(auth, async (user) => {
+            allUnsubscribes.forEach(unsub => unsub());
+            allUnsubscribes = [];
             
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                const email = document.getElementById('login-email').value;
-                const password = document.getElementById('login-password').value;
-                try {
-                    await signInWithEmailAndPassword(auth, email, password);
-                } catch (error) {
-                    showMessage(error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            signupForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                const name = document.getElementById('signup-name').value;
-                const email = document.getElementById('signup-email').value;
-                const password = document.getElementById('signup-password').value;
-                const empId = document.getElementById('signup-empid').value;
-                const orgId = document.getElementById('signup-orgid').value;
-
-                if (orgId !== `AN01${empId}`) {
-                    showMessage("Invalid Organization ID. Please check your details.");
-                    toggleLoader(false);
-                    return;
-                }
-
-                try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    const usersColPath = `users`;
-                    await setDoc(doc(db, usersColPath, userCredential.user.uid), {
-                        uid: userCredential.user.uid,
-                        name: name,
-                        email: email,
-                        empId: empId
-                    });
-                } catch (error) {
-                    showMessage(error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            logoutBtn.addEventListener('click', async () => {
-                toggleLoader(true);
-                await signOut(auth);
-            });
-
-            showSignup.addEventListener('click', (e) => {
-                e.preventDefault();
-                authContainer.classList.add('hidden');
-                signupContainer.classList.remove('hidden');
-            });
-
-            showLogin.addEventListener('click', (e) => {
-                e.preventDefault();
-                signupContainer.classList.add('hidden');
-                authContainer.classList.remove('hidden');
-            });
-
-            // --- FIRESTORE & APP LOGIC ---
-            async function updateClockButtons(uid) {
-                const attendanceCol = collection(db, `attendance`);
-                // Find any record that is clocked in but not clocked out for this user
-                const q = query(attendanceCol, where("uid", "==", uid), where("out_time", "==", null));
+            if (user && !user.isAnonymous) {
+                currentUser = user;
+                const userDocSnap = await getDoc(doc(db, "users", user.uid));
+                currentUser.displayName = userDocSnap.exists() ? userDocSnap.data().name : user.email;
+                currentUser.empId = userDocSnap.exists() ? userDocSnap.data().empId : '';
                 
-                const querySnapshot = await getDocs(q);
-                
-                if (querySnapshot.empty) {
-                    // No open shifts, allow clock in
-                    clockInBtn.disabled = false;
-                    clockOutBtn.disabled = true;
-                } else {
-                    // Open shift found, allow clock out
-                    clockInBtn.disabled = true;
-                    clockOutBtn.disabled = false;
-                }
-            }
+                userInfo.textContent = `Welcome, ${currentUser.displayName}`;
+                authSection.classList.add('hidden');
+                appContent.classList.remove('hidden');
 
-            clockInBtn.addEventListener('click', async () => {
-                if (!currentUser) return showMessage("Aapko logged in hona chahiye.");
-                toggleLoader(true);
-                try {
-                    // CHECK FOR PENDING CLOCK-OUT FIRST
-                    const attendanceColCheck = collection(db, `attendance`);
-                    const qCheck = query(attendanceColCheck, where("uid", "==", currentUser.uid), where("out_time", "==", null));
-                    const pendingClockOutSnapshot = await getDocs(qCheck);
-
-                    if (!pendingClockOutSnapshot.empty) {
-                        const pendingDoc = pendingClockOutSnapshot.docs[0].data();
-                        const pendingDate = pendingDoc.date;
-                        showMessage(`Aapne ${pendingDate} ka clock out nahi kiya hai. Pehle clock out karein, fir clock in karein.`);
-                        toggleLoader(false);
-                        return; // Stop the function here
-                    }
-
-                    // If check passes, continue with original logic
-                    const location = await checkLocation();
-                    const now = new Date();
-                    const dateStr = formatDate(now);
-                    const year = now.getFullYear();
-                    const month = now.getMonth() + 1;
-                    const day = now.getDate();
-
-                    const weekOffDocRef = doc(db, 'weekoffs', `${currentUser.uid}_${year}_${month}`);
-                    const weekOffDoc = await getDoc(weekOffDocRef);
-                    
-                    const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
-                    const holidayDoc = await getDoc(holidayDocRef);
-                    const holidaysInMonth = holidayDoc.exists() ? holidayDoc.data().dates : [];
-                    
-                    const isWeekOff = weekOffDoc.exists() && weekOffDoc.data().dates.includes(day);
-                    const isHoliday = holidaysInMonth.includes(day);
-
-                    if (isWeekOff || isHoliday) {
-                        const coffsCol = collection(db, 'coffs');
-                        await addDoc(coffsCol, {
-                            uid: currentUser.uid,
-                            name: currentUser.displayName,
-                            earned_date: dateStr,
-                            availed_date: null,
-                            status: 'earned',
-                            year: year,
-                            month: month
-                        });
-                        showMessage(`C/off has been generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
-                    }
-                    
-                    const attendanceCol = collection(db, `attendance`);
-                    await addDoc(attendanceCol, {
-                        uid: currentUser.uid,
-                        employee_name: currentUser.displayName,
-                        date: dateStr,
-                        in_time: now,
-                        in_location: location,
-                        out_time: null,
-                        out_location: null,
-                        total_hours: null
-                    });
-                    showMessage("Safaltapoorvak clock in ho gaya!");
-                } catch (error) {
-                    console.error("Clock-in error: ", error);
-                    showMessage(`Clock-in fail ho gaya: ${error}`);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            clockOutBtn.addEventListener('click', async () => {
-                if (!currentUser) return showMessage("Aapko logged in hona chahiye.");
-                toggleLoader(true);
-                try {
-                    const location = await checkLocation(); // This will now reject if outside radius
-                    const now = new Date();
-                    
-                    const attendanceCol = collection(db, `attendance`);
-                    // Find the open shift to clock out
-                    const q = query(attendanceCol, where("uid", "==", currentUser.uid), where("out_time", "==", null));
-                    const querySnapshot = await getDocs(q);
-                    
-                    if (!querySnapshot.empty) {
-                        const docToUpdate = querySnapshot.docs[0];
-                        const inTimeDate = docToUpdate.data().in_time.toDate();
-                        const docRef = doc(db, `attendance`, docToUpdate.id);
-                        await updateDoc(docRef, {
-                            out_time: now,
-                            out_location: location,
-                            total_hours: calculateTotalHours(inTimeDate, now)
-                        });
-                        showMessage("Safaltapoorvak clock out ho gaya!");
-                    } else {
-                        showMessage("Clock-in ka koi open record nahi mila.");
-                    }
-                } catch (error) {
-                    console.error("Clock-out error: ", error);
-                    showMessage(`Clock-out fail ho gaya: ${error}`);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-            
-            function renderTable(tableBody, records, isAdminView = false, isFullAdmin = false) {
-                tableBody.innerHTML = '';
-                if (records.length === 0) {
-                    const colSpan = isAdminView ? (isFullAdmin ? 6 : 5) : 4;
-                    tableBody.innerHTML = `<tr><td colspan="${colSpan}" class="text-center p-4">No records found.</td></tr>`;
-                    return;
-                }
-
-                records.sort((a, b) => {
-                    const dateA = new Date(a.date).getTime();
-                    const dateB = new Date(b.date).getTime();
-                    if (dateB !== dateA) return dateB - dateA;
-                    if (a.in_time && b.in_time) {
-                        return b.in_time.toDate().getTime() - a.in_time.toDate().getTime();
-                    }
-                    return 0;
-                });
-
-                records.forEach(rec => {
-                    const row = document.createElement('tr');
-                    row.className = 'border-b hover:bg-gray-50';
-                    
-                    const inTime = rec.in_time ? formatTime(rec.in_time.toDate()) : 'N/A';
-                    const outTime = rec.out_time ? formatTime(rec.out_time.toDate()) : 'N/A';
-
-                    const employeeColumns = `
-                        <td class="p-3">${rec.date}</td>
-                        <td class="p-3">${inTime}</td>
-                        <td class="p-3">${outTime}</td>
-                        <td class="p-3">${rec.total_hours || 'N/A'}</td>
-                    `;
-
-                    let adminColumns = `
-                        <td class="p-3">${rec.date}</td>
-                        <td class="p-3 font-medium">${rec.employee_name || 'N/A'}</td>
-                        <td class="p-3">${inTime}</td>
-                        <td class="p-3">${outTime}</td>
-                        <td class="p-3">${rec.total_hours || 'N/A'}</td>
-                    `;
-                    if(isFullAdmin) {
-                        adminColumns += `<td class="p-3 space-x-2 whitespace-nowrap">
-                            <button class="edit-btn bg-yellow-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Edit</button>
-                            <button class="delete-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Delete</button>
-                        </td>`;
-                    }
-
-                    row.innerHTML = isAdminView ? adminColumns : employeeColumns;
-                    tableBody.appendChild(row);
-                });
-            }
-            
-            async function fetchAllUsers() {
-                const usersCol = collection(db, 'users');
-                const userSnapshot = await getDocs(usersCol);
-                allUsers = userSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            }
-
-            function listenForUserRecords(uid) {
-                const q = query(collection(db, `attendance`), where("uid", "==", uid));
-                userUnsubscribe = onSnapshot(q, (snapshot) => {
-                    const records = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    renderTable(employeeTableBody, records, false);
-                    updateClockButtons(uid);
-                }, (error) => console.error("Error listening to user records: ", error));
-            }
-
-            function listenForAdminRecords(isFullAdmin) {
-                const q = query(collection(db, `attendance`));
-                adminUnsubscribe = onSnapshot(q, (snapshot) => {
-                    allAdminRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    applyAdminFilters(isFullAdmin);
-                    updateShiftSummary();
-                    updateOnDutySupervisor(); // Update supervisor status when records change
-                }, (error) => console.error("Error listening to admin records: ", error));
-            }
-            
-            function applyAdminFilters(isFullAdmin) {
-                const date = filterDate.value;
-                const name = filterName.value.toLowerCase();
-                
-                const filteredRecords = allAdminRecords.filter(rec => {
-                    const nameMatch = name ? (rec.employee_name || '').toLowerCase().includes(name) : true;
-                    const dateMatch = date ? rec.date === date : true;
-                    return nameMatch && dateMatch;
-                });
-                
-                renderTable(adminTableBody, filteredRecords, true, isFullAdmin);
-            }
-
-            filterDate.addEventListener('input', () => applyAdminFilters(currentUser.is_admin));
-            filterName.addEventListener('input', () => applyAdminFilters(currentUser.is_admin));
-            
-            // --- EDIT, DELETE, AND EXPORT LOGIC ---
-            
-            adminTableBody.addEventListener('click', async (e) => {
-                if (e.target.classList.contains('delete-btn')) {
-                    docIdToDelete = e.target.dataset.id;
-                    deleteConfirmModal.classList.remove('hidden');
-                }
-                if (e.target.classList.contains('edit-btn')) {
-                    const docId = e.target.dataset.id;
-                    const docRef = doc(db, 'attendance', docId);
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        const data = docSnap.data();
-                        document.getElementById('edit-doc-id').value = docId;
-                        document.getElementById('edit-date').value = data.date;
-                        document.getElementById('edit-in-time').value = data.in_time ? formatTimeForInput(data.in_time.toDate()) : '';
-                        document.getElementById('edit-out-time').value = data.out_time ? formatTimeForInput(data.out_time.toDate()) : '';
-                        editModal.classList.remove('hidden');
-                    }
-                }
-            });
-
-            cancelDeleteBtn.addEventListener('click', () => {
-                docIdToDelete = null;
-                deleteConfirmModal.classList.add('hidden');
-            });
-
-            confirmDeleteBtn.addEventListener('click', async () => {
-                if (docIdToDelete) {
-                    toggleLoader(true);
-                    try {
-                        await deleteDoc(doc(db, 'attendance', docIdToDelete));
-                        showMessage("Entry deleted successfully.");
-                    } catch (error) {
-                        showMessage("Error deleting entry: " + error.message);
-                    } finally {
-                        docIdToDelete = null;
-                        deleteConfirmModal.classList.add('hidden');
-                        toggleLoader(false);
-                    }
-                }
-            });
-
-            cancelEditBtn.addEventListener('click', () => {
-                editModal.classList.add('hidden');
-            });
-
-            editForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                const docId = document.getElementById('edit-doc-id').value;
-                const newDate = document.getElementById('edit-date').value;
-                const newInTimeStr = document.getElementById('edit-in-time').value;
-                const newOutTimeStr = document.getElementById('edit-out-time').value;
-
-                const inTimeDate = new Date(`${newDate}T${newInTimeStr}`);
-                const outTimeDate = newOutTimeStr ? new Date(`${newDate}T${newOutTimeStr}`) : null;
-                
-                const updatedData = {
-                    date: newDate,
-                    in_time: inTimeDate,
-                    out_time: outTimeDate,
-                    total_hours: calculateTotalHours(inTimeDate, outTimeDate)
-                };
-
-                try {
-                    const docRef = doc(db, 'attendance', docId);
-                    await updateDoc(docRef, updatedData);
-                    showMessage("Entry updated successfully.");
-                } catch (error) {
-                    showMessage("Error updating entry: " + error.message);
-                } finally {
-                    editModal.classList.add('hidden');
-                    toggleLoader(false);
-                }
-            });
-
-            function exportDailyToCSV() {
-                const headers = ["Date", "Employee Name", "In Time", "In Location", "Out Time", "Out Location", "Duty Hours"];
-                
-                const dataToExport = allAdminRecords.filter(rec => {
-                     const date = filterDate.value;
-                     const name = filterName.value.toLowerCase();
-                     const nameMatch = name ? (rec.employee_name || '').toLowerCase().includes(name) : true;
-                     const dateMatch = date ? rec.date === date : true;
-                     return nameMatch && dateMatch;
-                });
-
-                const rows = dataToExport.map(rec => [
-                    rec.date,
-                    `"${rec.employee_name || 'N/A'}"`,
-                    rec.in_time ? `"${formatTime(rec.in_time.toDate())}"` : 'N/A',
-                    `"${rec.in_location || 'N/A'}"`,
-                    rec.out_time ? `"${formatTime(rec.out_time.toDate())}"` : 'N/A',
-                    `"${rec.out_location || 'N/A'}"`,
-                    `"${rec.total_hours || 'N/A'}"`
-                ].join(','));
-
-                let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.join("\n");
-                
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", `daily_attendance_export_${formatDate(new Date())}.csv`);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-            }
-
-            exportBtn.addEventListener('click', exportDailyToCSV);
-
-            // --- MONTHLY REPORT LOGIC ---
-            monthlyReportBtn.addEventListener('click', () => {
-                monthlyReportModal.classList.remove('hidden');
-            });
-
-            cancelMonthlyReportBtn.addEventListener('click', () => {
-                monthlyReportModal.classList.add('hidden');
-            });
-
-            monthlyReportForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const monthYear = document.getElementById('report-month').value;
-                if(monthYear) {
-                    const [year, month] = monthYear.split('-');
-                    exportMonthlyReport(parseInt(year), parseInt(month));
-                    monthlyReportModal.classList.add('hidden');
-                } else {
-                    showMessage("Please select a month.");
-                }
-            });
-
-            async function exportMonthlyReport(year, month) {
-                toggleLoader(true);
+                currentUser.is_admin = user.uid === ADMIN_UID;
+                currentUser.is_engineer = ENGINEER_UIDS.includes(user.uid);
                 
                 await fetchAllUsers();
 
-                const today = new Date();
-                const isCurrentMonth = today.getFullYear() === year && (today.getMonth() + 1) === month;
-                const daysInMonth = new Date(year, month, 0).getDate();
-                const daysToReport = isCurrentMonth ? today.getDate() : daysInMonth;
-
-                // Fetch Attendance
-                const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
-                const endDate = `${year}-${String(month).padStart(2, '0')}-${String(daysInMonth).padStart(2, '0')}`;
-                const attendanceCol = collection(db, 'attendance');
-                const monthQuery = query(attendanceCol, where("date", ">=", startDate), where("date", "<=", endDate));
-                const attendanceSnapshot = await getDocs(monthQuery);
-                const monthRecords = attendanceSnapshot.docs.map(doc => doc.data());
-
-                // Fetch Week Offs
-                const weekOffsCol = collection(db, 'weekoffs');
-                const weekOffsQuery = query(weekOffsCol, where("year", "==", year), where("month", "==", month));
-                const weekOffsSnapshot = await getDocs(weekOffsQuery);
-                const monthWeekOffs = {};
-                weekOffsSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    monthWeekOffs[data.uid] = data.dates || [];
-                });
-
-                // Fetch Holidays
-                const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
-                const holidayDoc = await getDoc(holidayDocRef);
-                const holidaysInMonth = holidayDoc.exists() ? holidayDoc.data().dates : [];
-                
-                // Fetch Approved PP Requests
-                const ppCol = collection(db, 'pp_requests');
-                const ppQuery = query(ppCol, where("year", "==", year), where("month", "==", month), where("status", "==", "approved"));
-                const ppSnapshot = await getDocs(ppQuery);
-                const approvedPPs = {};
-                ppSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    if (!approvedPPs[data.requester_uid]) {
-                        approvedPPs[data.requester_uid] = {};
-                    }
-                    const dayOfMonth = new Date(data.request_date).getUTCDate();
-                    approvedPPs[data.requester_uid][dayOfMonth] = true;
-                });
-
-                // Fetch Approved C/Off Requests
-                const coffReqCol = collection(db, 'coff_requests');
-                const coffReqQuery = query(coffReqCol, where("status", "==", "approved"));
-                const coffReqSnapshot = await getDocs(coffReqQuery);
-                const approvedCoffRequests = {};
-                coffReqSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    const availDate = new Date(data.avail_date + 'T00:00:00'); // Ensure correct date parsing
-                    if (availDate.getFullYear() === year && (availDate.getMonth() + 1) === month) {
-                        if (!approvedCoffRequests[data.requester_uid]) {
-                            approvedCoffRequests[data.requester_uid] = [];
-                        }
-                        approvedCoffRequests[data.requester_uid].push(availDate.getDate());
-                    }
-                });
-                
-                // Fetch Approved Leave Requests
-                const leaveReqCol = collection(db, 'leave_requests');
-                const leaveReqQuery = query(leaveReqCol, where("status", "==", "approved"));
-                const leaveReqSnapshot = await getDocs(leaveReqQuery);
-                const approvedLeaveRequests = {};
-                leaveReqSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    if (!approvedLeaveRequests[data.requester_uid]) {
-                        approvedLeaveRequests[data.requester_uid] = [];
-                    }
-                    approvedLeaveRequests[data.requester_uid].push({
-                        start: new Date(data.start_date + 'T00:00:00'),
-                        end: new Date(data.end_date + 'T00:00:00')
+                if (currentUser.is_admin || currentUser.is_engineer) {
+                    adminDashboard.classList.remove('hidden');
+                    employeeActionsSection.classList.add('hidden');
+                    employeeDataSection.classList.add('hidden');
+                    
+                    allUnsubscribes.push(listenForAdminRecords(currentUser.is_admin));
+                    Object.keys(adminViews).filter(k => k !== 'attendance').forEach(key => {
+                        const { table, counter, collection } = adminViews[key];
+                        allUnsubscribes.push(createAdminRequestListener(collection, table, counter, key));
                     });
-                });
-
-                const reportData = {};
-                allUsers.forEach(user => {
-                    reportData[user.uid] = {
-                        name: user.name || 'Unknown',
-                        empId: user.empId || '',
-                        days: Array(daysInMonth + 1).fill('A'), // Default to Absent
-                    };
-                });
-                
-                // Populate initial status based on attendance
-                monthRecords.forEach(rec => {
-                    if (reportData[rec.uid]) {
-                        const dayOfMonth = new Date(rec.date).getUTCDate();
-                        reportData[rec.uid].days[dayOfMonth] = 'P';
-                    }
-                });
-
-                // Override with other statuses in order of priority
-                for (let day = 1; day <= daysInMonth; day++) {
-                    const currentDate = new Date(year, month - 1, day);
-                    for (const uid in reportData) {
-                        // Priority: P > PP > L > CO > H > WO > A
-                        let currentStatus = reportData[uid].days[day];
-
-                        // Week Offs (Lowest priority after Absent)
-                        const userWeekOffs = monthWeekOffs[uid] || [];
-                        if (userWeekOffs.includes(day) && currentStatus === 'A') {
-                            reportData[uid].days[day] = 'WO';
-                            currentStatus = 'WO';
-                        }
-
-                        // Holidays
-                        if (holidaysInMonth.includes(day) && (currentStatus === 'A' || currentStatus === 'WO')) {
-                           reportData[uid].days[day] = 'H';
-                           currentStatus = 'H';
-                        }
-                        
-                        // C/Off
-                        const userCoffs = approvedCoffRequests[uid] || [];
-                        if (userCoffs.includes(day) && currentStatus !== 'P' && currentStatus !== 'PP') {
-                            reportData[uid].days[day] = 'CO';
-                            currentStatus = 'CO';
-                        }
-
-                        // Leave
-                        let isOnLeave = false;
-                        const userLeaves = approvedLeaveRequests[uid] || [];
-                        for(const leave of userLeaves) {
-                            if (currentDate >= leave.start && currentDate <= leave.end) {
-                                isOnLeave = true;
-                                break;
-                            }
-                        }
-                        if (isOnLeave && currentStatus !== 'P' && currentStatus !== 'PP') {
-                            reportData[uid].days[day] = 'L';
-                            currentStatus = 'L';
-                        }
-
-                        // PP (Highest priority over P)
-                        const userPPs = approvedPPs[uid] || {};
-                        if (userPPs[day] && currentStatus === 'P') {
-                            reportData[uid].days[day] = 'PP';
-                        }
-                    }
+                    [monthlyReportBtn, setHolidaysBtn, setWeekOffBtn].forEach(btn => btn.classList.toggle('hidden', !currentUser.is_admin));
+                } else {
+                    adminDashboard.classList.add('hidden');
+                    employeeActionsSection.classList.remove('hidden');
+                    employeeDataSection.classList.remove('hidden');
+                    allUnsubscribes.push(listenForUserRecords(user.uid), listenForUserRequests(user.uid));
                 }
-                
-                const headers = ['NAME', 'EMP ID'];
-                for (let i = 1; i <= daysToReport; i++) {
-                    headers.push(`${i}-${month}-${year}`);
+                updateOnDutySupervisor();
+                setInterval(updateOnDutySupervisor, 60000);
+            } else {
+                currentUser = null;
+                appContent.classList.add('hidden');
+                authSection.classList.remove('hidden');
+            }
+            toggleLoader(false);
+        });
+
+        // --- AUTH FORMS ---
+        document.getElementById('show-signup').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('auth-container').classList.add('hidden'); document.getElementById('signup-container').classList.remove('hidden'); });
+        document.getElementById('show-login').addEventListener('click', (e) => { e.preventDefault(); document.getElementById('signup-container').classList.add('hidden'); document.getElementById('auth-container').classList.remove('hidden'); });
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            toggleLoader(true);
+            try { await signInWithEmailAndPassword(auth, loginForm.elements['login-email'].value, loginForm.elements['login-password'].value); }
+            catch (error) { showMessage(error.message); }
+            finally { toggleLoader(false); }
+        });
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const [name, email, empId, orgId, password] = ['signup-name', 'signup-email', 'signup-empid', 'signup-orgid', 'signup-password'].map(id => document.getElementById(id).value);
+            if (orgId !== `AN01${empId}`) return showMessage("Invalid Organization ID.");
+            toggleLoader(true);
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", cred.user.uid), { uid: cred.user.uid, name, email, empId });
+            } catch (error) { showMessage(error.message); }
+            finally { toggleLoader(false); }
+        });
+        logoutBtn.addEventListener('click', () => signOut(auth));
+        
+        // --- CORE FUNCTIONALITY (Clock In/Out) ---
+        async function updateClockButtons(uid) {
+            const q = query(collection(db, "attendance"), where("uid", "==", uid), where("out_time", "==", null));
+            const snapshot = await getDocs(q);
+            clockInBtn.disabled = !snapshot.empty;
+            clockOutBtn.disabled = snapshot.empty;
+        }
+        clockInBtn.addEventListener('click', async () => {
+            toggleLoader(true);
+            try {
+                if (!(await getDocs(query(collection(db, "attendance"), where("uid", "==", currentUser.uid), where("out_time", "==", null)))).empty) {
+                    throw new Error("You have a pending clock-out from a previous day.");
                 }
-                headers.push('TOTAL "P"', 'TOTAL "PP"', 'TOTAL "A"', 'TOTAL "WO"', 'TOTAL "H"', 'TOTAL "CO"', 'TOTAL "L"', 'GRAND TOTAL');
+                const location = await checkLocation();
+                const now = new Date(), dateStr = formatDate(now), year = now.getFullYear(), month = now.getMonth() + 1, day = now.getDate();
 
-                const rows = Object.keys(reportData).map(uid => {
-                    const emp = reportData[uid];
-                    const row = [ `"${emp.name}"`, `"${emp.empId}"` ];
-                    let pCount = 0, ppCount = 0, aCount = 0, woCount = 0, hCount = 0, coCount = 0, lCount = 0;
+                const weekOffDoc = await getDoc(doc(db, 'weekoffs', `${currentUser.uid}_${year}_${month}`));
+                const holidayDoc = await getDoc(doc(db, 'holidays', `${year}-${month}`));
+                const isWeekOff = weekOffDoc.exists() && weekOffDoc.data().dates.includes(day);
+                const isHoliday = holidayDoc.exists() && holidayDoc.data().dates.includes(day);
 
-                    for (let i = 1; i <= daysToReport; i++) {
-                        row.push(emp.days[i]);
-                        const status = emp.days[i];
-                        if (status === 'P') pCount++;
-                        else if (status === 'PP') ppCount++;
-                        else if (status === 'A') aCount++;
-                        else if (status === 'WO') woCount++;
-                        else if (status === 'H') hCount++;
-                        else if (status === 'CO') coCount++;
-                        else if (status === 'L') lCount++;
+                if (isWeekOff || isHoliday) {
+                    await addDoc(collection(db, 'coffs'), { uid: currentUser.uid, name: currentUser.displayName, earned_date: dateStr, status: 'earned' });
+                    showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
+                }
+                await addDoc(collection(db, "attendance"), { uid: currentUser.uid, employee_name: currentUser.displayName, date: dateStr, in_time: now, in_location: location, out_time: null });
+                showMessage("Successfully clocked in!");
+            } catch (error) { showMessage(`Clock-in failed: ${error.message || error}`); }
+            finally { toggleLoader(false); }
+        });
+        clockOutBtn.addEventListener('click', async () => {
+            toggleLoader(true);
+            try {
+                const location = await checkLocation();
+                const now = new Date();
+                const q = query(collection(db, "attendance"), where("uid", "==", currentUser.uid), where("out_time", "==", null));
+                const snapshot = await getDocs(q);
+                if (snapshot.empty) throw new Error("No open clock-in record found.");
+                const docToUpdate = snapshot.docs[0];
+                await updateDoc(docToUpdate.ref, { out_time: now, out_location: location, total_hours: calculateTotalHours(docToUpdate.data().in_time.toDate(), now) });
+                showMessage("Successfully clocked out!");
+            } catch (error) { showMessage(`Clock-out failed: ${error.message || error}`); }
+            finally { toggleLoader(false); }
+        });
+
+        // --- EMPLOYEE-SPECIFIC LISTENERS ---
+        function listenForUserRecords(uid) {
+            const q = query(collection(db, "attendance"), where("uid", "==", uid));
+            return onSnapshot(q, (snapshot) => {
+                const records = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                records.sort((a,b) => (b.in_time?.toDate() || 0) - (a.in_time?.toDate() || 0));
+                employeeTableBody.innerHTML = records.map(rec => `<tr><td class="p-3">${rec.date}</td><td class="p-3">${formatTime(rec.in_time?.toDate())}</td><td class="p-3">${formatTime(rec.out_time?.toDate())}</td><td class="p-3">${rec.total_hours || 'N/A'}</td></tr>`).join('') || `<tr><td colspan="4" class="p-4 text-center">No records found.</td></tr>`;
+                updateClockButtons(uid);
+            }, (error) => { console.error("User records listener failed:", error); showMessage("Could not load your records."); });
+        }
+        function listenForUserRequests(uid) {
+            const collections = ['shift_requests', 'pp_requests', 'coff_requests', 'leave_requests'];
+            let allRequests = [];
+            const unsubscribes = collections.map(coll => {
+                const q = query(collection(db, coll), where("requester_uid", "==", uid));
+                return onSnapshot(q, snapshot => {
+                    const type = coll.split('_')[0];
+                    allRequests = allRequests.filter(r => r.type !== type); // Remove old requests of this type to avoid duplication
+                    snapshot.forEach(d => allRequests.push({ ...d.data(), type }));
+                    
+                    allRequests.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
+                    employeeRequestsBody.innerHTML = allRequests.map(req => {
+                        let date, details;
+                        if (req.type === 'shift') { date = req.change_date; details = `With ${req.colleague_name} (${req.requester_shift}↔${req.colleague_shift})`; }
+                        else if (req.type === 'pp') { date = req.request_date; details = req.remarks; }
+                        else if (req.type === 'coff') { date = req.avail_date; details = `For C/Off earned on ${req.earned_date}`; }
+                        else if (req.type === 'leave') { date = req.start_date; details = `${req.total_days} days until ${req.end_date}`; }
+                        return `<tr><td class="p-3">${date}</td><td class="p-3 uppercase font-semibold text-xs">${req.type}</td><td class="p-3">${details || ''}</td><td class="p-3">${getStatusBadge(req.status)}</td></tr>`;
+                    }).join('') || `<tr><td colspan="4" class="p-4 text-center">No requests found.</td></tr>`;
+                });
+            });
+            return () => unsubscribes.forEach(unsub => unsub());
+        }
+
+        // --- ADMIN/ENGINEER LISTENERS & VIEWS ---
+        async function fetchAllUsers() {
+            try {
+                allUsers = (await getDocs(collection(db, 'users'))).docs.map(d => ({ id: d.id, ...d.data() }));
+            } catch (error) { console.error("Failed to fetch users:", error); }
+        }
+        function listenForAdminRecords(isFullAdmin) {
+            return onSnapshot(query(collection(db, "attendance")), snapshot => {
+                allAdminRecords = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                applyAdminFilters(isFullAdmin);
+                updateShiftSummary();
+                updateOnDutySupervisor();
+            }, (error) => { console.error("Admin records listener failed:", error); showMessage("Could not load attendance records."); });
+        }
+        function applyAdminFilters(isFullAdmin) {
+            const dateVal = filterDate.value, nameVal = filterName.value.toLowerCase();
+            const filtered = allAdminRecords.filter(r => (!dateVal || r.date === dateVal) && (!nameVal || (r.employee_name||'').toLowerCase().includes(nameVal)));
+            filtered.sort((a,b) => (b.in_time?.toDate() || 0) - (a.in_time?.toDate() || 0));
+            adminTableBody.innerHTML = filtered.map(rec => `<tr><td class="p-3">${rec.date}</td><td class="p-3 font-medium">${rec.employee_name||'N/A'}</td><td class="p-3">${formatTime(rec.in_time?.toDate())}</td><td class="p-3">${formatTime(rec.out_time?.toDate())}</td><td class="p-3">${rec.total_hours || 'N/A'}</td><td class="p-3">${isFullAdmin ? `<button class="edit-btn bg-yellow-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Edit</button><button class="delete-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Delete</button>` : ''}</td></tr>`).join('') || `<tr><td colspan="6" class="p-4 text-center">No records found.</td></tr>`;
+        }
+        [filterDate, filterName].forEach(el => el.addEventListener('input', () => applyAdminFilters(currentUser.is_admin)));
+
+        // --- ADMIN/ENGINEER REQUEST LISTENER (REUSABLE) ---
+        function createAdminRequestListener(collectionName, tableBody, counterElement, type) {
+            return onSnapshot(query(collection(db, collectionName)), (snapshot) => {
+                const allRequests = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+                // **CRITICAL FIX**: Safely sort by timestamp, handling records that might not have it.
+                allRequests.sort((a, b) => (b.timestamp?.toDate()?.getTime() || 0) - (a.timestamp?.toDate()?.getTime() || 0));
+
+                const pendingCount = allRequests.filter(req =>
+                    (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
+                    (currentUser.is_admin && req.status === 'pending_admin')
+                ).length;
+                
+                counterElement.textContent = pendingCount;
+                counterElement.classList.toggle('hidden', pendingCount === 0);
+
+                tableBody.innerHTML = allRequests.map(req => {
+                    let actions = 'N/A';
+                    if ((currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') || (currentUser.is_admin && req.status === 'pending_admin')) {
+                        actions = `<button class="approve-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-type="${type}" data-coll="${collectionName}">Approve</button>
+                                   <button class="reject-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-type="${type}" data-coll="${collectionName}">Reject</button>`;
                     }
                     
-                    row.push(pCount, ppCount, aCount, woCount, hCount, coCount, lCount, pCount + ppCount);
-                    return row.join(',');
-                });
-
-                let csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.join("\n");
-                
-                const encodedUri = encodeURI(csvContent);
-                const link = document.createElement("a");
-                link.setAttribute("href", encodedUri);
-                link.setAttribute("download", `monthly_report_${year}_${month}.csv`);
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                toggleLoader(false);
+                    let cells = '';
+                    if (type === 'shift') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td>`;
+                    else if (type === 'pp') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td>`;
+                    else if (type === 'coff') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td>`;
+                    else if (type === 'leave') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date}</td><td class="p-3">${req.end_date}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>`;
+                    
+                    return `<tr>${cells}<td class="p-3">${req.engineer_comment || 'N/A'}</td><td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td></tr>`;
+                }).join('') || `<tr><td colspan="8" class="p-4 text-center">No requests found.</td></tr>`;
+            }, (error) => { console.error(`Listener for ${collectionName} failed:`, error); showMessage(`Could not load ${type} requests.`); });
+        }
+        
+        async function handleApprovalClick(e) {
+            const { id, type, coll } = e.target.dataset;
+            if (!id) return;
+            const isApprove = e.target.classList.contains('approve-btn');
+            const comment = prompt(`Enter comment for ${isApprove ? 'approval' : 'rejection'}:`);
+            if (comment === null) return;
+            
+            toggleLoader(true);
+            const requestRef = doc(db, coll, id);
+            let updateData = {};
+            
+            if (currentUser.is_engineer) {
+                updateData.engineer_comment = comment;
+                updateData.status = isApprove ? 'pending_admin' : 'rejected';
+            } else if (currentUser.is_admin) {
+                updateData.admin_comment = comment;
+                updateData.status = isApprove ? 'approved' : 'rejected';
             }
 
-            // --- WEEK OFF SETTING LOGIC ---
-            setWeekOffBtn.addEventListener('click', () => {
-                weekOffModal.classList.remove('hidden');
-                document.getElementById('week-off-month').valueAsDate = new Date();
-                weekOffEmployeeList.innerHTML = '';
-            });
-
-            cancelWeekOffBtn.addEventListener('click', () => {
-                weekOffModal.classList.add('hidden');
-            });
-
-            loadEmployeesBtn.addEventListener('click', async () => {
-                const monthYear = document.getElementById('week-off-month').value;
-                if (!monthYear) {
-                    showMessage("Please select a month first.");
-                    return;
-                }
-                toggleLoader(true);
-                const [year, month] = monthYear.split('-').map(Number);
-                const daysInMonth = new Date(year, month, 0).getDate();
-                
-                const weekOffsCol = collection(db, 'weekoffs');
-                const weekOffsQuery = query(weekOffsCol, where("year", "==", year), where("month", "==", month));
-                const weekOffsSnapshot = await getDocs(weekOffsQuery);
-                const existingWeekOffs = {};
-                weekOffsSnapshot.forEach(doc => {
-                    const data = doc.data();
-                    existingWeekOffs[data.uid] = data.dates || [];
-                });
-
-                weekOffEmployeeList.innerHTML = '';
-                allUsers.forEach(user => {
-                    const userWeekOffs = existingWeekOffs[user.uid] || [];
-                    let dateCheckboxes = '';
-                    for (let i = 1; i <= daysInMonth; i++) {
-                        const isChecked = userWeekOffs.includes(i) ? 'checked' : '';
-                        dateCheckboxes += `
-                            <label class="inline-flex items-center mr-2">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" value="${i}" data-uid="${user.uid}" ${isChecked}>
-                                <span class="ml-1 text-sm">${i}</span>
-                            </label>
-                        `;
-                    }
-
-                    const userDiv = document.createElement('div');
-                    userDiv.className = 'p-2 border rounded';
-                    userDiv.innerHTML = `
-                        <p class="font-semibold">${user.name}</p>
-                        <div class="flex flex-wrap mt-2">${dateCheckboxes}</div>
-                    `;
-                    weekOffEmployeeList.appendChild(userDiv);
-                });
-                toggleLoader(false);
-            });
-
-            weekOffForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                const monthYear = document.getElementById('week-off-month').value;
-                const [year, month] = monthYear.split('-').map(Number);
-
-                const weekOffsByEmployee = {};
-                allUsers.forEach(user => {
-                    weekOffsByEmployee[user.uid] = [];
-                });
-
-                const checkboxes = weekOffEmployeeList.querySelectorAll('input[type="checkbox"]:checked');
-                checkboxes.forEach(cb => {
-                    const uid = cb.dataset.uid;
-                    const day = parseInt(cb.value);
-                    if (weekOffsByEmployee[uid]) {
-                        weekOffsByEmployee[uid].push(day);
-                    }
-                });
-
-                try {
+            try {
+                if (isApprove && currentUser.is_admin && type === 'coff') {
+                    const reqDoc = await getDoc(requestRef);
+                    const { earned_coff_doc_id, avail_date } = reqDoc.data();
                     const batch = writeBatch(db);
-                    for (const uid in weekOffsByEmployee) {
-                        const docId = `${uid}_${year}_${month}`;
-                        const weekOffDocRef = doc(db, 'weekoffs', docId);
-                        batch.set(weekOffDocRef, {
-                            uid: uid,
-                            year: year,
-                            month: month,
-                            dates: weekOffsByEmployee[uid]
-                        });
-                    }
+                    batch.update(requestRef, updateData);
+                    batch.update(doc(db, 'coffs', earned_coff_doc_id), { status: 'availed', availed_date });
                     await batch.commit();
-                    showMessage("Week offs saved successfully!");
-                    weekOffModal.classList.add('hidden');
-                } catch (error) {
-                    showMessage("Error saving week offs: " + error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            // --- HOLIDAY SETTING LOGIC ---
-            setHolidaysBtn.addEventListener('click', () => {
-                holidaysModal.classList.remove('hidden');
-                holidaysMonthInput.valueAsDate = new Date();
-                holidaysMonthInput.dispatchEvent(new Event('change'));
-            });
-
-            cancelHolidaysBtn.addEventListener('click', () => {
-                holidaysModal.classList.add('hidden');
-            });
-
-            holidaysMonthInput.addEventListener('change', async () => {
-                const monthYear = holidaysMonthInput.value;
-                if (!monthYear) {
-                    holidaysList.innerHTML = '';
-                    return;
-                }
-                toggleLoader(true);
-                const [year, month] = monthYear.split('-').map(Number);
-                const daysInMonth = new Date(year, month, 0).getDate();
-
-                const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
-                const holidayDoc = await getDoc(holidayDocRef);
-                const existingHolidays = holidayDoc.exists() ? holidayDoc.data().dates : [];
-
-                holidaysList.innerHTML = '';
-                for (let i = 1; i <= daysInMonth; i++) {
-                    const isChecked = existingHolidays.includes(i) ? 'checked' : '';
-                    const checkboxHTML = `
-                        <label class="inline-flex items-center mr-2 mb-2">
-                            <input type="checkbox" class="form-checkbox h-4 w-4 text-indigo-600" value="${i}" ${isChecked}>
-                            <span class="ml-1 text-sm">${i}</span>
-                        </label>
-                    `;
-                    holidaysList.innerHTML += checkboxHTML;
-                }
-                toggleLoader(false);
-            });
-
-            holidaysForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                const monthYear = holidaysMonthInput.value;
-                const [year, month] = monthYear.split('-').map(Number);
-
-                const selectedHolidays = [];
-                const checkboxes = holidaysList.querySelectorAll('input[type="checkbox"]:checked');
-                checkboxes.forEach(cb => {
-                    selectedHolidays.push(parseInt(cb.value));
-                });
-
-                try {
-                    const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
-                    await setDoc(holidayDocRef, {
-                        year: year,
-                        month: month,
-                        dates: selectedHolidays
-                    });
-                    showMessage("Holidays saved successfully!");
-                    holidaysModal.classList.add('hidden');
-                } catch (error) {
-                    showMessage("Error saving holidays: " + error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            // --- SHIFT CHANGE LOGIC ---
-            shiftChangeRequestBtn.addEventListener('click', () => {
-                shiftChangeModal.classList.remove('hidden');
-                shiftChangeForm.reset();
-                document.getElementById('shift-change-date').valueAsDate = new Date();
-            });
-
-            cancelShiftChangeBtn.addEventListener('click', () => {
-                shiftChangeModal.classList.add('hidden');
-            });
-
-            shiftChangeForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                const colleagueEmpId = document.getElementById('colleague-empid').value;
-                
-                const colleague = allUsers.find(u => u.empId === colleagueEmpId);
-                if (!colleague) {
-                    showMessage("Colleague with this Employee ID not found.");
-                    toggleLoader(false);
-                    return;
-                }
-                if (colleague.uid === currentUser.uid) {
-                    showMessage("You cannot request a shift change with yourself.");
-                    toggleLoader(false);
-                    return;
-                }
-
-                const request = {
-                    requester_uid: currentUser.uid,
-                    requester_name: currentUser.displayName,
-                    requester_shift: document.getElementById('my-shift').value,
-                    colleague_uid: colleague.uid,
-                    colleague_name: colleague.name,
-                    colleague_shift: document.getElementById('colleague-shift').value,
-                    change_date: document.getElementById('shift-change-date').value,
-                    remarks: document.getElementById('shift-change-remarks').value,
-                    status: 'pending_admin', // Direct to admin
-                    timestamp: Timestamp.now()
-                };
-
-                try {
-                    await addDoc(collection(db, 'shift_requests'), request);
-                    showMessage("Shift change request sent successfully.");
-                    shiftChangeModal.classList.add('hidden');
-                } catch (error) {
-                    showMessage("Error sending request: " + error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            function listenForUserShiftRequests(uid) {
-                const q = query(collection(db, 'shift_requests'), where("requester_uid", "==", uid));
-                onSnapshot(q, (snapshot) => {
-                    const requests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    employeeRequestsBody.innerHTML = '';
-                    if (requests.length === 0) {
-                        employeeRequestsBody.innerHTML = `<tr><td colspan="4" class="text-center p-4">No requests found.</td></tr>`;
-                    }
-                    requests.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td class="p-3">${req.change_date}</td>
-                            <td class="p-3">${req.colleague_name}</td>
-                            <td class="p-3">${req.requester_shift} ↔ ${req.colleague_shift}</td>
-                            <td class="p-3">${getStatusBadge(req.status)}</td>
-                        `;
-                        employeeRequestsBody.appendChild(row);
-                    });
-                });
-            }
-
-            function listenForAdminShiftRequests() {
-                const q = query(collection(db, 'shift_requests'));
-                shiftRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
-                    allShiftRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    
-                    const pendingCount = allShiftRequests.filter(req => req.status === 'pending_admin').length;
-                    const counter = document.getElementById('shift-request-counter');
-                    if (pendingCount > 0) {
-                        counter.textContent = pendingCount;
-                        counter.classList.remove('hidden');
-                    } else {
-                        counter.classList.add('hidden');
-                    }
-
-                    adminRequestsBody.innerHTML = '';
-                     if (allShiftRequests.length === 0) {
-                        adminRequestsBody.innerHTML = `<tr><td colspan="7" class="text-center p-4">No shift change requests.</td></tr>`;
-                    }
-                    allShiftRequests.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
-                        const row = document.createElement('tr');
-                        const actions = req.status === 'pending_admin' && (currentUser.is_admin || currentUser.is_engineer)
-                            ? `<button class="approve-shift-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
-                               <button class="reject-shift-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>`
-                            : 'N/A';
-                        row.innerHTML = `
-                            <td class="p-3">${req.change_date}</td>
-                            <td class="p-3">${req.requester_name}</td>
-                            <td class="p-3">${req.colleague_name}</td>
-                            <td class="p-3">${req.requester_shift} ↔ ${req.colleague_shift}</td>
-                            <td class="p-3">${req.remarks}</td>
-                            <td class="p-3">${getStatusBadge(req.status)}</td>
-                            <td class="p-3 space-x-2">${actions}</td>
-                        `;
-                        adminRequestsBody.appendChild(row);
-                    });
-                });
-            }
-            
-            adminRequestsBody.addEventListener('click', async (e) => {
-                const target = e.target;
-                const id = target.dataset.id;
-                if (!id) return;
-
-                let newStatus = null;
-                if (target.classList.contains('approve-shift-btn')) newStatus = 'approved';
-                if (target.classList.contains('reject-shift-btn')) newStatus = 'rejected';
-
-                if (newStatus) {
-                    toggleLoader(true);
-                    const requestRef = doc(db, 'shift_requests', id);
-                    try {
-                         await updateDoc(requestRef, { status: newStatus });
-                         showMessage(`Shift change request ${newStatus}.`);
-                    } catch (error) {
-                        showMessage("Error updating request: " + error.message);
-                    } finally {
-                        toggleLoader(false);
-                    }
-                }
-            });
-
-            // --- PP REQUEST LOGIC ---
-            ppRequestBtn.addEventListener('click', () => {
-                ppRequestModal.classList.remove('hidden');
-                ppRequestForm.reset();
-                document.getElementById('pp-request-date').valueAsDate = new Date();
-            });
-
-            cancelPpRequestBtn.addEventListener('click', () => {
-                ppRequestModal.classList.add('hidden');
-            });
-
-            ppRequestForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                const requestDate = document.getElementById('pp-request-date').value;
-                const [year, month] = requestDate.split('-').map(Number);
-
-                const request = {
-                    requester_uid: currentUser.uid,
-                    requester_name: currentUser.displayName,
-                    request_date: requestDate,
-                    year: year,
-                    month: month,
-                    remarks: document.getElementById('pp-request-remarks').value,
-                    status: 'pending_engineer', // First step is engineer approval
-                    engineer_comment: '',
-                    admin_comment: '',
-                    timestamp: Timestamp.now()
-                };
-
-                try {
-                    await addDoc(collection(db, 'pp_requests'), request);
-                    showMessage("Additional P request submitted successfully.");
-                    ppRequestModal.classList.add('hidden');
-                } catch (error) {
-                    showMessage("Error submitting request: " + error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-            
-            function listenForPPRequests() {
-                const q = query(collection(db, 'pp_requests'));
-                ppRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
-                    allPpRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                    const pendingCount = allPpRequests.filter(req =>
-                        (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
-                        (currentUser.is_admin && req.status === 'pending_admin')
-                    ).length;
-                    const counter = document.getElementById('pp-request-counter');
-                    if (pendingCount > 0) {
-                        counter.textContent = pendingCount;
-                        counter.classList.remove('hidden');
-                    } else {
-                        counter.classList.add('hidden');
-                    }
-
-                    adminPpRequestsBody.innerHTML = '';
-                    if (allPpRequests.length === 0) {
-                        adminPpRequestsBody.innerHTML = `<tr><td colspan="6" class="text-center p-4">No PP requests.</td></tr>`;
-                        return;
-                    }
-
-                    allPpRequests.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
-                        const row = document.createElement('tr');
-                        let actions = 'N/A';
-
-                        if ((currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') || (currentUser.is_admin && req.status === 'pending_admin')) {
-                            actions = `
-                                <button class="approve-pp-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
-                                <button class="reject-pp-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
-                            `;
-                        }
-
-                        row.innerHTML = `
-                            <td class="p-3">${req.request_date}</td>
-                            <td class="p-3">${req.requester_name}</td>
-                            <td class="p-3">${req.remarks}</td>
-                            <td class="p-3">${req.engineer_comment || 'N/A'}</td>
-                            <td class="p-3">${getStatusBadge(req.status)}</td>
-                            <td class="p-3 space-x-2">${actions}</td>
-                        `;
-                        adminPpRequestsBody.appendChild(row);
-                    });
-                });
-            }
-
-            adminPpRequestsBody.addEventListener('click', (e) => handleApprovalClick(e, 'pp_requests', 'pp'));
-
-            // --- C/Off and Leave Request Logic (Employee) ---
-            coffRequestBtn.addEventListener('click', async () => {
-                if (!currentUser) return;
-                toggleLoader(true);
-                
-                const coffsCol = collection(db, 'coffs');
-                const q = query(coffsCol, where("uid", "==", currentUser.uid), where("status", "==", "earned"));
-                const querySnapshot = await getDocs(q);
-
-                const availableCoffDocs = querySnapshot.docs;
-                
-                coffEarnedSelect.innerHTML = '';
-                
-                if (availableCoffDocs.length === 0) {
-                    noCoffMessage.classList.remove('hidden');
-                    coffEarnedSelect.classList.add('hidden');
-                    coffRequestForm.querySelector('button[type="submit"]').disabled = true;
                 } else {
-                    noCoffMessage.classList.add('hidden');
-                    coffEarnedSelect.classList.remove('hidden');
-                    availableCoffDocs.forEach(doc => {
-                        const coffData = doc.data();
-                        const option = document.createElement('option');
-                        option.value = doc.id;
-                        option.textContent = `C/Off earned on ${coffData.earned_date}`;
-                        option.dataset.earnedDate = coffData.earned_date;
-                        coffEarnedSelect.appendChild(option);
-                    });
-                    coffRequestForm.querySelector('button[type="submit"]').disabled = false;
+                    await updateDoc(requestRef, updateData);
+                }
+                showMessage(`Request has been processed.`);
+            } catch(err) { showMessage(`Error: ${err.message}`); }
+            finally { toggleLoader(false); }
+        }
+        Object.values(adminViews).filter(v => v.table).forEach(v => v.table.addEventListener('click', e => e.target.tagName === 'BUTTON' && handleApprovalClick(e)));
+
+        // --- EMPLOYEE REQUEST FORM HANDLING ---
+        Object.values(requestForms).forEach(({ btn, modal, form }) => {
+            btn.addEventListener('click', () => { form.reset(); modal.classList.remove('hidden'); });
+            form.querySelector('button[type="button"]').addEventListener('click', () => modal.classList.add('hidden'));
+        });
+
+        requestForms.shift.btn.addEventListener('click', () => document.getElementById('shift-change-date').valueAsDate = new Date());
+        requestForms.pp.btn.addEventListener('click', () => document.getElementById('pp-request-date').valueAsDate = new Date());
+        requestForms.coff.btn.addEventListener('click', async () => {
+            toggleLoader(true);
+            const q = query(collection(db, 'coffs'), where("uid", "==", currentUser.uid), where("status", "==", "earned"));
+            const snapshot = await getDocs(q);
+            const hasCoff = !snapshot.empty;
+            const select = document.getElementById('coff-earned-select');
+            select.innerHTML = snapshot.docs.map(d => `<option value="${d.id}" data-earned-date="${d.data().earned_date}">C/Off from ${d.data().earned_date}</option>`).join('');
+            document.getElementById('no-coff-message').classList.toggle('hidden', hasCoff);
+            select.classList.toggle('hidden', !hasCoff);
+            requestForms.coff.form.querySelector('button[type="submit"]').disabled = !hasCoff;
+            document.getElementById('coff-avail-date').valueAsDate = new Date();
+            toggleLoader(false);
+        });
+
+        const leaveStartDate = document.getElementById('leave-start-date');
+        const leaveEndDate = document.getElementById('leave-end-date');
+        const calculateLeaveDays = () => {
+            const start = new Date(leaveStartDate.value), end = new Date(leaveEndDate.value);
+            if (!start.getTime() || !end.getTime() || end < start) return 0;
+            return Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+        };
+        [leaveStartDate, leaveEndDate].forEach(el => el.addEventListener('change', () => document.getElementById('leave-total-days').textContent = calculateLeaveDays()));
+        document.getElementById('leave-terms-ack').addEventListener('change', (e) => document.getElementById('submit-leave-request-btn').disabled = !e.target.checked);
+        requestForms.leave.btn.addEventListener('click', () => {
+            leaveStartDate.valueAsDate = new Date();
+            leaveEndDate.valueAsDate = new Date();
+            document.getElementById('leave-total-days').textContent = '1';
+        });
+
+        // Universal Form Submission Handler
+        document.getElementById('app').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formInfo = Object.values(requestForms).find(f => f.form === form);
+            if (!formInfo) return;
+
+            toggleLoader(true);
+            const formData = new FormData(form);
+            const requestData = { requester_uid: currentUser.uid, requester_name: currentUser.displayName, status: 'pending_engineer', engineer_comment: '', admin_comment: '', timestamp: Timestamp.now() };
+            for(let [key, value] of formData.entries()) { requestData[key.replace(/_(\w)/g, (_, c) => c.toUpperCase())] = value; }
+
+            try {
+                if(formInfo.collection === 'shift_requests'){
+                    const colleague = allUsers.find(u => u.empId === requestData.colleagueEmpid);
+                    if (!colleague) throw new Error("Colleague ID not found.");
+                    if (colleague.uid === currentUser.uid) throw new Error("Cannot request with yourself.");
+                    requestData.colleague_uid = colleague.uid;
+                    requestData.colleague_name = colleague.name;
+                }
+                if (formInfo.collection === 'leave_requests') {
+                    if (!document.getElementById('leave-terms-ack').checked) throw new Error("You must acknowledge the terms.");
+                    requestData.total_days = calculateLeaveDays();
+                    if(requestData.total_days <= 0) throw new Error("Invalid date range.");
+                }
+                 if(formInfo.collection === 'coff_requests') {
+                    const selectedOption = document.getElementById('coff-earned-select').options[document.getElementById('coff-earned-select').selectedIndex];
+                    requestData.earned_coff_doc_id = selectedOption.value;
+                    requestData.earned_date = selectedOption.dataset.earnedDate;
                 }
                 
-                coffRequestForm.reset();
-                document.getElementById('coff-avail-date').valueAsDate = new Date();
-                coffRequestModal.classList.remove('hidden');
+                await addDoc(collection(db, formInfo.collection), requestData);
+                showMessage("Request submitted successfully.");
+                formInfo.modal.classList.add('hidden');
+            } catch(err) { showMessage("Error: " + err.message); } 
+            finally { toggleLoader(false); }
+        });
+
+        // --- ADMIN CONTROLS (Edit, Delete, Reports, etc.) ---
+        adminTableBody.addEventListener('click', async (e) => {
+            if (e.target.classList.contains('edit-btn')) {
+                const docSnap = await getDoc(doc(db, 'attendance', e.target.dataset.id));
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    editForm.elements['edit-doc-id'].value = docSnap.id;
+                    editForm.elements['edit-date'].value = data.date;
+                    editForm.elements['edit-in-time'].value = formatTimeForInput(data.in_time?.toDate());
+                    editForm.elements['edit-out-time'].value = formatTimeForInput(data.out_time?.toDate());
+                    editModal.classList.remove('hidden');
+                }
+            } else if (e.target.classList.contains('delete-btn')) {
+                docIdToDelete = e.target.dataset.id;
+                deleteConfirmModal.classList.remove('hidden');
+            }
+        });
+        cancelEditBtn.addEventListener('click', () => editModal.classList.add('hidden'));
+        editForm.addEventListener('submit', async(e) => {
+            e.preventDefault();
+            toggleLoader(true);
+            const { value: id } = editForm.elements['edit-doc-id'];
+            const { value: newDate } = editForm.elements['edit-date'];
+            const inTime = new Date(`${newDate}T${editForm.elements['edit-in-time'].value}`);
+            const outTime = editForm.elements['edit-out-time'].value ? new Date(`${newDate}T${editForm.elements['edit-out-time'].value}`) : null;
+            await updateDoc(doc(db, 'attendance', id), { date: newDate, in_time: inTime, out_time: outTime, total_hours: calculateTotalHours(inTime, outTime) });
+            showMessage("Entry updated.");
+            editModal.classList.add('hidden');
+            toggleLoader(false);
+        });
+        cancelDeleteBtn.addEventListener('click', () => deleteConfirmModal.classList.add('hidden'));
+        confirmDeleteBtn.addEventListener('click', async () => {
+            if (docIdToDelete) {
+                toggleLoader(true);
+                await deleteDoc(doc(db, 'attendance', docIdToDelete));
+                showMessage("Entry deleted.");
+                deleteConfirmModal.classList.add('hidden');
                 toggleLoader(false);
-            });
-
-            cancelCoffRequestBtn.addEventListener('click', () => coffRequestModal.classList.add('hidden'));
-
-            coffRequestForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                toggleLoader(true);
-                
-                const selectedOption = coffEarnedSelect.options[coffEarnedSelect.selectedIndex];
-                const request = {
-                    requester_uid: currentUser.uid,
-                    requester_name: currentUser.displayName,
-                    avail_date: document.getElementById('coff-avail-date').value,
-                    earned_coff_doc_id: selectedOption.value,
-                    earned_date: selectedOption.dataset.earnedDate,
-                    remarks: document.getElementById('coff-request-remarks').value,
-                    status: 'pending_engineer',
-                    engineer_comment: '',
-                    admin_comment: '',
-                    timestamp: Timestamp.now()
-                };
-
-                try {
-                    await addDoc(collection(db, 'coff_requests'), request);
-                    showMessage("C/Off request submitted successfully.");
-                    coffRequestModal.classList.add('hidden');
-                } catch (error) {
-                    showMessage("Error submitting C/Off request: " + error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            leaveRequestBtn.addEventListener('click', () => {
-                leaveRequestForm.reset();
-                submitLeaveRequestBtn.disabled = true;
-                leaveTotalDays.textContent = '0';
-                document.getElementById('leave-start-date').valueAsDate = new Date();
-                document.getElementById('leave-end-date').valueAsDate = new Date();
-                leaveRequestModal.classList.remove('hidden');
-            });
-
-            cancelLeaveRequestBtn.addEventListener('click', () => leaveRequestModal.classList.add('hidden'));
-
-            function calculateLeaveDays() {
-                const startDate = new Date(document.getElementById('leave-start-date').value);
-                const endDate = new Date(document.getElementById('leave-end-date').value);
-                if (endDate < startDate) {
-                    leaveTotalDays.textContent = '0 (End date cannot be before start date)';
-                    return 0;
-                }
-                const diffTime = Math.abs(endDate - startDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                leaveTotalDays.textContent = diffDays;
-                return diffDays;
             }
-
-            document.getElementById('leave-start-date').addEventListener('change', calculateLeaveDays);
-            document.getElementById('leave-end-date').addEventListener('change', calculateLeaveDays);
-            leaveTermsAck.addEventListener('change', () => {
-                submitLeaveRequestBtn.disabled = !leaveTermsAck.checked;
+        });
+        
+        // --- ORIGINAL EXPORT LOGIC ---
+        function exportDailyToCSV() {
+            const headers = ["Date", "Employee Name", "In Time", "In Location", "Out Time", "Out Location", "Duty Hours"];
+            const dataToExport = allAdminRecords.filter(rec => {
+                const date = filterDate.value;
+                const name = filterName.value.toLowerCase();
+                const nameMatch = name ? (rec.employee_name || '').toLowerCase().includes(name) : true;
+                const dateMatch = date ? rec.date === date : true;
+                return nameMatch && dateMatch;
             });
+            const rows = dataToExport.map(rec => [rec.date, `"${rec.employee_name || 'N/A'}"`, rec.in_time ? `"${formatTime(rec.in_time.toDate())}"` : 'N/A', `"${rec.in_location || 'N/A'}"`, rec.out_time ? `"${formatTime(rec.out_time.toDate())}"` : 'N/A', `"${rec.out_location || 'N/A'}"`, `"${rec.total_hours || 'N/A'}"`].join(','));
+            const csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.join("\n");
+            const link = document.createElement("a");
+            link.href = encodeURI(csvContent);
+            link.download = `daily_attendance_${formatDate(new Date())}.csv`;
+            link.click();
+            link.remove();
+        }
+        exportBtn.addEventListener('click', exportDailyToCSV);
 
-            leaveRequestForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                if (!leaveTermsAck.checked) {
-                    showMessage("You must acknowledge the terms to submit a leave request.");
-                    return;
-                }
-                toggleLoader(true);
-                
-                const request = {
-                    requester_uid: currentUser.uid,
-                    requester_name: currentUser.displayName,
-                    start_date: document.getElementById('leave-start-date').value,
-                    end_date: document.getElementById('leave-end-date').value,
-                    total_days: calculateLeaveDays(),
-                    reason: document.getElementById('leave-request-remarks').value,
-                    status: 'pending_engineer',
-                    engineer_comment: '',
-                    admin_comment: '',
-                    timestamp: Timestamp.now()
-                };
-                
-                if (request.total_days <= 0) {
-                    showMessage("Invalid date range for leave.");
-                    toggleLoader(false);
-                    return;
-                }
-
-                try {
-                    await addDoc(collection(db, 'leave_requests'), request);
-                    showMessage("Leave request submitted successfully.");
-                    leaveRequestModal.classList.add('hidden');
-                } catch (error) {
-                    showMessage("Error submitting leave request: " + error.message);
-                } finally {
-                    toggleLoader(false);
-                }
-            });
-
-            // --- ADMIN/ENGINEER LISTENERS FOR NEW REQUESTS ---
-            function listenForCoffRequests() {
-                const q = query(collection(db, 'coff_requests'));
-                coffRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
-                    allCoffRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-                    const pendingCount = allCoffRequests.filter(req =>
-                        (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
-                        (currentUser.is_admin && req.status === 'pending_admin')
-                    ).length;
-                    const counter = document.getElementById('coff-request-counter');
-                    if (pendingCount > 0) {
-                        counter.textContent = pendingCount;
-                        counter.classList.remove('hidden');
-                    } else {
-                        counter.classList.add('hidden');
-                    }
-                    
-                    adminCoffRequestsBody.innerHTML = '';
-                    if (allCoffRequests.length === 0) {
-                        adminCoffRequestsBody.innerHTML = `<tr><td colspan="7" class="text-center p-4">No C/Off requests.</td></tr>`;
-                        return;
-                    }
-
-                    allCoffRequests.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
-                        const row = document.createElement('tr');
-                        let actions = 'N/A';
-                        const canEngineerAct = currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer';
-                        const canAdminAct = currentUser.is_admin && req.status === 'pending_admin';
-
-                        if (canEngineerAct || canAdminAct) {
-                            actions = `
-                                <button class="approve-coff-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
-                                <button class="reject-coff-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
-                            `;
-                        }
-
-                        row.innerHTML = `
-                            <td class="p-3">${req.requester_name}</td>
-                            <td class="p-3">${req.avail_date}</td>
-                            <td class="p-3">${req.earned_date}</td>
-                            <td class="p-3">${req.remarks}</td>
-                            <td class="p-3">${req.engineer_comment || 'N/A'}</td>
-                            <td class="p-3">${getStatusBadge(req.status)}</td>
-                            <td class="p-3 space-x-2">${actions}</td>
-                        `;
-                        adminCoffRequestsBody.appendChild(row);
-                    });
-                });
+        // --- ORIGINAL MONTHLY REPORT LOGIC ---
+        monthlyReportBtn.addEventListener('click', () => monthlyReportModal.classList.remove('hidden'));
+        cancelMonthlyReportBtn.addEventListener('click', () => monthlyReportModal.classList.add('hidden'));
+        monthlyReportForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const monthYear = document.getElementById('report-month').value;
+            if(monthYear) {
+                const [year, month] = monthYear.split('-');
+                exportMonthlyReport(parseInt(year), parseInt(month));
+                monthlyReportModal.classList.add('hidden');
             }
+        });
+        async function exportMonthlyReport(year, month) {
+            toggleLoader(true);
+            await fetchAllUsers();
 
-            function listenForLeaveRequests() {
-                const q = query(collection(db, 'leave_requests'));
-                leaveRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
-                    allLeaveRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    
-                    const pendingCount = allLeaveRequests.filter(req =>
-                        (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
-                        (currentUser.is_admin && req.status === 'pending_admin')
-                    ).length;
-                    const counter = document.getElementById('leave-request-counter');
-                    if (pendingCount > 0) {
-                        counter.textContent = pendingCount;
-                        counter.classList.remove('hidden');
-                    } else {
-                        counter.classList.add('hidden');
-                    }
+            const today = new Date();
+            const isCurrentMonth = today.getFullYear() === year && (today.getMonth() + 1) === month;
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const daysToReport = isCurrentMonth ? today.getDate() : daysInMonth;
 
-                    adminLeaveRequestsBody.innerHTML = '';
-                    if (allLeaveRequests.length === 0) {
-                        adminLeaveRequestsBody.innerHTML = `<tr><td colspan="8" class="text-center p-4">No leave requests.</td></tr>`;
-                        return;
-                    }
+            const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+            const endDate = `${year}-${String(month).padStart(2, '0')}-${String(daysInMonth).padStart(2, '0')}`;
+            const monthQuery = query(collection(db, 'attendance'), where("date", ">=", startDate), where("date", "<=", endDate));
+            const attendanceSnapshot = await getDocs(monthQuery);
+            const monthRecords = attendanceSnapshot.docs.map(doc => doc.data());
 
-                    allLeaveRequests.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
-                        const row = document.createElement('tr');
-                        let actions = 'N/A';
-                        const canEngineerAct = currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer';
-                        const canAdminAct = currentUser.is_admin && req.status === 'pending_admin';
-                        
-                        if (canEngineerAct || canAdminAct) {
-                            actions = `
-                                <button class="approve-leave-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
-                                <button class="reject-leave-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
-                            `;
-                        }
-                        
-                        row.innerHTML = `
-                            <td class="p-3">${req.requester_name}</td>
-                            <td class="p-3">${req.start_date}</td>
-                            <td class="p-3">${req.end_date}</td>
-                            <td class="p-3 text-center">${req.total_days}</td>
-                            <td class="p-3">${req.reason}</td>
-                            <td class="p-3">${req.engineer_comment || 'N/A'}</td>
-                            <td class="p-3">${getStatusBadge(req.status)}</td>
-                            <td class="p-3 space-x-2">${actions}</td>
-                        `;
-                        adminLeaveRequestsBody.appendChild(row);
-                    });
-                });
-            }
+            const weekOffsQuery = query(collection(db, 'weekoffs'), where("year", "==", year), where("month", "==", month));
+            const weekOffsSnapshot = await getDocs(weekOffsQuery);
+            const monthWeekOffs = {};
+            weekOffsSnapshot.forEach(doc => monthWeekOffs[doc.data().uid] = doc.data().dates || []);
 
-            // --- GENERIC APPROVAL HANDLER ---
-            adminCoffRequestsBody.addEventListener('click', (e) => handleApprovalClick(e, 'coff_requests', 'coff'));
-            adminLeaveRequestsBody.addEventListener('click', (e) => handleApprovalClick(e, 'leave_requests', 'leave'));
-
-            async function handleApprovalClick(e, collectionName, type) {
-                const target = e.target;
-                const id = target.dataset.id;
-                if (!id) return;
-                
-                let action = null;
-                if (target.classList.contains(`approve-${type}-btn`)) action = 'approve';
-                if (target.classList.contains(`reject-${type}-btn`)) action = 'reject';
-
-                if (action) {
-                    const comment = prompt(`Enter comment for ${action}:`);
-                    if (comment === null) return; // User cancelled prompt
-
-                    toggleLoader(true);
-                    const requestRef = doc(db, collectionName, id);
-                    let updateData = {};
-
-                    try {
-                        if (currentUser.is_engineer && !currentUser.is_admin) {
-                            updateData.engineer_comment = comment;
-                            updateData.status = action === 'approve' ? 'pending_admin' : 'rejected';
-                        } else if (currentUser.is_admin) {
-                            updateData.admin_comment = comment;
-                            updateData.status = action === 'approve' ? 'approved' : 'rejected';
-                        }
-                        
-                        // Special handling for final C/Off approval
-                        if (action === 'approve' && currentUser.is_admin && type === 'coff') {
-                            const reqDoc = await getDoc(requestRef);
-                            const reqData = reqDoc.data();
-                            const originalCoffRef = doc(db, 'coffs', reqData.earned_coff_doc_id);
-                            
-                            const batch = writeBatch(db);
-                            batch.update(requestRef, updateData);
-                            batch.update(originalCoffRef, { 
-                                status: 'availed', 
-                                availed_date: reqData.avail_date 
-                            });
-                            await batch.commit();
-                        } else {
-                            await updateDoc(requestRef, updateData);
-                        }
-                        
-                        showMessage(`Request has been ${action}d.`);
-                    } catch (error) {
-                        console.error(`Error updating ${type} request:`, error);
-                        showMessage(`Error updating request: ${error.message}`);
-                    } finally {
-                        toggleLoader(false);
-                    }
-                }
-            }
-
-            // --- TABS LOGIC ---
-            function hideAllAdminViews() {
-                adminAttendanceView.classList.add('hidden');
-                adminShiftRequestsView.classList.add('hidden');
-                adminPpRequestsView.classList.add('hidden');
-                adminCoffRequestsView.classList.add('hidden');
-                adminLeaveRequestsView.classList.add('hidden');
-            }
-
-            function setActiveTab(activeTab) {
-                const tabs = [tabAttendance, tabShiftRequests, tabPpRequests, tabCoffRequests, tabLeaveRequests];
-                tabs.forEach(tab => {
-                    if(tab){
-                        tab.classList.remove('bg-blue-600', 'text-white');
-                        tab.classList.add('bg-gray-200', 'text-gray-700');
-                    }
-                });
-                activeTab.classList.add('bg-blue-600', 'text-white');
-                activeTab.classList.remove('bg-gray-200', 'text-gray-700');
-            }
-
-            tabAttendance.addEventListener('click', () => {
-                hideAllAdminViews();
-                adminAttendanceView.classList.remove('hidden');
-                setActiveTab(tabAttendance);
-            });
-            tabShiftRequests.addEventListener('click', () => {
-                hideAllAdminViews();
-                adminShiftRequestsView.classList.remove('hidden');
-                setActiveTab(tabShiftRequests);
-            });
-            tabPpRequests.addEventListener('click', () => {
-                hideAllAdminViews();
-                adminPpRequestsView.classList.remove('hidden');
-                setActiveTab(tabPpRequests);
-            });
-            tabCoffRequests.addEventListener('click', () => {
-                hideAllAdminViews();
-                adminCoffRequestsView.classList.remove('hidden');
-                setActiveTab(tabCoffRequests);
-            });
-            tabLeaveRequests.addEventListener('click', () => {
-                hideAllAdminViews();
-                adminLeaveRequestsView.classList.remove('hidden');
-                setActiveTab(tabLeaveRequests);
-            });
+            const holidayDoc = await getDoc(doc(db, 'holidays', `${year}-${month}`));
+            const holidaysInMonth = holidayDoc.exists() ? holidayDoc.data().dates : [];
             
-            // --- NEW SHIFT SUMMARY LOGIC ---
-            function updateShiftSummary() {
-                if (!allAdminRecords.length) return;
+            const ppQuery = query(collection(db, 'pp_requests'), where("year", "==", year), where("month", "==", month), where("status", "==", "approved"));
+            const ppSnapshot = await getDocs(ppQuery);
+            const approvedPPs = {};
+            ppSnapshot.forEach(doc => {
+                const data = doc.data();
+                if (!approvedPPs[data.requester_uid]) approvedPPs[data.requester_uid] = {};
+                approvedPPs[data.requester_uid][new Date(data.request_date).getUTCDate()] = true;
+            });
 
-                const todayStr = formatDate(new Date());
-                let counts = { A: 0, B: 0, C: 0, G: 0 };
-
-                const activeAttendance = allAdminRecords.filter(r => r.date === todayStr && r.in_time && !r.out_time);
-
-                activeAttendance.forEach(record => {
-                    const inTime = record.in_time.toDate();
-                    const inTimeMinutes = inTime.getHours() * 60 + inTime.getMinutes();
-                    
-                    let assignedShift = 'G'; 
-
-                    if (inTimeMinutes >= 420 && inTimeMinutes < 480) { // 7:00 AM to 8:00 AM
-                        assignedShift = 'A';
-                    } 
-                    else if (inTimeMinutes >= 840 && inTimeMinutes < 870) { // 2:00 PM to 2:30 PM
-                        assignedShift = 'B';
-                    }
-                    else if (inTimeMinutes >= 1260 || inTimeMinutes < 420) { // 9:00 PM to 7:00 AM
-                         assignedShift = 'C';
-                    }
-
-                    counts[assignedShift]++;
-                });
-
-                document.getElementById('shift-a-count').textContent = counts.A;
-                document.getElementById('shift-b-count').textContent = counts.B;
-                document.getElementById('shift-c-count').textContent = counts.C;
-                document.getElementById('shift-g-count').textContent = counts.G;
-            }
-
-            function updateOnDutySupervisor() {
-                if (!allAdminRecords.length) {
-                    onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
-                    return;
+            // This part can be simplified but we keep it for original logic consistency
+            const coffReqQuery = query(collection(db, 'coff_requests'), where("status", "==", "approved"));
+            const coffReqSnapshot = await getDocs(coffReqQuery);
+            const approvedCoffRequests = {};
+            coffReqSnapshot.forEach(doc => {
+                const data = doc.data();
+                const availDate = new Date(data.avail_date + 'T00:00:00');
+                if (availDate.getFullYear() === year && (availDate.getMonth() + 1) === month) {
+                    if (!approvedCoffRequests[data.requester_uid]) approvedCoffRequests[data.requester_uid] = [];
+                    approvedCoffRequests[data.requester_uid].push(availDate.getDate());
                 }
+            });
+            const leaveReqQuery = query(collection(db, 'leave_requests'), where("status", "==", "approved"));
+            const leaveReqSnapshot = await getDocs(leaveReqQuery);
+            const approvedLeaveRequests = {};
+            leaveReqSnapshot.forEach(doc => {
+                const data = doc.data();
+                if (!approvedLeaveRequests[data.requester_uid]) approvedLeaveRequests[data.requester_uid] = [];
+                approvedLeaveRequests[data.requester_uid].push({ start: new Date(data.start_date + 'T00:00:00'), end: new Date(data.end_date + 'T00:00:00') });
+            });
 
-                const supervisorNames = ["Rajan tyagi", "Sudhir Singh"];
-                const lowerCaseSupervisorNames = supervisorNames.map(name => name.toLowerCase());
-                
-                const todayStr = formatDate(new Date());
+            const reportData = {};
+            allUsers.forEach(user => reportData[user.uid] = { name: user.name, empId: user.empId, days: Array(daysInMonth + 1).fill('A') });
+            
+            monthRecords.forEach(rec => {
+                if (reportData[rec.uid]) {
+                    reportData[rec.uid].days[new Date(rec.date).getUTCDate()] = 'P';
+                }
+            });
 
-                const onDutySupervisors = allAdminRecords.filter(record => {
-                    const isClockedInToday = record.date === todayStr && record.in_time && !record.out_time;
-                    if (!isClockedInToday || !record.employee_name) {
-                        return false;
-                    }
-                    return lowerCaseSupervisorNames.includes(record.employee_name.trim().toLowerCase());
-                });
-
-                const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
-
-                if (onDutyNames.length > 0) {
-                    onDutySupervisorElement.textContent = `On Duty Supervisor: ${onDutyNames.join(', ')}`;
-                } else {
-                    onDutySupervisorElement.textContent = 'On Duty Supervisor: None';
+            for (let day = 1; day <= daysInMonth; day++) {
+                const currentDate = new Date(year, month - 1, day);
+                for (const uid in reportData) {
+                    let status = reportData[uid].days[day];
+                    if (status === 'P' && approvedPPs[uid]?.[day]) { reportData[uid].days[day] = 'PP'; continue; }
+                    let isOnLeave = approvedLeaveRequests[uid]?.some(l => currentDate >= l.start && currentDate <= l.end);
+                    if (status !== 'P' && status !== 'PP' && isOnLeave) { reportData[uid].days[day] = 'L'; continue; }
+                    if (status !== 'P' && status !== 'PP' && approvedCoffRequests[uid]?.includes(day)) { reportData[uid].days[day] = 'CO'; continue; }
+                    if (status === 'A' && holidaysInMonth.includes(day)) { reportData[uid].days[day] = 'H'; continue; }
+                    if (status === 'A' && monthWeekOffs[uid]?.includes(day)) { reportData[uid].days[day] = 'WO'; continue; }
                 }
             }
+            
+            const headers = ['NAME', 'EMP ID', ...Array.from({ length: daysToReport }, (_, i) => `${i + 1}-${month}-${year}`), 'P', 'PP', 'A', 'WO', 'H', 'CO', 'L', 'TOTAL'];
+            const rows = Object.values(reportData).map(emp => {
+                const counts = emp.days.slice(1, daysToReport + 1).reduce((acc, val) => { acc[val] = (acc[val] || 0) + 1; return acc; }, {});
+                return [`"${emp.name}"`, `"${emp.empId}"`, ...emp.days.slice(1, daysToReport + 1), counts['P'] || 0, counts['PP'] || 0, counts['A'] || 0, counts['WO'] || 0, counts['H'] || 0, counts['CO'] || 0, counts['L'] || 0, (counts['P'] || 0) + (counts['PP'] || 0)].join(',');
+            });
 
-            // Set initial active tab
-            setActiveTab(tabAttendance);
+            const csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.join("\n");
+            const link = document.createElement("a");
+            link.href = encodeURI(csvContent);
+            link.download = `monthly_report_${year}_${month}.csv`;
+            link.click();
+            link.remove();
+            toggleLoader(false);
+        }
+
+        // --- ORIGINAL WEEK OFF & HOLIDAY LOGIC ---
+        setWeekOffBtn.addEventListener('click', () => { weekOffModal.classList.remove('hidden'); document.getElementById('week-off-month').valueAsDate = new Date(); weekOffEmployeeList.innerHTML = ''; });
+        cancelWeekOffBtn.addEventListener('click', () => weekOffModal.classList.add('hidden'));
+        loadEmployeesBtn.addEventListener('click', async () => {
+            const monthYear = document.getElementById('week-off-month').value;
+            if (!monthYear) return showMessage("Please select a month first.");
+            toggleLoader(true);
+            const [year, month] = monthYear.split('-').map(Number);
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const q = query(collection(db, 'weekoffs'), where("year", "==", year), where("month", "==", month));
+            const snapshot = await getDocs(q);
+            const existingWeekOffs = {};
+            snapshot.forEach(d => existingWeekOffs[d.data().uid] = d.data().dates || []);
+            weekOffEmployeeList.innerHTML = allUsers.map(user => {
+                const userWeekOffs = existingWeekOffs[user.id] || [];
+                const checkboxes = Array.from({length: daysInMonth}, (_, i) => `<label class="inline-flex items-center mr-2"><input type="checkbox" class="form-checkbox h-4 w-4" value="${i+1}" data-uid="${user.id}" ${userWeekOffs.includes(i+1) ? 'checked' : ''}><span class="ml-1 text-sm">${i+1}</span></label>`).join('');
+                return `<div class="p-2 border rounded"><p class="font-semibold">${user.name}</p><div class="flex flex-wrap mt-2">${checkboxes}</div></div>`;
+            }).join('');
+            toggleLoader(false);
+        });
+        weekOffForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            toggleLoader(true);
+            const [year, month] = document.getElementById('week-off-month').value.split('-').map(Number);
+            const weekOffsByEmployee = {};
+            allUsers.forEach(user => weekOffsByEmployee[user.id] = []);
+            weekOffEmployeeList.querySelectorAll('input:checked').forEach(cb => weekOffsByEmployee[cb.dataset.uid].push(parseInt(cb.value)));
+            
+            const batch = writeBatch(db);
+            for (const uid in weekOffsByEmployee) {
+                batch.set(doc(db, 'weekoffs', `${uid}_${year}_${month}`), { uid, year, month, dates: weekOffsByEmployee[uid] });
+            }
+            await batch.commit();
+            showMessage("Week offs saved successfully!");
+            weekOffModal.classList.add('hidden');
+            toggleLoader(false);
+        });
+        setHolidaysBtn.addEventListener('click', () => { holidaysModal.classList.remove('hidden'); holidaysMonthInput.valueAsDate = new Date(); holidaysMonthInput.dispatchEvent(new Event('change')); });
+        cancelHolidaysBtn.addEventListener('click', () => holidaysModal.classList.add('hidden'));
+        holidaysMonthInput.addEventListener('change', async () => {
+            const monthYear = holidaysMonthInput.value;
+            if (!monthYear) return;
+            toggleLoader(true);
+            const [year, month] = monthYear.split('-').map(Number);
+            const daysInMonth = new Date(year, month, 0).getDate();
+            const holidayDoc = await getDoc(doc(db, 'holidays', `${year}-${month}`));
+            const existingHolidays = holidayDoc.exists() ? holidayDoc.data().dates : [];
+            holidaysList.innerHTML = Array.from({length: daysInMonth}, (_, i) => `<label class="inline-flex items-center mr-2 mb-2"><input type="checkbox" class="form-checkbox h-4 w-4" value="${i+1}" ${existingHolidays.includes(i+1) ? 'checked' : ''}><span class="ml-1 text-sm">${i+1}</span></label>`).join('');
+            toggleLoader(false);
+        });
+        holidaysForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            toggleLoader(true);
+            const [year, month] = holidaysMonthInput.value.split('-').map(Number);
+            const selectedHolidays = Array.from(holidaysList.querySelectorAll('input:checked')).map(cb => parseInt(cb.value));
+            await setDoc(doc(db, 'holidays', `${year}-${month}`), { year, month, dates: selectedHolidays });
+            showMessage("Holidays saved successfully!");
+            holidaysModal.classList.add('hidden');
+            toggleLoader(false);
+        });
+        
+        // --- TAB SWITCHING ---
+        Object.values(adminViews).forEach(({tab, view}) => tab.addEventListener('click', () => {
+            Object.values(adminViews).forEach(v => {
+                v.view.classList.add('hidden');
+                v.tab.classList.remove('bg-blue-600', 'text-white');
+            });
+            view.classList.remove('hidden');
+            tab.classList.add('bg-blue-600', 'text-white');
+        }));
+        adminViews.attendance.tab.click();
+
+        // --- SHIFT & SUPERVISOR SUMMARY ---
+        function updateShiftSummary() {
+            if (!allAdminRecords.length) return;
+            let counts = { A: 0, B: 0, C: 0, G: 0 };
+            const activeToday = allAdminRecords.filter(r => r.date === formatDate(new Date()) && r.in_time && !r.out_time);
+            activeToday.forEach(r => {
+                const inTimeMins = r.in_time.toDate().getHours() * 60 + r.in_time.toDate().getMinutes();
+                let shift = 'G';
+                if (inTimeMins >= 405 && inTimeMins <= 450) shift = 'A';       // 6:45 - 7:30
+                else if (inTimeMins >= 825 && inTimeMins <= 870) shift = 'B';  // 13:45 - 14:30
+                else if (inTimeMins >= 1245 && inTimeMins <= 1290) shift = 'C';// 20:45 - 21:30
+                counts[shift]++;
+            });
+            document.getElementById('shift-a-count').textContent = counts.A;
+            document.getElementById('shift-b-count').textContent = counts.B;
+            document.getElementById('shift-c-count').textContent = counts.C;
+            document.getElementById('shift-g-count').textContent = counts.G;
+        }
+        function updateOnDutySupervisor() {
+            if (!allAdminRecords.length) {
+                onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
+                return;
+            }
+            const supervisorNames = ["Rajan tyagi", "Sudhir Singh"];
+            const lowerCaseSupervisorNames = supervisorNames.map(name => name.toLowerCase());
+            const todayStr = formatDate(new Date());
+            const onDutySupervisors = allAdminRecords.filter(record => {
+                const isClockedInToday = record.date === todayStr && record.in_time && !record.out_time;
+                if (!isClockedInToday || !record.employee_name) return false;
+                return lowerCaseSupervisorNames.includes(record.employee_name.trim().toLowerCase());
+            });
+            const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
+            onDutySupervisorElement.textContent = `On Duty Supervisor: ${onDutyNames.length > 0 ? onDutyNames.join(', ') : 'None'}`;
         }
     </script>
 </body>
 </html>
-```
