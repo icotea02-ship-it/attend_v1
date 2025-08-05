@@ -519,6 +519,7 @@
                     employeeDataSection.classList.remove('hidden');
                     allUnsubscribes.push(listenForUserRecords(user.uid), listenForUserRequests(user.uid));
                 }
+                // Call supervisor update for all users, but it will use the correct logic based on role.
                 updateOnDutySupervisor();
                 setInterval(updateOnDutySupervisor, 60000);
             } else {
@@ -624,8 +625,9 @@
                         else if (req.type === 'pp') { date = req.request_date; details = req.remarks; }
                         else if (req.type === 'coff') { date = req.avail_date; details = `For C/Off earned on ${req.earned_date}`; }
                         else if (req.type === 'leave') { 
-                            date = req.start_date; // Use correct field
-                            details = `${req.total_days} days until ${req.end_date}`; 
+                            // FIX: Handle both old (camelCase) and new (snake_case) field names for backward compatibility.
+                            date = req.start_date || req.startDate; 
+                            details = `${req.total_days} days until ${req.end_date || req.endDate}`; 
                         }
                         return `<tr><td class="p-3">${date}</td><td class="p-3 uppercase font-semibold text-xs">${req.type}</td><td class="p-3">${details || ''}</td><td class="p-3">${getStatusBadge(req.status)}</td></tr>`;
                     }).join('') || `<tr><td colspan="4" class="p-4 text-center">No requests found.</td></tr>`;
@@ -645,6 +647,7 @@
                 allAdminRecords = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 applyAdminFilters(isFullAdmin);
                 updateShiftSummary();
+                updateOnDutySupervisor(); // This call is essential for the original logic
             }, (error) => { console.error("Admin records listener failed:", error); showMessage("Could not load attendance records."); });
         }
         function applyAdminFilters(isFullAdmin) {
@@ -680,7 +683,8 @@
                     if (type === 'shift') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td>`;
                     else if (type === 'pp') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td>`;
                     else if (type === 'coff') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td>`;
-                    else if (type === 'leave') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date}</td><td class="p-3">${req.end_date}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>`;
+                    // FIX: Handle both old (camelCase) and new (snake_case) field names for backward compatibility.
+                    else if (type === 'leave') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>`;
                     
                     return `<tr>${cells}<td class="p-3">${req.engineer_comment || 'N/A'}</td><td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td></tr>`;
                 }).join('') || `<tr><td colspan="8" class="p-4 text-center">No requests found.</td></tr>`;
@@ -770,7 +774,7 @@
             toggleLoader(true);
             const formData = new FormData(form);
             const requestData = { requester_uid: currentUser.uid, requester_name: currentUser.displayName, status: 'pending_engineer', engineer_comment: '', admin_comment: '', timestamp: Timestamp.now() };
-            // FIX: Removed the incorrect camelCase conversion. Saves fields like 'start_date' correctly.
+            // FIX: Ensure all new requests are saved with snake_case field names (e.g., 'start_date').
             for(let [key, value] of formData.entries()) { requestData[key] = value; }
 
             try {
@@ -922,7 +926,10 @@
             leaveReqSnapshot.forEach(doc => {
                 const data = doc.data();
                 if (!approvedLeaveRequests[data.requester_uid]) approvedLeaveRequests[data.requester_uid] = [];
-                approvedLeaveRequests[data.requester_uid].push({ start: new Date(data.start_date + 'T00:00:00'), end: new Date(data.end_date + 'T00:00:00') });
+                // Handle both old and new field names
+                const sDate = data.start_date || data.startDate;
+                const eDate = data.end_date || data.endDate;
+                approvedLeaveRequests[data.requester_uid].push({ start: new Date(sDate + 'T00:00:00'), end: new Date(eDate + 'T00:00:00') });
             });
 
             const reportData = {};
@@ -1052,26 +1059,25 @@
             document.getElementById('shift-c-count').textContent = counts.C;
             document.getElementById('shift-g-count').textContent = counts.G;
         }
-        // FIX: Replaced function with a self-contained version that queries DB directly, making it work for all users.
-        async function updateOnDutySupervisor() {
-            const supervisorNames = ["Rajan tyagi", "Sudhir Singh"];
-            const todayStr = formatDate(new Date());
-            onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
-
-            try {
-                const q = query(collection(db, "attendance"),
-                    where("date", "==", todayStr),
-                    where("employee_name", "in", supervisorNames),
-                    where("out_time", "==", null)
-                );
-                const querySnapshot = await getDocs(q);
-                const onDutySupervisors = querySnapshot.docs.map(d => d.data());
-                
+        // FIX: Reverted to the original function as requested, which works for admin users.
+        function updateOnDutySupervisor() {
+            if (currentUser && (currentUser.is_admin || currentUser.is_engineer)) {
+                 if (!allAdminRecords.length) {
+                    onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
+                    return;
+                }
+                const supervisorNames = ["Rajan tyagi", "Sudhir Singh"];
+                const lowerCaseSupervisorNames = supervisorNames.map(name => name.toLowerCase());
+                const todayStr = formatDate(new Date());
+                const onDutySupervisors = allAdminRecords.filter(record => {
+                    const isClockedInToday = record.date === todayStr && record.in_time && !record.out_time;
+                    if (!isClockedInToday || !record.employee_name) return false;
+                    return lowerCaseSupervisorNames.includes(record.employee_name.trim().toLowerCase());
+                });
                 const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
                 onDutySupervisorElement.textContent = `On Duty Supervisor: ${onDutyNames.length > 0 ? onDutyNames.join(', ') : 'None'}`;
-            } catch (error) {
-                console.error("Error fetching supervisor status:", error);
-                onDutySupervisorElement.textContent = 'On Duty Supervisor: Error';
+            } else {
+                 onDutySupervisorElement.textContent = ''; // Non-admins don't need to see this.
             }
         }
     </script>
