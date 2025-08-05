@@ -230,12 +230,12 @@
                 <p class="text-center mt-4">Don't have an account? <a href="#" id="show-signup" class="text-blue-500 hover:underline">Sign Up</a></p>
             </div>
             <div id="signup-container" class="hidden">
+                <!-- UPDATED SIGNUP FORM -->
                 <form id="signup-form" class="space-y-4">
                     <input type="text" id="signup-name" placeholder="Full Name" class="w-full px-4 py-2 border rounded-lg" required>
                     <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg" required>
                     <input type="text" id="signup-empid" placeholder="Employee ID" class="w-full px-4 py-2 border rounded-lg" required>
                     
-                    <!-- NEW FIELDS FOR DESIGNATION AND DEPARTMENT -->
                     <input type="text" id="signup-designation" placeholder="Designation (e.g., HVAC Technician)" class="w-full px-4 py-2 border rounded-lg" required>
                     <select id="signup-department" class="w-full px-4 py-2 border rounded-lg bg-white" required>
                         <option value="">Select Department</option>
@@ -289,7 +289,6 @@
                             <!-- JavaScript will fill this dynamically -->
                         </div>
                     </div>
-
                 </div>
 
                 <div class="mb-4 border-b border-gray-200">
@@ -567,7 +566,6 @@
             finally { toggleLoader(false); }
         });
 
-        // UPDATED SIGNUP LOGIC
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const [name, email, empId, designation, department, orgId, password] = ['signup-name', 'signup-email', 'signup-empid', 'signup-designation', 'signup-department', 'signup-orgid', 'signup-password'].map(id => document.getElementById(id).value);
@@ -617,8 +615,9 @@
                     await addDoc(collection(db, 'coffs'), { uid: currentUser.uid, name: currentUser.displayName, earned_date: dateStr, status: 'earned' });
                     showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                 }
-                // Also save user's designation and department with attendance for easier querying later if needed
+                
                 const userDoc = allUsers.find(u => u.uid === currentUser.uid);
+                // FIX: Handle cases where old users (without designation/department) clock in.
                 await addDoc(collection(db, "attendance"), { 
                     uid: currentUser.uid, 
                     employee_name: currentUser.displayName, 
@@ -626,8 +625,8 @@
                     in_time: now, 
                     in_location: location, 
                     out_time: null,
-                    designation: userDoc ? userDoc.designation : 'N/A',
-                    department: userDoc ? userDoc.department : 'N/A'
+                    designation: (userDoc && userDoc.designation) || 'N/A',
+                    department: (userDoc && userDoc.department) || 'N/A'
                 });
                 showMessage("Successfully clocked in!");
             } catch (error) { showMessage(`Clock-in failed: ${error.message || error}`); }
@@ -701,7 +700,6 @@
             }, (error) => { console.error("Admin records listener failed:", error); showMessage("Could not load attendance records."); });
         }
 
-        // UPDATED FUNCTION TO SHOW DESIGNATION IN TABLE
         function applyAdminFilters(isFullAdmin) {
             const dateVal = filterDate.value, nameVal = filterName.value.toLowerCase();
             const filtered = allAdminRecords.filter(r => (!dateVal || r.date === dateVal) && (!nameVal || (r.employee_name||'').toLowerCase().includes(nameVal)));
