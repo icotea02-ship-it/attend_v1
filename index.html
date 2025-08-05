@@ -1,3 +1,4 @@
+html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -314,6 +315,68 @@
                 </form>
             </div>
         </div>
+        
+        <!-- C/Off Request Modal -->
+        <div id="coff-request-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
+                <h3 class="text-lg font-bold mb-4">Apply for Compensatory Off (C/Off)</h3>
+                <form id="coff-request-form">
+                    <div class="mb-4">
+                        <label for="coff-avail-date" class="block text-sm font-medium text-gray-700">Date to Avail C/Off</label>
+                        <input type="date" id="coff-avail-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="coff-earned-select" class="block text-sm font-medium text-gray-700">Against which earned C/Off?</label>
+                        <select id="coff-earned-select" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
+                            <!-- Options will be populated by JS -->
+                        </select>
+                        <p id="no-coff-message" class="text-sm text-red-500 mt-1 hidden">You have no available C/Offs to apply for. Contact admin or engineer for manual creation if you have worked on a week off/holiday.</p>
+                    </div>
+                    <div class="mb-4">
+                        <label for="coff-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
+                        <textarea id="coff-request-remarks" rows="3" placeholder="Reason for request..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-4 mt-6">
+                        <button type="button" id="cancel-coff-request-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg">Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Leave Request Modal -->
+        <div id="leave-request-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
+                <h3 class="text-lg font-bold mb-4">Apply for Leave</h3>
+                <form id="leave-request-form">
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label for="leave-start-date" class="block text-sm font-medium text-gray-700">Start Date</label>
+                            <input type="date" id="leave-start-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                        <div>
+                            <label for="leave-end-date" class="block text-sm font-medium text-gray-700">End Date</label>
+                            <input type="date" id="leave-end-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
+                        </div>
+                    </div>
+                    <p class="text-center text-sm font-medium text-gray-700 mb-4">Total Days: <span id="leave-total-days">0</span></p>
+                     <div class="mb-4">
+                        <label for="leave-request-remarks" class="block text-sm font-medium text-gray-700">Reason</label>
+                        <textarea id="leave-request-remarks" rows="3" placeholder="Reason for leave..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
+                    </div>
+                    <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                        <label class="flex items-start">
+                            <input type="checkbox" id="leave-terms-ack" class="h-4 w-4 text-orange-600 mt-1">
+                            <span class="ml-2 text-xs text-gray-600">I acknowledge that leave approval is subject to company terms and conditions. The on-site team and management hold no responsibility for the final decision.</span>
+                        </label>
+                    </div>
+                    <div class="flex justify-end space-x-4 mt-6">
+                        <button type="button" id="cancel-leave-request-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" id="submit-leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg disabled:bg-gray-400" disabled>Submit Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- Authentication Section -->
         <div id="auth-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10 p-8 hidden">
@@ -393,6 +456,14 @@
                             PP Requests
                             <span id="pp-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
                         </button>
+                         <button id="tab-coff-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
+                            C/Off Requests
+                            <span id="coff-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
+                        </button>
+                        <button id="tab-leave-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
+                            Leave Requests
+                            <span id="leave-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
+                        </button>
                     </nav>
                 </div>
 
@@ -464,6 +535,49 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Admin C/Off Requests View -->
+                <div id="admin-coff-requests-view" class="hidden">
+                    <h2 class="text-xl font-semibold mb-4">Admin Panel: C/Off Requests</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-3">Employee</th>
+                                    <th class="p-3">Avail Date</th>
+                                    <th class="p-3">Earned Date</th>
+                                    <th class="p-3">Remarks</th>
+                                    <th class="p-3">Engineer Comment</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-coff-requests-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Admin Leave Requests View -->
+                <div id="admin-leave-requests-view" class="hidden">
+                    <h2 class="text-xl font-semibold mb-4">Admin Panel: Leave Requests</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-3">Employee</th>
+                                    <th class="p-3">From</th>
+                                    <th class="p-3">To</th>
+                                    <th class="p-3">Total Days</th>
+                                    <th class="p-3">Reason</th>
+                                    <th class="p-3">Engineer Comment</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-leave-requests-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- Employee Actions Section (hidden for admin) -->
@@ -474,6 +588,8 @@
                     <button id="clock-out-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock Out</button>
                     <button id="shift-change-request-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Request Shift Change</button>
                     <button id="pp-request-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Apply for Additional P</button>
+                    <button id="coff-request-btn" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Apply for C/Off</button>
+                    <button id="leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Apply for Leave</button>
                 </div>
                  <p id="location-status" class="mt-4 text-sm text-gray-600">Fetching location...</p>
             </div>
@@ -642,7 +758,7 @@
         const employeeDataSection = document.getElementById('employee-data-section');
         const onDutySupervisorElement = document.getElementById('on-duty-supervisor');
         
-        // New PP Request Elements
+        // PP Request Elements
         const ppRequestBtn = document.getElementById('pp-request-btn');
         const ppRequestModal = document.getElementById('pp-request-modal');
         const ppRequestForm = document.getElementById('pp-request-form');
@@ -655,17 +771,44 @@
         const cancelPpApprovalBtn = document.getElementById('cancel-pp-approval-btn');
         const ppApprovalDetails = document.getElementById('pp-approval-details');
 
+        // C/Off Request Elements
+        const coffRequestBtn = document.getElementById('coff-request-btn');
+        const coffRequestModal = document.getElementById('coff-request-modal');
+        const coffRequestForm = document.getElementById('coff-request-form');
+        const cancelCoffRequestBtn = document.getElementById('cancel-coff-request-btn');
+        const noCoffMessage = document.getElementById('no-coff-message');
+        const coffEarnedSelect = document.getElementById('coff-earned-select');
+        const tabCoffRequests = document.getElementById('tab-coff-requests');
+        const adminCoffRequestsView = document.getElementById('admin-coff-requests-view');
+        const adminCoffRequestsBody = document.getElementById('admin-coff-requests-body');
+
+        // Leave Request Elements
+        const leaveRequestBtn = document.getElementById('leave-request-btn');
+        const leaveRequestModal = document.getElementById('leave-request-modal');
+        const leaveRequestForm = document.getElementById('leave-request-form');
+        const cancelLeaveRequestBtn = document.getElementById('cancel-leave-request-btn');
+        const leaveTotalDays = document.getElementById('leave-total-days');
+        const leaveTermsAck = document.getElementById('leave-terms-ack');
+        const submitLeaveRequestBtn = document.getElementById('submit-leave-request-btn');
+        const tabLeaveRequests = document.getElementById('tab-leave-requests');
+        const adminLeaveRequestsView = document.getElementById('admin-leave-requests-view');
+        const adminLeaveRequestsBody = document.getElementById('admin-leave-requests-body');
+
 
         let currentUser = null;
         let userUnsubscribe = null;
         let adminUnsubscribe = null;
         let shiftRequestsUnsubscribe = null;
         let ppRequestsUnsubscribe = null;
+        let coffRequestsUnsubscribe = null;
+        let leaveRequestsUnsubscribe = null;
         let allAdminRecords = [];
         let allUsers = [];
         let docIdToDelete = null;
         let allShiftRequests = [];
         let allPpRequests = [];
+        let allCoffRequests = [];
+        let allLeaveRequests = [];
 
         // --- UTILITY FUNCTIONS ---
         
@@ -765,7 +908,7 @@
 
         // --- FIREBASE INITIALIZATION & APP LOGIC ---
 
-        if (!firebaseConfig || firebaseConfig.apiKey === "YOUR_API_KEY") {
+        if (!firebaseConfig || !firebaseConfig.apiKey || firebaseConfig.apiKey.includes("YOUR_API_KEY")) {
             document.addEventListener('DOMContentLoaded', () => {
                 toggleLoader(false);
                 authSection.innerHTML = `
@@ -802,6 +945,8 @@
                 if (adminUnsubscribe) adminUnsubscribe();
                 if (shiftRequestsUnsubscribe) shiftRequestsUnsubscribe();
                 if (ppRequestsUnsubscribe) ppRequestsUnsubscribe();
+                if (coffRequestsUnsubscribe) coffRequestsUnsubscribe();
+                if (leaveRequestsUnsubscribe) leaveRequestsUnsubscribe();
 
                 if (user && !user.isAnonymous) {
                     currentUser = user;
@@ -835,6 +980,8 @@
                         listenForAdminRecords(is_admin);
                         listenForAdminShiftRequests();
                         listenForPPRequests();
+                        listenForCoffRequests();
+                        listenForLeaveRequests();
 
                         // Engineer-specific UI changes
                         if(is_engineer && !is_admin) {
@@ -974,17 +1121,26 @@
 
                     const weekOffDocRef = doc(db, 'weekoffs', `${currentUser.uid}_${year}_${month}`);
                     const weekOffDoc = await getDoc(weekOffDocRef);
-                    if (weekOffDoc.exists() && weekOffDoc.data().dates.includes(day)) {
+                    
+                    const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
+                    const holidayDoc = await getDoc(holidayDocRef);
+                    const holidaysInMonth = holidayDoc.exists() ? holidayDoc.data().dates : [];
+                    
+                    const isWeekOff = weekOffDoc.exists() && weekOffDoc.data().dates.includes(day);
+                    const isHoliday = holidaysInMonth.includes(day);
+
+                    if (isWeekOff || isHoliday) {
                         const coffsCol = collection(db, 'coffs');
                         await addDoc(coffsCol, {
                             uid: currentUser.uid,
+                            name: currentUser.displayName,
                             earned_date: dateStr,
                             availed_date: null,
                             status: 'earned',
                             year: year,
                             month: month
                         });
-                        showMessage("C/off has been generated for working on a week off.");
+                        showMessage(`C/off has been generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                     }
                     
                     const attendanceCol = collection(db, `attendance`);
@@ -1311,28 +1467,48 @@
                     approvedPPs[data.requester_uid][dayOfMonth] = true;
                 });
 
+                // Fetch Approved C/Off Requests
+                const coffReqCol = collection(db, 'coff_requests');
+                const coffReqQuery = query(coffReqCol, where("status", "==", "approved"));
+                const coffReqSnapshot = await getDocs(coffReqQuery);
+                const approvedCoffRequests = {};
+                coffReqSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const availDate = new Date(data.avail_date + 'T00:00:00'); // Ensure correct date parsing
+                    if (availDate.getFullYear() === year && (availDate.getMonth() + 1) === month) {
+                        if (!approvedCoffRequests[data.requester_uid]) {
+                            approvedCoffRequests[data.requester_uid] = [];
+                        }
+                        approvedCoffRequests[data.requester_uid].push(availDate.getDate());
+                    }
+                });
+                
+                // Fetch Approved Leave Requests
+                const leaveReqCol = collection(db, 'leave_requests');
+                const leaveReqQuery = query(leaveReqCol, where("status", "==", "approved"));
+                const leaveReqSnapshot = await getDocs(leaveReqQuery);
+                const approvedLeaveRequests = {};
+                leaveReqSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (!approvedLeaveRequests[data.requester_uid]) {
+                        approvedLeaveRequests[data.requester_uid] = [];
+                    }
+                    approvedLeaveRequests[data.requester_uid].push({
+                        start: new Date(data.start_date + 'T00:00:00'),
+                        end: new Date(data.end_date + 'T00:00:00')
+                    });
+                });
+
                 const reportData = {};
                 allUsers.forEach(user => {
                     reportData[user.uid] = {
                         name: user.name || 'Unknown',
                         empId: user.empId || '',
-                        days: Array(daysInMonth + 1).fill('A'),
+                        days: Array(daysInMonth + 1).fill('A'), // Default to Absent
                     };
                 });
                 
-                for (let day = 1; day <= daysInMonth; day++) {
-                    for (const uid in reportData) {
-                        if (holidaysInMonth.includes(day)) {
-                            reportData[uid].days[day] = 'H';
-                        } else {
-                            const userWeekOffs = monthWeekOffs[uid] || [];
-                            if (userWeekOffs.includes(day)) {
-                                reportData[uid].days[day] = 'WO';
-                            }
-                        }
-                    }
-                }
-
+                // Populate initial status based on attendance
                 monthRecords.forEach(rec => {
                     if (reportData[rec.uid]) {
                         const dayOfMonth = new Date(rec.date).getUTCDate();
@@ -1340,13 +1516,51 @@
                     }
                 });
 
-                // Override 'P' with 'PP' for approved requests
-                for (const uid in approvedPPs) {
-                    if (reportData[uid]) {
-                        for (const day in approvedPPs[uid]) {
-                            if (reportData[uid].days[day] === 'P') {
-                                reportData[uid].days[day] = 'PP';
+                // Override with other statuses in order of priority
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const currentDate = new Date(year, month - 1, day);
+                    for (const uid in reportData) {
+                        // Priority: P > PP > L > CO > H > WO > A
+                        let currentStatus = reportData[uid].days[day];
+
+                        // Week Offs (Lowest priority after Absent)
+                        const userWeekOffs = monthWeekOffs[uid] || [];
+                        if (userWeekOffs.includes(day) && currentStatus === 'A') {
+                            reportData[uid].days[day] = 'WO';
+                            currentStatus = 'WO';
+                        }
+
+                        // Holidays
+                        if (holidaysInMonth.includes(day) && (currentStatus === 'A' || currentStatus === 'WO')) {
+                           reportData[uid].days[day] = 'H';
+                           currentStatus = 'H';
+                        }
+                        
+                        // C/Off
+                        const userCoffs = approvedCoffRequests[uid] || [];
+                        if (userCoffs.includes(day) && currentStatus !== 'P' && currentStatus !== 'PP') {
+                            reportData[uid].days[day] = 'CO';
+                            currentStatus = 'CO';
+                        }
+
+                        // Leave
+                        let isOnLeave = false;
+                        const userLeaves = approvedLeaveRequests[uid] || [];
+                        for(const leave of userLeaves) {
+                            if (currentDate >= leave.start && currentDate <= leave.end) {
+                                isOnLeave = true;
+                                break;
                             }
+                        }
+                        if (isOnLeave && currentStatus !== 'P' && currentStatus !== 'PP') {
+                            reportData[uid].days[day] = 'L';
+                            currentStatus = 'L';
+                        }
+
+                        // PP (Highest priority over P)
+                        const userPPs = approvedPPs[uid] || {};
+                        if (userPPs[day] && currentStatus === 'P') {
+                            reportData[uid].days[day] = 'PP';
                         }
                     }
                 }
@@ -1355,12 +1569,12 @@
                 for (let i = 1; i <= daysToReport; i++) {
                     headers.push(`${i}-${month}-${year}`);
                 }
-                headers.push('TOTAL "P"', 'TOTAL "PP"', 'TOTAL "A"', 'TOTAL "WO"', 'TOTAL "H"', 'GRAND TOTAL');
+                headers.push('TOTAL "P"', 'TOTAL "PP"', 'TOTAL "A"', 'TOTAL "WO"', 'TOTAL "H"', 'TOTAL "CO"', 'TOTAL "L"', 'GRAND TOTAL');
 
                 const rows = Object.keys(reportData).map(uid => {
                     const emp = reportData[uid];
                     const row = [ `"${emp.name}"`, `"${emp.empId}"` ];
-                    let pCount = 0, ppCount = 0, aCount = 0, woCount = 0, hCount = 0;
+                    let pCount = 0, ppCount = 0, aCount = 0, woCount = 0, hCount = 0, coCount = 0, lCount = 0;
 
                     for (let i = 1; i <= daysToReport; i++) {
                         row.push(emp.days[i]);
@@ -1370,9 +1584,11 @@
                         else if (status === 'A') aCount++;
                         else if (status === 'WO') woCount++;
                         else if (status === 'H') hCount++;
+                        else if (status === 'CO') coCount++;
+                        else if (status === 'L') lCount++;
                     }
                     
-                    row.push(pCount, ppCount, aCount, woCount, hCount, pCount + ppCount);
+                    row.push(pCount, ppCount, aCount, woCount, hCount, coCount, lCount, pCount + ppCount);
                     return row.join(',');
                 });
 
@@ -1590,7 +1806,7 @@
                     colleague_shift: document.getElementById('colleague-shift').value,
                     change_date: document.getElementById('shift-change-date').value,
                     remarks: document.getElementById('shift-change-remarks').value,
-                    status: 'pending',
+                    status: 'pending_admin', // Direct to admin
                     timestamp: Timestamp.now()
                 };
 
@@ -1631,7 +1847,7 @@
                 shiftRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
                     allShiftRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     
-                    const pendingCount = allShiftRequests.filter(req => req.status === 'pending').length;
+                    const pendingCount = allShiftRequests.filter(req => req.status === 'pending_admin').length;
                     const counter = document.getElementById('shift-request-counter');
                     if (pendingCount > 0) {
                         counter.textContent = pendingCount;
@@ -1646,7 +1862,7 @@
                     }
                     allShiftRequests.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
                         const row = document.createElement('tr');
-                        const actions = req.status === 'pending' 
+                        const actions = req.status === 'pending_admin' && (currentUser.is_admin || currentUser.is_engineer)
                             ? `<button class="approve-shift-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
                                <button class="reject-shift-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>`
                             : 'N/A';
@@ -1677,35 +1893,8 @@
                     toggleLoader(true);
                     const requestRef = doc(db, 'shift_requests', id);
                     try {
-                        if (newStatus === 'approved') {
-                            const requestDoc = await getDoc(requestRef);
-                            const reqData = requestDoc.data();
-                            
-                            const attendanceCol = collection(db, 'attendance');
-                            const q1 = query(attendanceCol, where("uid", "==", reqData.requester_uid), where("date", "==", reqData.change_date));
-                            const q2 = query(attendanceCol, where("uid", "==", reqData.colleague_uid), where("date", "==", reqData.change_date));
-
-                            const [snap1, snap2] = await Promise.all([getDocs(q1), getDocs(q2)]);
-                            
-                            const batch = writeBatch(db);
-                            
-                            if (!snap1.empty) {
-                                const doc1 = snap1.docs[0];
-                                batch.update(doc1.ref, { uid: reqData.colleague_uid, employee_name: reqData.colleague_name });
-                            }
-                             if (!snap2.empty) {
-                                const doc2 = snap2.docs[0];
-                                batch.update(doc2.ref, { uid: reqData.requester_uid, employee_name: reqData.requester_name });
-                            }
-                            
-                            batch.update(requestRef, { status: newStatus });
-                            await batch.commit();
-                            showMessage("Shift change approved and records updated.");
-
-                        } else { // Just reject
-                            await updateDoc(requestRef, { status: newStatus });
-                            showMessage("Shift change request rejected.");
-                        }
+                         await updateDoc(requestRef, { status: newStatus });
+                         showMessage(`Shift change request ${newStatus}.`);
                     } catch (error) {
                         showMessage("Error updating request: " + error.message);
                     } finally {
@@ -1760,7 +1949,6 @@
                 ppRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
                     allPpRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-                    // Update counter
                     const pendingCount = allPpRequests.filter(req =>
                         (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
                         (currentUser.is_admin && req.status === 'pending_admin')
@@ -1773,7 +1961,6 @@
                         counter.classList.add('hidden');
                     }
 
-                    // Render table
                     adminPpRequestsBody.innerHTML = '';
                     if (allPpRequests.length === 0) {
                         adminPpRequestsBody.innerHTML = `<tr><td colspan="6" class="text-center p-4">No PP requests.</td></tr>`;
@@ -1784,13 +1971,7 @@
                         const row = document.createElement('tr');
                         let actions = 'N/A';
 
-                        // Logic for showing buttons based on user role and request status
-                        if (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') {
-                            actions = `
-                                <button class="approve-pp-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
-                                <button class="reject-pp-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
-                            `;
-                        } else if (currentUser.is_admin && req.status === 'pending_admin') {
+                        if ((currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') || (currentUser.is_admin && req.status === 'pending_admin')) {
                             actions = `
                                 <button class="approve-pp-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
                                 <button class="reject-pp-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
@@ -1810,93 +1991,348 @@
                 });
             }
 
-            adminPpRequestsBody.addEventListener('click', (e) => {
-                const target = e.target;
-                const id = target.dataset.id;
-                if (!id) return;
+            adminPpRequestsBody.addEventListener('click', (e) => handleApprovalClick(e, 'pp_requests', 'pp'));
 
-                let action = null;
-                if (target.classList.contains('approve-pp-btn')) action = 'approve';
-                if (target.classList.contains('reject-pp-btn')) action = 'reject';
+            // --- C/Off and Leave Request Logic (Employee) ---
+            coffRequestBtn.addEventListener('click', async () => {
+                if (!currentUser) return;
+                toggleLoader(true);
+                
+                const coffsCol = collection(db, 'coffs');
+                const q = query(coffsCol, where("uid", "==", currentUser.uid), where("status", "==", "earned"));
+                const querySnapshot = await getDocs(q);
 
-                if (action) {
-                    const request = allPpRequests.find(r => r.id === id);
-                    ppApprovalDetails.innerHTML = `
-                        <p><strong>Employee:</strong> ${request.requester_name}</p>
-                        <p><strong>Date:</strong> ${request.request_date}</p>
-                        <p><strong>Reason:</strong> ${request.remarks}</p>
-                        ${request.engineer_comment ? `<p><strong>Engineer Comment:</strong> ${request.engineer_comment}</p>` : ''}
-                    `;
-                    document.getElementById('pp-approval-doc-id').value = id;
-                    document.getElementById('pp-approval-action').value = action;
-                    ppApprovalForm.reset();
-                    ppApprovalModal.classList.remove('hidden');
+                const availableCoffDocs = querySnapshot.docs;
+                
+                coffEarnedSelect.innerHTML = '';
+                
+                if (availableCoffDocs.length === 0) {
+                    noCoffMessage.classList.remove('hidden');
+                    coffEarnedSelect.classList.add('hidden');
+                    coffRequestForm.querySelector('button[type="submit"]').disabled = true;
+                } else {
+                    noCoffMessage.classList.add('hidden');
+                    coffEarnedSelect.classList.remove('hidden');
+                    availableCoffDocs.forEach(doc => {
+                        const coffData = doc.data();
+                        const option = document.createElement('option');
+                        option.value = doc.id;
+                        option.textContent = `C/Off earned on ${coffData.earned_date}`;
+                        option.dataset.earnedDate = coffData.earned_date;
+                        coffEarnedSelect.appendChild(option);
+                    });
+                    coffRequestForm.querySelector('button[type="submit"]').disabled = false;
                 }
+                
+                coffRequestForm.reset();
+                document.getElementById('coff-avail-date').valueAsDate = new Date();
+                coffRequestModal.classList.remove('hidden');
+                toggleLoader(false);
             });
 
-            cancelPpApprovalBtn.addEventListener('click', () => {
-                ppApprovalModal.classList.add('hidden');
-            });
+            cancelCoffRequestBtn.addEventListener('click', () => coffRequestModal.classList.add('hidden'));
 
-            ppApprovalForm.addEventListener('submit', async (e) => {
+            coffRequestForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 toggleLoader(true);
-
-                const docId = document.getElementById('pp-approval-doc-id').value;
-                const action = document.getElementById('pp-approval-action').value;
-                const comment = document.getElementById('pp-approval-comment').value;
-
-                const requestRef = doc(db, 'pp_requests', docId);
-                let updateData = {};
+                
+                const selectedOption = coffEarnedSelect.options[coffEarnedSelect.selectedIndex];
+                const request = {
+                    requester_uid: currentUser.uid,
+                    requester_name: currentUser.displayName,
+                    avail_date: document.getElementById('coff-avail-date').value,
+                    earned_coff_doc_id: selectedOption.value,
+                    earned_date: selectedOption.dataset.earnedDate,
+                    remarks: document.getElementById('coff-request-remarks').value,
+                    status: 'pending_engineer',
+                    engineer_comment: '',
+                    admin_comment: '',
+                    timestamp: Timestamp.now()
+                };
 
                 try {
-                    if (currentUser.is_engineer && !currentUser.is_admin) {
-                        updateData.engineer_comment = comment;
-                        updateData.status = action === 'approve' ? 'pending_admin' : 'rejected';
-                    } else if (currentUser.is_admin) {
-                        updateData.admin_comment = comment;
-                        updateData.status = action === 'approve' ? 'approved' : 'rejected';
-                    }
-
-                    await updateDoc(requestRef, updateData);
-                    showMessage(`Request has been ${action}d.`);
+                    await addDoc(collection(db, 'coff_requests'), request);
+                    showMessage("C/Off request submitted successfully.");
+                    coffRequestModal.classList.add('hidden');
                 } catch (error) {
-                    showMessage("Error updating request: " + error.message);
+                    showMessage("Error submitting C/Off request: " + error.message);
                 } finally {
-                    ppApprovalModal.classList.add('hidden');
                     toggleLoader(false);
                 }
             });
 
+            leaveRequestBtn.addEventListener('click', () => {
+                leaveRequestForm.reset();
+                submitLeaveRequestBtn.disabled = true;
+                leaveTotalDays.textContent = '0';
+                document.getElementById('leave-start-date').valueAsDate = new Date();
+                document.getElementById('leave-end-date').valueAsDate = new Date();
+                leaveRequestModal.classList.remove('hidden');
+            });
+
+            cancelLeaveRequestBtn.addEventListener('click', () => leaveRequestModal.classList.add('hidden'));
+
+            function calculateLeaveDays() {
+                const startDate = new Date(document.getElementById('leave-start-date').value);
+                const endDate = new Date(document.getElementById('leave-end-date').value);
+                if (endDate < startDate) {
+                    leaveTotalDays.textContent = '0 (End date cannot be before start date)';
+                    return 0;
+                }
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                leaveTotalDays.textContent = diffDays;
+                return diffDays;
+            }
+
+            document.getElementById('leave-start-date').addEventListener('change', calculateLeaveDays);
+            document.getElementById('leave-end-date').addEventListener('change', calculateLeaveDays);
+            leaveTermsAck.addEventListener('change', () => {
+                submitLeaveRequestBtn.disabled = !leaveTermsAck.checked;
+            });
+
+            leaveRequestForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                if (!leaveTermsAck.checked) {
+                    showMessage("You must acknowledge the terms to submit a leave request.");
+                    return;
+                }
+                toggleLoader(true);
+                
+                const request = {
+                    requester_uid: currentUser.uid,
+                    requester_name: currentUser.displayName,
+                    start_date: document.getElementById('leave-start-date').value,
+                    end_date: document.getElementById('leave-end-date').value,
+                    total_days: calculateLeaveDays(),
+                    reason: document.getElementById('leave-request-remarks').value,
+                    status: 'pending_engineer',
+                    engineer_comment: '',
+                    admin_comment: '',
+                    timestamp: Timestamp.now()
+                };
+                
+                if (request.total_days <= 0) {
+                    showMessage("Invalid date range for leave.");
+                    toggleLoader(false);
+                    return;
+                }
+
+                try {
+                    await addDoc(collection(db, 'leave_requests'), request);
+                    showMessage("Leave request submitted successfully.");
+                    leaveRequestModal.classList.add('hidden');
+                } catch (error) {
+                    showMessage("Error submitting leave request: " + error.message);
+                } finally {
+                    toggleLoader(false);
+                }
+            });
+
+            // --- ADMIN/ENGINEER LISTENERS FOR NEW REQUESTS ---
+            function listenForCoffRequests() {
+                const q = query(collection(db, 'coff_requests'));
+                coffRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
+                    allCoffRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+                    const pendingCount = allCoffRequests.filter(req =>
+                        (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
+                        (currentUser.is_admin && req.status === 'pending_admin')
+                    ).length;
+                    const counter = document.getElementById('coff-request-counter');
+                    if (pendingCount > 0) {
+                        counter.textContent = pendingCount;
+                        counter.classList.remove('hidden');
+                    } else {
+                        counter.classList.add('hidden');
+                    }
+                    
+                    adminCoffRequestsBody.innerHTML = '';
+                    if (allCoffRequests.length === 0) {
+                        adminCoffRequestsBody.innerHTML = `<tr><td colspan="7" class="text-center p-4">No C/Off requests.</td></tr>`;
+                        return;
+                    }
+
+                    allCoffRequests.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
+                        const row = document.createElement('tr');
+                        let actions = 'N/A';
+                        const canEngineerAct = currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer';
+                        const canAdminAct = currentUser.is_admin && req.status === 'pending_admin';
+
+                        if (canEngineerAct || canAdminAct) {
+                            actions = `
+                                <button class="approve-coff-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
+                                <button class="reject-coff-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
+                            `;
+                        }
+
+                        row.innerHTML = `
+                            <td class="p-3">${req.requester_name}</td>
+                            <td class="p-3">${req.avail_date}</td>
+                            <td class="p-3">${req.earned_date}</td>
+                            <td class="p-3">${req.remarks}</td>
+                            <td class="p-3">${req.engineer_comment || 'N/A'}</td>
+                            <td class="p-3">${getStatusBadge(req.status)}</td>
+                            <td class="p-3 space-x-2">${actions}</td>
+                        `;
+                        adminCoffRequestsBody.appendChild(row);
+                    });
+                });
+            }
+
+            function listenForLeaveRequests() {
+                const q = query(collection(db, 'leave_requests'));
+                leaveRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
+                    allLeaveRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                    
+                    const pendingCount = allLeaveRequests.filter(req =>
+                        (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
+                        (currentUser.is_admin && req.status === 'pending_admin')
+                    ).length;
+                    const counter = document.getElementById('leave-request-counter');
+                    if (pendingCount > 0) {
+                        counter.textContent = pendingCount;
+                        counter.classList.remove('hidden');
+                    } else {
+                        counter.classList.add('hidden');
+                    }
+
+                    adminLeaveRequestsBody.innerHTML = '';
+                    if (allLeaveRequests.length === 0) {
+                        adminLeaveRequestsBody.innerHTML = `<tr><td colspan="8" class="text-center p-4">No leave requests.</td></tr>`;
+                        return;
+                    }
+
+                    allLeaveRequests.sort((a,b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
+                        const row = document.createElement('tr');
+                        let actions = 'N/A';
+                        const canEngineerAct = currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer';
+                        const canAdminAct = currentUser.is_admin && req.status === 'pending_admin';
+                        
+                        if (canEngineerAct || canAdminAct) {
+                            actions = `
+                                <button class="approve-leave-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
+                                <button class="reject-leave-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
+                            `;
+                        }
+                        
+                        row.innerHTML = `
+                            <td class="p-3">${req.requester_name}</td>
+                            <td class="p-3">${req.start_date}</td>
+                            <td class="p-3">${req.end_date}</td>
+                            <td class="p-3 text-center">${req.total_days}</td>
+                            <td class="p-3">${req.reason}</td>
+                            <td class="p-3">${req.engineer_comment || 'N/A'}</td>
+                            <td class="p-3">${getStatusBadge(req.status)}</td>
+                            <td class="p-3 space-x-2">${actions}</td>
+                        `;
+                        adminLeaveRequestsBody.appendChild(row);
+                    });
+                });
+            }
+
+            // --- GENERIC APPROVAL HANDLER ---
+            adminCoffRequestsBody.addEventListener('click', (e) => handleApprovalClick(e, 'coff_requests', 'coff'));
+            adminLeaveRequestsBody.addEventListener('click', (e) => handleApprovalClick(e, 'leave_requests', 'leave'));
+
+            async function handleApprovalClick(e, collectionName, type) {
+                const target = e.target;
+                const id = target.dataset.id;
+                if (!id) return;
+                
+                let action = null;
+                if (target.classList.contains(`approve-${type}-btn`)) action = 'approve';
+                if (target.classList.contains(`reject-${type}-btn`)) action = 'reject';
+
+                if (action) {
+                    const comment = prompt(`Enter comment for ${action}:`);
+                    if (comment === null) return; // User cancelled prompt
+
+                    toggleLoader(true);
+                    const requestRef = doc(db, collectionName, id);
+                    let updateData = {};
+
+                    try {
+                        if (currentUser.is_engineer && !currentUser.is_admin) {
+                            updateData.engineer_comment = comment;
+                            updateData.status = action === 'approve' ? 'pending_admin' : 'rejected';
+                        } else if (currentUser.is_admin) {
+                            updateData.admin_comment = comment;
+                            updateData.status = action === 'approve' ? 'approved' : 'rejected';
+                        }
+                        
+                        // Special handling for final C/Off approval
+                        if (action === 'approve' && currentUser.is_admin && type === 'coff') {
+                            const reqDoc = await getDoc(requestRef);
+                            const reqData = reqDoc.data();
+                            const originalCoffRef = doc(db, 'coffs', reqData.earned_coff_doc_id);
+                            
+                            const batch = writeBatch(db);
+                            batch.update(requestRef, updateData);
+                            batch.update(originalCoffRef, { 
+                                status: 'availed', 
+                                availed_date: reqData.avail_date 
+                            });
+                            await batch.commit();
+                        } else {
+                            await updateDoc(requestRef, updateData);
+                        }
+                        
+                        showMessage(`Request has been ${action}d.`);
+                    } catch (error) {
+                        console.error(`Error updating ${type} request:`, error);
+                        showMessage(`Error updating request: ${error.message}`);
+                    } finally {
+                        toggleLoader(false);
+                    }
+                }
+            }
 
             // --- TABS LOGIC ---
+            function hideAllAdminViews() {
+                adminAttendanceView.classList.add('hidden');
+                adminShiftRequestsView.classList.add('hidden');
+                adminPpRequestsView.classList.add('hidden');
+                adminCoffRequestsView.classList.add('hidden');
+                adminLeaveRequestsView.classList.add('hidden');
+            }
+
             function setActiveTab(activeTab) {
-                const tabs = [tabAttendance, tabShiftRequests, tabPpRequests];
+                const tabs = [tabAttendance, tabShiftRequests, tabPpRequests, tabCoffRequests, tabLeaveRequests];
                 tabs.forEach(tab => {
-                    tab.classList.remove('bg-blue-600', 'text-white');
-                    tab.classList.add('bg-gray-200', 'text-gray-700');
+                    if(tab){
+                        tab.classList.remove('bg-blue-600', 'text-white');
+                        tab.classList.add('bg-gray-200', 'text-gray-700');
+                    }
                 });
                 activeTab.classList.add('bg-blue-600', 'text-white');
                 activeTab.classList.remove('bg-gray-200', 'text-gray-700');
             }
 
             tabAttendance.addEventListener('click', () => {
+                hideAllAdminViews();
                 adminAttendanceView.classList.remove('hidden');
-                adminShiftRequestsView.classList.add('hidden');
-                adminPpRequestsView.classList.add('hidden');
                 setActiveTab(tabAttendance);
             });
             tabShiftRequests.addEventListener('click', () => {
-                adminAttendanceView.classList.add('hidden');
+                hideAllAdminViews();
                 adminShiftRequestsView.classList.remove('hidden');
-                adminPpRequestsView.classList.add('hidden');
                 setActiveTab(tabShiftRequests);
             });
             tabPpRequests.addEventListener('click', () => {
-                adminAttendanceView.classList.add('hidden');
-                adminShiftRequestsView.classList.add('hidden');
+                hideAllAdminViews();
                 adminPpRequestsView.classList.remove('hidden');
                 setActiveTab(tabPpRequests);
+            });
+            tabCoffRequests.addEventListener('click', () => {
+                hideAllAdminViews();
+                adminCoffRequestsView.classList.remove('hidden');
+                setActiveTab(tabCoffRequests);
+            });
+            tabLeaveRequests.addEventListener('click', () => {
+                hideAllAdminViews();
+                adminLeaveRequestsView.classList.remove('hidden');
+                setActiveTab(tabLeaveRequests);
             });
             
             // --- NEW SHIFT SUMMARY LOGIC ---
@@ -1906,25 +2342,21 @@
                 const todayStr = formatDate(new Date());
                 let counts = { A: 0, B: 0, C: 0, G: 0 };
 
-                // Get employees who are currently clocked IN today
                 const activeAttendance = allAdminRecords.filter(r => r.date === todayStr && r.in_time && !r.out_time);
 
                 activeAttendance.forEach(record => {
                     const inTime = record.in_time.toDate();
                     const inTimeMinutes = inTime.getHours() * 60 + inTime.getMinutes();
                     
-                    let assignedShift = 'G'; // Default to General
+                    let assignedShift = 'G'; 
 
-                    // Check for Shift A (7:00 AM to 8:00 AM)
-                    if (inTimeMinutes >= 420 && inTimeMinutes < 480) {
+                    if (inTimeMinutes >= 420 && inTimeMinutes < 480) { // 7:00 AM to 8:00 AM
                         assignedShift = 'A';
                     } 
-                    // Check for Shift B (2:00 PM to 2:30 PM)
-                    else if (inTimeMinutes >= 840 && inTimeMinutes < 870) {
+                    else if (inTimeMinutes >= 840 && inTimeMinutes < 870) { // 2:00 PM to 2:30 PM
                         assignedShift = 'B';
                     }
-                    // Check for Shift C (9:00 PM to 7:00 AM next day)
-                    else if (inTimeMinutes >= 1260 || inTimeMinutes < 420) {
+                    else if (inTimeMinutes >= 1260 || inTimeMinutes < 420) { // 9:00 PM to 7:00 AM
                          assignedShift = 'C';
                     }
 
@@ -1937,7 +2369,6 @@
                 document.getElementById('shift-g-count').textContent = counts.G;
             }
 
-            // ✅ FIX: This logic directly checks the employee_name from the attendance records.
             function updateOnDutySupervisor() {
                 if (!allAdminRecords.length) {
                     onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
@@ -1949,17 +2380,14 @@
                 
                 const todayStr = formatDate(new Date());
 
-                // Directly filter attendance records for on-duty supervisors by name
                 const onDutySupervisors = allAdminRecords.filter(record => {
                     const isClockedInToday = record.date === todayStr && record.in_time && !record.out_time;
                     if (!isClockedInToday || !record.employee_name) {
                         return false;
                     }
-                    // Adding .trim() for robustness against extra whitespace
                     return lowerCaseSupervisorNames.includes(record.employee_name.trim().toLowerCase());
                 });
 
-                // Get unique names of on-duty supervisors
                 const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
 
                 if (onDutyNames.length > 0) {
@@ -1972,7 +2400,7 @@
             // Set initial active tab
             setActiveTab(tabAttendance);
         }
-
     </script>
 </body>
 </html>
+```
