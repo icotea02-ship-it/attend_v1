@@ -274,22 +274,46 @@
             </div>
         </div>
 
-        <!-- Manage Shifts Modal -->
-        <div id="manage-shifts-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/2 max-h-screen overflow-y-auto animate-fade-in">
-                <h3 class="text-lg font-bold mb-4">Manage Employee Default Shifts</h3>
-                <form id="manage-shifts-form">
-                    <div id="manage-shifts-list" class="space-y-3">
-                        <!-- Employee shift list will be populated here -->
+        <!-- PP Request Modal -->
+        <div id="pp-request-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
+                <h3 class="text-lg font-bold mb-4">Apply for Additional Present (PP)</h3>
+                <form id="pp-request-form">
+                    <div class="mb-4">
+                        <label for="pp-request-date" class="block text-sm font-medium text-gray-700">Date for PP</label>
+                        <input type="date" id="pp-request-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="pp-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label>
+                        <textarea id="pp-request-remarks" rows="3" placeholder="Reason for dual shift..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
                     </div>
                     <div class="flex justify-end space-x-4 mt-6">
-                        <button type="button" id="cancel-manage-shifts-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
-                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save All Shifts</button>
+                        <button type="button" id="cancel-pp-request-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Submit Request</button>
                     </div>
                 </form>
             </div>
         </div>
 
+        <!-- PP Approval Modal -->
+        <div id="pp-approval-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
+                <h3 class="text-lg font-bold mb-4">PP Request Approval</h3>
+                <div id="pp-approval-details" class="text-left mb-4 space-y-2"></div>
+                <form id="pp-approval-form">
+                    <input type="hidden" id="pp-approval-doc-id">
+                    <input type="hidden" id="pp-approval-action">
+                    <div class="mb-4">
+                        <label for="pp-approval-comment" class="block text-sm font-medium text-gray-700">Comment</label>
+                        <textarea id="pp-approval-comment" rows="3" placeholder="Add your comment..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required></textarea>
+                    </div>
+                    <div class="flex justify-end space-x-4 mt-6">
+                        <button type="button" id="cancel-pp-approval-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Confirm</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <!-- Authentication Section -->
         <div id="auth-section" class="max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl mt-10 p-8 hidden">
@@ -312,15 +336,6 @@
                     <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <input type="text" id="signup-empid" placeholder="Employee ID" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <input type="text" id="signup-orgid" placeholder="Organization ID" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
-                    <div class="mb-4">
-                        <label for="signup-shift" class="block text-sm font-medium text-gray-700">Default Shift</label>
-                        <select id="signup-shift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm" required>
-                            <option value="A">A (7am - 2pm)</option>
-                            <option value="B">B (2pm - 9pm)</option>
-                            <option value="C">C (9pm - 7am)</option>
-                            <option value="G" selected>General (9am - 6pm)</option>
-                        </select>
-                    </div>
                     <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                     <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300">Sign Up</button>
                 </form>
@@ -368,11 +383,15 @@
                 </div>
 
                 <div class="mb-4 border-b border-gray-200">
-                    <nav class="flex space-x-4" aria-label="Tabs">
-                        <button id="tab-attendance" class="tab-btn text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent">Attendance Records</button>
-                        <button id="tab-shift-requests" class="tab-btn text-gray-500 hover:text-gray-700 px-3 py-2 font-medium text-sm rounded-md border-b-2 border-transparent relative">
-                            Shift Change Requests
+                    <nav class="flex space-x-1" aria-label="Tabs">
+                        <button id="tab-attendance" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg">Attendance</button>
+                        <button id="tab-shift-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
+                            Shift Changes
                             <span id="shift-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
+                        </button>
+                         <button id="tab-pp-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative">
+                            PP Requests
+                            <span id="pp-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span>
                         </button>
                     </nav>
                 </div>
@@ -387,7 +406,6 @@
                         <button id="monthly-report-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Monthly Report</button>
                         <button id="set-week-off-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Set Week Offs</button>
                         <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Set Holidays</button>
-                        <button id="manage-shifts-btn" class="bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded-lg transition-transform transform hover:scale-105">Manage Shifts</button>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left">
@@ -426,6 +444,26 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- Admin PP Requests View -->
+                <div id="admin-pp-requests-view" class="hidden">
+                     <h2 class="text-xl font-semibold mb-4">Admin Panel: Additional Present (PP) Requests</h2>
+                     <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="bg-gray-200">
+                                    <th class="p-3">Request Date</th>
+                                    <th class="p-3">Employee Name</th>
+                                    <th class="p-3">Remarks</th>
+                                    <th class="p-3">Engineer Comment</th>
+                                    <th class="p-3">Status</th>
+                                    <th class="p-3">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-pp-requests-body"></tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <!-- Employee Actions Section (hidden for admin) -->
@@ -435,6 +473,7 @@
                     <button id="clock-in-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock In</button>
                     <button id="clock-out-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-400">Clock Out</button>
                     <button id="shift-change-request-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Request Shift Change</button>
+                    <button id="pp-request-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-6 rounded-lg transition-transform transform hover:scale-105">Apply for Additional P</button>
                 </div>
                  <p id="location-status" class="mt-4 text-sm text-gray-600">Fetching location...</p>
             </div>
@@ -534,11 +573,11 @@
         };
         
         const SPECIAL_SHIFT_USERS = {
-            "Rajan": {
+            "Rajan tyagi": {
                 'A': { start: '07:00', end: '16:00' }, // 4 PM
                 'B': { start: '11:00', end: '20:00' }  // 8 PM
             },
-            "Sudhir": {
+            "Sudhir Singh": {
                 'A': { start: '07:00', end: '16:00' },
                 'B': { start: '11:00', end: '20:00' }
             }
@@ -599,23 +638,34 @@
         const adminRequestsBody = document.getElementById('admin-requests-body');
         const termsModal = document.getElementById('terms-modal');
         const acceptTermsBtn = document.getElementById('accept-terms-btn');
-        const manageShiftsBtn = document.getElementById('manage-shifts-btn');
-        const manageShiftsModal = document.getElementById('manage-shifts-modal');
-        const manageShiftsForm = document.getElementById('manage-shifts-form');
-        const manageShiftsList = document.getElementById('manage-shifts-list');
-        const cancelManageShiftsBtn = document.getElementById('cancel-manage-shifts-btn');
         const employeeActionsSection = document.getElementById('employee-actions-section');
         const employeeDataSection = document.getElementById('employee-data-section');
         const onDutySupervisorElement = document.getElementById('on-duty-supervisor');
         
+        // New PP Request Elements
+        const ppRequestBtn = document.getElementById('pp-request-btn');
+        const ppRequestModal = document.getElementById('pp-request-modal');
+        const ppRequestForm = document.getElementById('pp-request-form');
+        const cancelPpRequestBtn = document.getElementById('cancel-pp-request-btn');
+        const tabPpRequests = document.getElementById('tab-pp-requests');
+        const adminPpRequestsView = document.getElementById('admin-pp-requests-view');
+        const adminPpRequestsBody = document.getElementById('admin-pp-requests-body');
+        const ppApprovalModal = document.getElementById('pp-approval-modal');
+        const ppApprovalForm = document.getElementById('pp-approval-form');
+        const cancelPpApprovalBtn = document.getElementById('cancel-pp-approval-btn');
+        const ppApprovalDetails = document.getElementById('pp-approval-details');
+
+
         let currentUser = null;
         let userUnsubscribe = null;
         let adminUnsubscribe = null;
         let shiftRequestsUnsubscribe = null;
+        let ppRequestsUnsubscribe = null;
         let allAdminRecords = [];
         let allUsers = [];
         let docIdToDelete = null;
         let allShiftRequests = [];
+        let allPpRequests = [];
 
         // --- UTILITY FUNCTIONS ---
         
@@ -701,7 +751,8 @@
             switch(status) {
                 case 'approved': return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Approved</span>`;
                 case 'rejected': return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Rejected</span>`;
-                default: return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending</span>`;
+                case 'pending_admin': return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Pending Admin</span>`;
+                default: return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Pending Engineer</span>`;
             }
         }
 
@@ -750,6 +801,7 @@
                 if (userUnsubscribe) userUnsubscribe();
                 if (adminUnsubscribe) adminUnsubscribe();
                 if (shiftRequestsUnsubscribe) shiftRequestsUnsubscribe();
+                if (ppRequestsUnsubscribe) ppRequestsUnsubscribe();
 
                 if (user && !user.isAnonymous) {
                     currentUser = user;
@@ -772,25 +824,26 @@
 
                     const is_admin = user.uid === ADMIN_UID;
                     const is_engineer = ENGINEER_UIDS.includes(user.uid);
+                    currentUser.is_admin = is_admin;
+                    currentUser.is_engineer = is_engineer;
 
                     if (is_admin || is_engineer) {
                         adminDashboard.classList.remove('hidden');
                         employeeActionsSection.classList.add('hidden');
                         employeeDataSection.classList.add('hidden');
-                        fetchAllUsers();
+                        await fetchAllUsers(); // Wait for users to be fetched
                         listenForAdminRecords(is_admin);
                         listenForAdminShiftRequests();
+                        listenForPPRequests();
 
                         // Engineer-specific UI changes
                         if(is_engineer && !is_admin) {
                             monthlyReportBtn.classList.add('hidden');
                             setHolidaysBtn.classList.add('hidden');
-                            manageShiftsBtn.classList.add('hidden');
                         } else {
                             // Ensure full admin sees all buttons
                             monthlyReportBtn.classList.remove('hidden');
                             setHolidaysBtn.classList.remove('hidden');
-                            manageShiftsBtn.classList.remove('hidden');
                         }
 
                     } else {
@@ -835,7 +888,6 @@
                 const password = document.getElementById('signup-password').value;
                 const empId = document.getElementById('signup-empid').value;
                 const orgId = document.getElementById('signup-orgid').value;
-                const defaultShift = document.getElementById('signup-shift').value;
 
                 if (orgId !== `AN01${empId}`) {
                     showMessage("Invalid Organization ID. Please check your details.");
@@ -850,8 +902,7 @@
                         uid: userCredential.user.uid,
                         name: name,
                         email: email,
-                        empId: empId,
-                        defaultShift: defaultShift
+                        empId: empId
                     });
                 } catch (error) {
                     showMessage(error.message);
@@ -897,10 +948,24 @@
             }
 
             clockInBtn.addEventListener('click', async () => {
-                if (!currentUser) return showMessage("You must be logged in.");
+                if (!currentUser) return showMessage("Aapko logged in hona chahiye.");
                 toggleLoader(true);
                 try {
-                    const location = await checkLocation(); // This will now reject if outside radius
+                    // CHECK FOR PENDING CLOCK-OUT FIRST
+                    const attendanceColCheck = collection(db, `attendance`);
+                    const qCheck = query(attendanceColCheck, where("uid", "==", currentUser.uid), where("out_time", "==", null));
+                    const pendingClockOutSnapshot = await getDocs(qCheck);
+
+                    if (!pendingClockOutSnapshot.empty) {
+                        const pendingDoc = pendingClockOutSnapshot.docs[0].data();
+                        const pendingDate = pendingDoc.date;
+                        showMessage(`Aapne ${pendingDate} ka clock out nahi kiya hai. Pehle clock out karein, fir clock in karein.`);
+                        toggleLoader(false);
+                        return; // Stop the function here
+                    }
+
+                    // If check passes, continue with original logic
+                    const location = await checkLocation();
                     const now = new Date();
                     const dateStr = formatDate(now);
                     const year = now.getFullYear();
@@ -933,17 +998,17 @@
                         out_location: null,
                         total_hours: null
                     });
-                    showMessage("Successfully clocked in!");
+                    showMessage("Safaltapoorvak clock in ho gaya!");
                 } catch (error) {
                     console.error("Clock-in error: ", error);
-                    showMessage(`Clock-in failed: ${error}`);
+                    showMessage(`Clock-in fail ho gaya: ${error}`);
                 } finally {
                     toggleLoader(false);
                 }
             });
 
             clockOutBtn.addEventListener('click', async () => {
-                if (!currentUser) return showMessage("You must be logged in.");
+                if (!currentUser) return showMessage("Aapko logged in hona chahiye.");
                 toggleLoader(true);
                 try {
                     const location = await checkLocation(); // This will now reject if outside radius
@@ -963,13 +1028,13 @@
                             out_location: location,
                             total_hours: calculateTotalHours(inTimeDate, now)
                         });
-                        showMessage("Successfully clocked out!");
+                        showMessage("Safaltapoorvak clock out ho gaya!");
                     } else {
-                        showMessage("Could not find an open clock-in record.");
+                        showMessage("Clock-in ka koi open record nahi mila.");
                     }
                 } catch (error) {
                     console.error("Clock-out error: ", error);
-                    showMessage(`Clock-out failed: ${error}`);
+                    showMessage(`Clock-out fail ho gaya: ${error}`);
                 } finally {
                     toggleLoader(false);
                 }
@@ -1047,6 +1112,7 @@
                     allAdminRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                     applyAdminFilters(isFullAdmin);
                     updateShiftSummary();
+                    updateOnDutySupervisor(); // Update supervisor status when records change
                 }, (error) => console.error("Error listening to admin records: ", error));
             }
             
@@ -1063,8 +1129,8 @@
                 renderTable(adminTableBody, filteredRecords, true, isFullAdmin);
             }
 
-            filterDate.addEventListener('input', () => applyAdminFilters(currentUser.uid === ADMIN_UID));
-            filterName.addEventListener('input', () => applyAdminFilters(currentUser.uid === ADMIN_UID));
+            filterDate.addEventListener('input', () => applyAdminFilters(currentUser.is_admin));
+            filterName.addEventListener('input', () => applyAdminFilters(currentUser.is_admin));
             
             // --- EDIT, DELETE, AND EXPORT LOGIC ---
             
@@ -1201,7 +1267,6 @@
             async function exportMonthlyReport(year, month) {
                 toggleLoader(true);
                 
-                // Fetch fresh user data before generating the report
                 await fetchAllUsers();
 
                 const today = new Date();
@@ -1209,7 +1274,7 @@
                 const daysInMonth = new Date(year, month, 0).getDate();
                 const daysToReport = isCurrentMonth ? today.getDate() : daysInMonth;
 
-                // Fetch fresh attendance data for the report
+                // Fetch Attendance
                 const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
                 const endDate = `${year}-${String(month).padStart(2, '0')}-${String(daysInMonth).padStart(2, '0')}`;
                 const attendanceCol = collection(db, 'attendance');
@@ -1217,6 +1282,7 @@
                 const attendanceSnapshot = await getDocs(monthQuery);
                 const monthRecords = attendanceSnapshot.docs.map(doc => doc.data());
 
+                // Fetch Week Offs
                 const weekOffsCol = collection(db, 'weekoffs');
                 const weekOffsQuery = query(weekOffsCol, where("year", "==", year), where("month", "==", month));
                 const weekOffsSnapshot = await getDocs(weekOffsQuery);
@@ -1226,24 +1292,26 @@
                     monthWeekOffs[data.uid] = data.dates || [];
                 });
 
+                // Fetch Holidays
                 const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
                 const holidayDoc = await getDoc(holidayDocRef);
                 const holidaysInMonth = holidayDoc.exists() ? holidayDoc.data().dates : [];
-
-                const coffsCol = collection(db, 'coffs');
-                const coffsQuery = query(coffsCol, where("year", "==", year), where("month", "==", month), where("status", "==", "earned"));
-                const coffsSnapshot = await getDocs(coffsQuery);
-                const monthCoffs = {};
-                coffsSnapshot.forEach(doc => {
+                
+                // Fetch Approved PP Requests
+                const ppCol = collection(db, 'pp_requests');
+                const ppQuery = query(ppCol, where("year", "==", year), where("month", "==", month), where("status", "==", "approved"));
+                const ppSnapshot = await getDocs(ppQuery);
+                const approvedPPs = {};
+                ppSnapshot.forEach(doc => {
                     const data = doc.data();
-                    if (!monthCoffs[data.uid]) {
-                        monthCoffs[data.uid] = 0;
+                    if (!approvedPPs[data.requester_uid]) {
+                        approvedPPs[data.requester_uid] = {};
                     }
-                    monthCoffs[data.uid]++;
+                    const dayOfMonth = new Date(data.request_date).getUTCDate();
+                    approvedPPs[data.requester_uid][dayOfMonth] = true;
                 });
 
                 const reportData = {};
-
                 allUsers.forEach(user => {
                     reportData[user.uid] = {
                         name: user.name || 'Unknown',
@@ -1267,34 +1335,44 @@
 
                 monthRecords.forEach(rec => {
                     if (reportData[rec.uid]) {
-                        const dayOfMonth = new Date(rec.date).getDate();
+                        const dayOfMonth = new Date(rec.date).getUTCDate();
                         reportData[rec.uid].days[dayOfMonth] = 'P';
                     }
                 });
+
+                // Override 'P' with 'PP' for approved requests
+                for (const uid in approvedPPs) {
+                    if (reportData[uid]) {
+                        for (const day in approvedPPs[uid]) {
+                            if (reportData[uid].days[day] === 'P') {
+                                reportData[uid].days[day] = 'PP';
+                            }
+                        }
+                    }
+                }
                 
                 const headers = ['NAME', 'EMP ID'];
                 for (let i = 1; i <= daysToReport; i++) {
                     headers.push(`${i}-${month}-${year}`);
                 }
-                headers.push('TOTAL "P"', 'TOTAL "A"', 'TOTAL "WO"', 'TOTAL "H"', 'TOTAL CO', 'GRAND TOTAL', 'SHIFT CHANGES', 'LATE ARRIVALS');
+                headers.push('TOTAL "P"', 'TOTAL "PP"', 'TOTAL "A"', 'TOTAL "WO"', 'TOTAL "H"', 'GRAND TOTAL');
 
                 const rows = Object.keys(reportData).map(uid => {
                     const emp = reportData[uid];
                     const row = [ `"${emp.name}"`, `"${emp.empId}"` ];
-                    let pCount = 0, aCount = 0, woCount = 0, hCount = 0, lateCount = 0;
+                    let pCount = 0, ppCount = 0, aCount = 0, woCount = 0, hCount = 0;
 
                     for (let i = 1; i <= daysToReport; i++) {
                         row.push(emp.days[i]);
                         const status = emp.days[i];
                         if (status === 'P') pCount++;
+                        else if (status === 'PP') ppCount++;
                         else if (status === 'A') aCount++;
                         else if (status === 'WO') woCount++;
                         else if (status === 'H') hCount++;
                     }
                     
-                    const totalCO = monthCoffs[uid] || 0;
-                    
-                    row.push(pCount, aCount, woCount, hCount, totalCO, pCount + totalCO, 0, 0); // Placeholders for now
+                    row.push(pCount, ppCount, aCount, woCount, hCount, pCount + ppCount);
                     return row.join(',');
                 });
 
@@ -1552,8 +1630,7 @@
                 const q = query(collection(db, 'shift_requests'));
                 shiftRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
                     allShiftRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                    updateShiftSummary();
-
+                    
                     const pendingCount = allShiftRequests.filter(req => req.status === 'pending').length;
                     const counter = document.getElementById('shift-request-counter');
                     if (pendingCount > 0) {
@@ -1637,90 +1714,221 @@
                 }
             });
 
-            // Admin Tabs
-            tabAttendance.addEventListener('click', () => {
-                adminAttendanceView.classList.remove('hidden');
-                adminShiftRequestsView.classList.add('hidden');
-                tabAttendance.classList.add('border-indigo-500', 'text-indigo-600');
-                tabShiftRequests.classList.remove('border-indigo-500', 'text-indigo-600');
-            });
-            tabShiftRequests.addEventListener('click', () => {
-                adminAttendanceView.classList.add('hidden');
-                adminShiftRequestsView.classList.remove('hidden');
-                tabShiftRequests.classList.add('border-indigo-500', 'text-indigo-600');
-                tabAttendance.classList.remove('border-indigo-500', 'text-indigo-600');
+            // --- PP REQUEST LOGIC ---
+            ppRequestBtn.addEventListener('click', () => {
+                ppRequestModal.classList.remove('hidden');
+                ppRequestForm.reset();
+                document.getElementById('pp-request-date').valueAsDate = new Date();
             });
 
-            // --- MANAGE SHIFTS LOGIC ---
-            manageShiftsBtn.addEventListener('click', () => {
-                manageShiftsList.innerHTML = '';
-                allUsers.forEach(user => {
-                    const userDiv = document.createElement('div');
-                    userDiv.className = 'flex items-center justify-between p-2 border rounded';
-                    userDiv.innerHTML = `
-                        <p class="font-semibold">${user.name} (${user.empId})</p>
-                        <select data-uid="${user.uid}" class="block px-3 py-2 border border-gray-300 rounded-md shadow-sm">
-                            <option value="A" ${user.defaultShift === 'A' ? 'selected' : ''}>A (7am - 2pm)</option>
-                            <option value="B" ${user.defaultShift === 'B' ? 'selected' : ''}>B (2pm - 9pm)</option>
-                            <option value="C" ${user.defaultShift === 'C' ? 'selected' : ''}>C (9pm - 7am)</option>
-                            <option value="G" ${user.defaultShift === 'G' || !user.defaultShift ? 'selected' : ''}>General (9am - 6pm)</option>
-                        </select>
-                    `;
-                    manageShiftsList.appendChild(userDiv);
-                });
-                manageShiftsModal.classList.remove('hidden');
+            cancelPpRequestBtn.addEventListener('click', () => {
+                ppRequestModal.classList.add('hidden');
             });
 
-            cancelManageShiftsBtn.addEventListener('click', () => {
-                manageShiftsModal.classList.add('hidden');
-            });
-
-            manageShiftsForm.addEventListener('submit', async (e) => {
+            ppRequestForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 toggleLoader(true);
+                const requestDate = document.getElementById('pp-request-date').value;
+                const [year, month] = requestDate.split('-').map(Number);
+
+                const request = {
+                    requester_uid: currentUser.uid,
+                    requester_name: currentUser.displayName,
+                    request_date: requestDate,
+                    year: year,
+                    month: month,
+                    remarks: document.getElementById('pp-request-remarks').value,
+                    status: 'pending_engineer', // First step is engineer approval
+                    engineer_comment: '',
+                    admin_comment: '',
+                    timestamp: Timestamp.now()
+                };
+
                 try {
-                    const batch = writeBatch(db);
-                    const selects = manageShiftsList.querySelectorAll('select');
-                    selects.forEach(select => {
-                        const uid = select.dataset.uid;
-                        const newShift = select.value;
-                        const userDocRef = doc(db, 'users', uid);
-                        batch.update(userDocRef, { defaultShift: newShift });
-                    });
-                    await batch.commit();
-                    await fetchAllUsers(); // Refresh local user data
-                    showMessage("Default shifts updated successfully!");
-                    manageShiftsModal.classList.add('hidden');
+                    await addDoc(collection(db, 'pp_requests'), request);
+                    showMessage("Additional P request submitted successfully.");
+                    ppRequestModal.classList.add('hidden');
                 } catch (error) {
-                    showMessage("Error updating shifts: " + error.message);
+                    showMessage("Error submitting request: " + error.message);
                 } finally {
                     toggleLoader(false);
                 }
             });
+            
+            function listenForPPRequests() {
+                const q = query(collection(db, 'pp_requests'));
+                ppRequestsUnsubscribe = onSnapshot(q, (snapshot) => {
+                    allPpRequests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+                    // Update counter
+                    const pendingCount = allPpRequests.filter(req =>
+                        (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
+                        (currentUser.is_admin && req.status === 'pending_admin')
+                    ).length;
+                    const counter = document.getElementById('pp-request-counter');
+                    if (pendingCount > 0) {
+                        counter.textContent = pendingCount;
+                        counter.classList.remove('hidden');
+                    } else {
+                        counter.classList.add('hidden');
+                    }
+
+                    // Render table
+                    adminPpRequestsBody.innerHTML = '';
+                    if (allPpRequests.length === 0) {
+                        adminPpRequestsBody.innerHTML = `<tr><td colspan="6" class="text-center p-4">No PP requests.</td></tr>`;
+                        return;
+                    }
+
+                    allPpRequests.sort((a, b) => b.timestamp.toDate() - a.timestamp.toDate()).forEach(req => {
+                        const row = document.createElement('tr');
+                        let actions = 'N/A';
+
+                        // Logic for showing buttons based on user role and request status
+                        if (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') {
+                            actions = `
+                                <button class="approve-pp-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
+                                <button class="reject-pp-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
+                            `;
+                        } else if (currentUser.is_admin && req.status === 'pending_admin') {
+                            actions = `
+                                <button class="approve-pp-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Approve</button>
+                                <button class="reject-pp-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}">Reject</button>
+                            `;
+                        }
+
+                        row.innerHTML = `
+                            <td class="p-3">${req.request_date}</td>
+                            <td class="p-3">${req.requester_name}</td>
+                            <td class="p-3">${req.remarks}</td>
+                            <td class="p-3">${req.engineer_comment || 'N/A'}</td>
+                            <td class="p-3">${getStatusBadge(req.status)}</td>
+                            <td class="p-3 space-x-2">${actions}</td>
+                        `;
+                        adminPpRequestsBody.appendChild(row);
+                    });
+                });
+            }
+
+            adminPpRequestsBody.addEventListener('click', (e) => {
+                const target = e.target;
+                const id = target.dataset.id;
+                if (!id) return;
+
+                let action = null;
+                if (target.classList.contains('approve-pp-btn')) action = 'approve';
+                if (target.classList.contains('reject-pp-btn')) action = 'reject';
+
+                if (action) {
+                    const request = allPpRequests.find(r => r.id === id);
+                    ppApprovalDetails.innerHTML = `
+                        <p><strong>Employee:</strong> ${request.requester_name}</p>
+                        <p><strong>Date:</strong> ${request.request_date}</p>
+                        <p><strong>Reason:</strong> ${request.remarks}</p>
+                        ${request.engineer_comment ? `<p><strong>Engineer Comment:</strong> ${request.engineer_comment}</p>` : ''}
+                    `;
+                    document.getElementById('pp-approval-doc-id').value = id;
+                    document.getElementById('pp-approval-action').value = action;
+                    ppApprovalForm.reset();
+                    ppApprovalModal.classList.remove('hidden');
+                }
+            });
+
+            cancelPpApprovalBtn.addEventListener('click', () => {
+                ppApprovalModal.classList.add('hidden');
+            });
+
+            ppApprovalForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                toggleLoader(true);
+
+                const docId = document.getElementById('pp-approval-doc-id').value;
+                const action = document.getElementById('pp-approval-action').value;
+                const comment = document.getElementById('pp-approval-comment').value;
+
+                const requestRef = doc(db, 'pp_requests', docId);
+                let updateData = {};
+
+                try {
+                    if (currentUser.is_engineer && !currentUser.is_admin) {
+                        updateData.engineer_comment = comment;
+                        updateData.status = action === 'approve' ? 'pending_admin' : 'rejected';
+                    } else if (currentUser.is_admin) {
+                        updateData.admin_comment = comment;
+                        updateData.status = action === 'approve' ? 'approved' : 'rejected';
+                    }
+
+                    await updateDoc(requestRef, updateData);
+                    showMessage(`Request has been ${action}d.`);
+                } catch (error) {
+                    showMessage("Error updating request: " + error.message);
+                } finally {
+                    ppApprovalModal.classList.add('hidden');
+                    toggleLoader(false);
+                }
+            });
+
+
+            // --- TABS LOGIC ---
+            function setActiveTab(activeTab) {
+                const tabs = [tabAttendance, tabShiftRequests, tabPpRequests];
+                tabs.forEach(tab => {
+                    tab.classList.remove('bg-blue-600', 'text-white');
+                    tab.classList.add('bg-gray-200', 'text-gray-700');
+                });
+                activeTab.classList.add('bg-blue-600', 'text-white');
+                activeTab.classList.remove('bg-gray-200', 'text-gray-700');
+            }
+
+            tabAttendance.addEventListener('click', () => {
+                adminAttendanceView.classList.remove('hidden');
+                adminShiftRequestsView.classList.add('hidden');
+                adminPpRequestsView.classList.add('hidden');
+                setActiveTab(tabAttendance);
+            });
+            tabShiftRequests.addEventListener('click', () => {
+                adminAttendanceView.classList.add('hidden');
+                adminShiftRequestsView.classList.remove('hidden');
+                adminPpRequestsView.classList.add('hidden');
+                setActiveTab(tabShiftRequests);
+            });
+            tabPpRequests.addEventListener('click', () => {
+                adminAttendanceView.classList.add('hidden');
+                adminShiftRequestsView.classList.add('hidden');
+                adminPpRequestsView.classList.remove('hidden');
+                setActiveTab(tabPpRequests);
+            });
+            
+            // --- NEW SHIFT SUMMARY LOGIC ---
             function updateShiftSummary() {
-                if (!allUsers.length || !allAdminRecords.length) return;
+                if (!allAdminRecords.length) return;
 
                 const todayStr = formatDate(new Date());
                 let counts = { A: 0, B: 0, C: 0, G: 0 };
 
-                const todayRequests = allShiftRequests.filter(r => r.change_date === todayStr && r.status === 'approved');
+                // Get employees who are currently clocked IN today
                 const activeAttendance = allAdminRecords.filter(r => r.date === todayStr && r.in_time && !r.out_time);
-                const onDutyUIDs = new Set(activeAttendance.map(r => r.uid));
 
-                allUsers.forEach(user => {
-                    if (onDutyUIDs.has(user.uid)) {
-                        let effectiveShift = user.defaultShift || 'G'; // Default to General if not set
+                activeAttendance.forEach(record => {
+                    const inTime = record.in_time.toDate();
+                    const inTimeMinutes = inTime.getHours() * 60 + inTime.getMinutes();
+                    
+                    let assignedShift = 'G'; // Default to General
 
-                        const swap = todayRequests.find(r => r.requester_uid === user.uid || r.colleague_uid === user.uid);
-                        if (swap) {
-                            effectiveShift = (swap.requester_uid === user.uid) ? swap.colleague_shift : swap.requester_shift;
-                        }
-
-                        if (counts.hasOwnProperty(effectiveShift)) {
-                            counts[effectiveShift]++;
-                        }
+                    // Check for Shift A (7:00 AM to 8:00 AM)
+                    if (inTimeMinutes >= 420 && inTimeMinutes < 480) {
+                        assignedShift = 'A';
+                    } 
+                    // Check for Shift B (2:00 PM to 2:30 PM)
+                    else if (inTimeMinutes >= 840 && inTimeMinutes < 870) {
+                        assignedShift = 'B';
                     }
+                    // Check for Shift C (9:00 PM to 7:00 AM next day)
+                    else if (inTimeMinutes >= 1260 || inTimeMinutes < 420) {
+                         assignedShift = 'C';
+                    }
+
+                    counts[assignedShift]++;
                 });
 
                 document.getElementById('shift-a-count').textContent = counts.A;
@@ -1730,40 +1938,42 @@
             }
 
             function updateOnDutySupervisor() {
-                const now = new Date();
-                const currentTime = now.getHours() * 60 + now.getMinutes();
-                let onDuty = [];
+                // This function now checks who is ACTUALLY clocked in
+                if (!allUsers.length || !allAdminRecords.length) {
+                    onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
+                    return;
+                }
 
-                ['Rajan', 'Sudhir'].forEach(name => {
-                    const userShifts = SPECIAL_SHIFT_USERS[name];
-                    if (userShifts) {
-                        for (const shift in userShifts) {
-                            const [startHour, startMinute] = userShifts[shift].start.split(':').map(Number);
-                            const [endHour, endMinute] = userShifts[shift].end.split(':').map(Number);
-                            const startTime = startHour * 60 + startMinute;
-                            const endTime = endHour * 60 + endMinute;
+                const supervisorNames = ["Rajan tyagi", "Sudhir Singh"];
+                const supervisorUIDs = allUsers
+                    .filter(user => supervisorNames.includes(user.name))
+                    .map(user => user.uid);
 
-                            if (startTime < endTime) { // Same day shift
-                                if (currentTime >= startTime && currentTime < endTime) {
-                                    onDuty.push(name);
-                                }
-                            } else { // Overnight shift
-                                if (currentTime >= startTime || currentTime < endTime) {
-                                    onDuty.push(name);
-                                }
-                            }
-                        }
-                    }
-                });
+                if (supervisorUIDs.length === 0) {
+                    onDutySupervisorElement.textContent = 'On Duty Supervisor: Supervisors not found.';
+                    return;
+                }
+                
+                const todayStr = formatDate(new Date());
 
-                const uniqueSupervisors = [...new Set(onDuty)]; // Remove duplicates if any
-                if (uniqueSupervisors.length > 0) {
-                    onDutySupervisorElement.textContent = `On Duty Supervisor: ${uniqueSupervisors.join(', ')}`;
+                const onDutySupervisors = allAdminRecords.filter(record => 
+                    record.date === todayStr &&
+                    supervisorUIDs.includes(record.uid) &&
+                    record.in_time && 
+                    !record.out_time
+                );
+
+                const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
+
+                if (onDutyNames.length > 0) {
+                    onDutySupervisorElement.textContent = `On Duty Supervisor: ${onDutyNames.join(', ')}`;
                 } else {
                     onDutySupervisorElement.textContent = 'On Duty Supervisor: None';
                 }
             }
 
+            // Set initial active tab
+            setActiveTab(tabAttendance);
         }
 
     </script>
