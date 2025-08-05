@@ -234,6 +234,23 @@
                     <input type="text" id="signup-name" placeholder="Full Name" class="w-full px-4 py-2 border rounded-lg" required>
                     <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg" required>
                     <input type="text" id="signup-empid" placeholder="Employee ID" class="w-full px-4 py-2 border rounded-lg" required>
+                    
+                    <!-- NEW FIELDS FOR DESIGNATION AND DEPARTMENT -->
+                    <input type="text" id="signup-designation" placeholder="Designation (e.g., HVAC Technician)" class="w-full px-4 py-2 border rounded-lg" required>
+                    <select id="signup-department" class="w-full px-4 py-2 border rounded-lg bg-white" required>
+                        <option value="">Select Department</option>
+                        <option value="Engineer">Engineer</option>
+                        <option value="Supervisor">Supervisor</option>
+                        <option value="HVAC Opt">HVAC Opt</option>
+                        <option value="MST">MST</option>
+                        <option value="DG Opt">DG Opt</option>
+                        <option value="Plumber">Plumber</option>
+                        <option value="Civil">Civil</option>
+                        <option value="Carpenter">Carpenter</option>
+                        <option value="Painter">Painter</option>
+                        <option value="others">Others</option>
+                    </select>
+
                     <input type="text" id="signup-orgid" placeholder="Organization ID" class="w-full px-4 py-2 border rounded-lg" required>
                     <input type="password" id="signup-password" placeholder="Password" class="w-full px-4 py-2 border rounded-lg" required>
                     <button type="submit" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Sign Up</button>
@@ -264,6 +281,15 @@
                         <div><p class="text-2xl font-bold" id="shift-c-count">0</p><p class="text-sm text-gray-300">C Shift</p></div>
                         <div><p class="text-2xl font-bold" id="shift-g-count">0</p><p class="text-sm text-gray-300">General</p></div>
                     </div>
+
+                    <!-- NEW SECTION FOR DEPARTMENT COUNTS -->
+                    <div class="mt-6 border-t border-gray-600 pt-4">
+                        <h3 class="text-lg font-bold mb-4 text-white">Today's Live Department Count</h3>
+                        <div id="department-live-counts" class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+                            <!-- JavaScript will fill this dynamically -->
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="mb-4 border-b border-gray-200">
@@ -291,7 +317,8 @@
                             <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Set Holidays</button>
                         </div>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Name</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-table-body"></tbody></table></div>
+                    <!-- UPDATED TABLE HEADER WITH DESIGNATION -->
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Name</th><th class="p-3">Designation</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-table-body"></tbody></table></div>
                 </div>
                 <div id="admin-shift-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">Shift Change Requests</h2>
@@ -519,7 +546,6 @@
                     employeeDataSection.classList.remove('hidden');
                     allUnsubscribes.push(listenForUserRecords(user.uid), listenForUserRequests(user.uid));
                 }
-                // Call supervisor update for all users, but it will use the correct logic based on role.
                 updateOnDutySupervisor();
                 setInterval(updateOnDutySupervisor, 60000);
             } else {
@@ -540,17 +566,30 @@
             catch (error) { showMessage(error.message); }
             finally { toggleLoader(false); }
         });
+
+        // UPDATED SIGNUP LOGIC
         signupForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const [name, email, empId, orgId, password] = ['signup-name', 'signup-email', 'signup-empid', 'signup-orgid', 'signup-password'].map(id => document.getElementById(id).value);
+            const [name, email, empId, designation, department, orgId, password] = ['signup-name', 'signup-email', 'signup-empid', 'signup-designation', 'signup-department', 'signup-orgid', 'signup-password'].map(id => document.getElementById(id).value);
+            
+            if (!department) return showMessage("Please select a department.");
             if (orgId !== `AN01${empId}`) return showMessage("Invalid Organization ID.");
+            
             toggleLoader(true);
             try {
                 const cred = await createUserWithEmailAndPassword(auth, email, password);
-                await setDoc(doc(db, "users", cred.user.uid), { uid: cred.user.uid, name, email, empId });
+                await setDoc(doc(db, "users", cred.user.uid), { 
+                    uid: cred.user.uid, 
+                    name, 
+                    email, 
+                    empId, 
+                    designation, 
+                    department 
+                });
             } catch (error) { showMessage(error.message); }
             finally { toggleLoader(false); }
         });
+
         logoutBtn.addEventListener('click', () => signOut(auth));
         
         // --- CORE FUNCTIONALITY (Clock In/Out) ---
@@ -578,7 +617,18 @@
                     await addDoc(collection(db, 'coffs'), { uid: currentUser.uid, name: currentUser.displayName, earned_date: dateStr, status: 'earned' });
                     showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                 }
-                await addDoc(collection(db, "attendance"), { uid: currentUser.uid, employee_name: currentUser.displayName, date: dateStr, in_time: now, in_location: location, out_time: null });
+                // Also save user's designation and department with attendance for easier querying later if needed
+                const userDoc = allUsers.find(u => u.uid === currentUser.uid);
+                await addDoc(collection(db, "attendance"), { 
+                    uid: currentUser.uid, 
+                    employee_name: currentUser.displayName, 
+                    date: dateStr, 
+                    in_time: now, 
+                    in_location: location, 
+                    out_time: null,
+                    designation: userDoc ? userDoc.designation : 'N/A',
+                    department: userDoc ? userDoc.department : 'N/A'
+                });
                 showMessage("Successfully clocked in!");
             } catch (error) { showMessage(`Clock-in failed: ${error.message || error}`); }
             finally { toggleLoader(false); }
@@ -615,7 +665,7 @@
                 const q = query(collection(db, coll), where("requester_uid", "==", uid));
                 return onSnapshot(q, snapshot => {
                     const type = coll.split('_')[0];
-                    allRequests = allRequests.filter(r => r.type !== type); // Remove old requests of this type to avoid duplication
+                    allRequests = allRequests.filter(r => r.type !== type);
                     snapshot.forEach(d => allRequests.push({ ...d.data(), type }));
                     
                     allRequests.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
@@ -625,7 +675,6 @@
                         else if (req.type === 'pp') { date = req.request_date; details = req.remarks; }
                         else if (req.type === 'coff') { date = req.avail_date; details = `For C/Off earned on ${req.earned_date}`; }
                         else if (req.type === 'leave') { 
-                            // FIX: Handle both old (camelCase) and new (snake_case) field names for backward compatibility.
                             date = req.start_date || req.startDate; 
                             details = `${req.total_days} days until ${req.end_date || req.endDate}`; 
                         }
@@ -639,7 +688,7 @@
         // --- ADMIN/ENGINEER LISTENERS & VIEWS ---
         async function fetchAllUsers() {
             try {
-                allUsers = (await getDocs(collection(db, 'users'))).docs.map(d => ({ id: d.id, ...d.data() }));
+                allUsers = (await getDocs(collection(db, 'users'))).docs.map(d => ({ id: d.id, ...d.data(), uid: d.id }));
             } catch (error) { console.error("Failed to fetch users:", error); }
         }
         function listenForAdminRecords(isFullAdmin) {
@@ -647,14 +696,29 @@
                 allAdminRecords = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 applyAdminFilters(isFullAdmin);
                 updateShiftSummary();
-                updateOnDutySupervisor(); // This call is essential for the original logic
+                updateDepartmentSummary();
+                updateOnDutySupervisor();
             }, (error) => { console.error("Admin records listener failed:", error); showMessage("Could not load attendance records."); });
         }
+
+        // UPDATED FUNCTION TO SHOW DESIGNATION IN TABLE
         function applyAdminFilters(isFullAdmin) {
             const dateVal = filterDate.value, nameVal = filterName.value.toLowerCase();
             const filtered = allAdminRecords.filter(r => (!dateVal || r.date === dateVal) && (!nameVal || (r.employee_name||'').toLowerCase().includes(nameVal)));
             filtered.sort((a,b) => (b.in_time?.toDate() || 0) - (a.in_time?.toDate() || 0));
-            adminTableBody.innerHTML = filtered.map(rec => `<tr><td class="p-3">${rec.date}</td><td class="p-3 font-medium">${rec.employee_name||'N/A'}</td><td class="p-3">${formatTime(rec.in_time?.toDate())}</td><td class="p-3">${formatTime(rec.out_time?.toDate())}</td><td class="p-3">${rec.total_hours || 'N/A'}</td><td class="p-3">${isFullAdmin ? `<button class="edit-btn bg-yellow-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Edit</button><button class="delete-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Delete</button>` : ''}</td></tr>`).join('') || `<tr><td colspan="6" class="p-4 text-center">No records found.</td></tr>`;
+            adminTableBody.innerHTML = filtered.map(rec => {
+                const user = allUsers.find(u => u.uid === rec.uid);
+                const designation = user ? user.designation : 'N/A';
+                return `<tr>
+                            <td class="p-3">${rec.date}</td>
+                            <td class="p-3 font-medium">${rec.employee_name||'N/A'}</td>
+                            <td class="p-3">${designation}</td>
+                            <td class="p-3">${formatTime(rec.in_time?.toDate())}</td>
+                            <td class="p-3">${formatTime(rec.out_time?.toDate())}</td>
+                            <td class="p-3">${rec.total_hours || 'N/A'}</td>
+                            <td class="p-3">${isFullAdmin ? `<button class="edit-btn bg-yellow-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Edit</button><button class="delete-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${rec.id}">Delete</button>` : ''}</td>
+                        </tr>`;
+            }).join('') || `<tr><td colspan="7" class="p-4 text-center">No records found.</td></tr>`;
         }
         [filterDate, filterName].forEach(el => el.addEventListener('input', () => applyAdminFilters(currentUser.is_admin)));
 
@@ -683,7 +747,6 @@
                     if (type === 'shift') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td>`;
                     else if (type === 'pp') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td>`;
                     else if (type === 'coff') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td>`;
-                    // FIX: Handle both old (camelCase) and new (snake_case) field names for backward compatibility.
                     else if (type === 'leave') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>`;
                     
                     return `<tr>${cells}<td class="p-3">${req.engineer_comment || 'N/A'}</td><td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td></tr>`;
@@ -774,7 +837,6 @@
             toggleLoader(true);
             const formData = new FormData(form);
             const requestData = { requester_uid: currentUser.uid, requester_name: currentUser.displayName, status: 'pending_engineer', engineer_comment: '', admin_comment: '', timestamp: Timestamp.now() };
-            // FIX: Ensure all new requests are saved with snake_case field names (e.g., 'start_date').
             for(let [key, value] of formData.entries()) { requestData[key] = value; }
 
             try {
@@ -908,7 +970,6 @@
                 approvedPPs[data.requester_uid][new Date(data.request_date).getUTCDate()] = true;
             });
 
-            // This part can be simplified but we keep it for original logic consistency
             const coffReqQuery = query(collection(db, 'coff_requests'), where("status", "==", "approved"));
             const coffReqSnapshot = await getDocs(coffReqQuery);
             const approvedCoffRequests = {};
@@ -926,7 +987,6 @@
             leaveReqSnapshot.forEach(doc => {
                 const data = doc.data();
                 if (!approvedLeaveRequests[data.requester_uid]) approvedLeaveRequests[data.requester_uid] = [];
-                // Handle both old and new field names
                 const sDate = data.start_date || data.startDate;
                 const eDate = data.end_date || data.endDate;
                 approvedLeaveRequests[data.requester_uid].push({ start: new Date(sDate + 'T00:00:00'), end: new Date(eDate + 'T00:00:00') });
@@ -1059,7 +1119,41 @@
             document.getElementById('shift-c-count').textContent = counts.C;
             document.getElementById('shift-g-count').textContent = counts.G;
         }
-        // FIX: Reverted to the original function as requested, which works for admin users.
+
+        // NEW FUNCTION FOR DEPARTMENT SUMMARY
+        function updateDepartmentSummary() {
+            if (!allAdminRecords.length || !allUsers.length) return;
+
+            const departmentCounts = {};
+            const activeToday = allAdminRecords.filter(r => r.date === formatDate(new Date()) && r.in_time && !r.out_time);
+
+            activeToday.forEach(record => {
+                const user = allUsers.find(u => u.uid === record.uid);
+                if (user && user.department) {
+                    departmentCounts[user.department] = (departmentCounts[user.department] || 0) + 1;
+                }
+            });
+
+            const container = document.getElementById('department-live-counts');
+            container.innerHTML = ''; 
+
+            if (Object.keys(departmentCounts).length === 0) {
+                container.innerHTML = `<p class="col-span-full text-gray-300">No employees currently clocked in.</p>`;
+                return;
+            }
+            
+            Object.keys(departmentCounts).sort().forEach(department => {
+                const count = departmentCounts[department];
+                const cardHTML = `
+                    <div>
+                        <p class="text-2xl font-bold">${count}</p>
+                        <p class="text-sm text-gray-300">${department}</p>
+                    </div>
+                `;
+                container.innerHTML += cardHTML;
+            });
+        }
+        
         function updateOnDutySupervisor() {
             if (currentUser && (currentUser.is_admin || currentUser.is_engineer)) {
                  if (!allAdminRecords.length) {
@@ -1077,7 +1171,7 @@
                 const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
                 onDutySupervisorElement.textContent = `On Duty Supervisor: ${onDutyNames.length > 0 ? onDutyNames.join(', ') : 'None'}`;
             } else {
-                 onDutySupervisorElement.textContent = ''; // Non-admins don't need to see this.
+                 onDutySupervisorElement.textContent = ''; 
             }
         }
     </script>
