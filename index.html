@@ -1937,32 +1937,29 @@
                 document.getElementById('shift-g-count').textContent = counts.G;
             }
 
+            // ✅ FIX: This logic directly checks the employee_name from the attendance records.
             function updateOnDutySupervisor() {
-                // This function now checks who is ACTUALLY clocked in
-                if (!allUsers.length || !allAdminRecords.length) {
+                if (!allAdminRecords.length) {
                     onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
                     return;
                 }
 
                 const supervisorNames = ["Rajan tyagi", "Sudhir Singh"];
-                const supervisorUIDs = allUsers
-                    .filter(user => supervisorNames.includes(user.name))
-                    .map(user => user.uid);
-
-                if (supervisorUIDs.length === 0) {
-                    onDutySupervisorElement.textContent = 'On Duty Supervisor: Supervisors not found.';
-                    return;
-                }
+                const lowerCaseSupervisorNames = supervisorNames.map(name => name.toLowerCase());
                 
                 const todayStr = formatDate(new Date());
 
-                const onDutySupervisors = allAdminRecords.filter(record => 
-                    record.date === todayStr &&
-                    supervisorUIDs.includes(record.uid) &&
-                    record.in_time && 
-                    !record.out_time
-                );
+                // Directly filter attendance records for on-duty supervisors by name
+                const onDutySupervisors = allAdminRecords.filter(record => {
+                    const isClockedInToday = record.date === todayStr && record.in_time && !record.out_time;
+                    if (!isClockedInToday || !record.employee_name) {
+                        return false;
+                    }
+                    // Adding .trim() for robustness against extra whitespace
+                    return lowerCaseSupervisorNames.includes(record.employee_name.trim().toLowerCase());
+                });
 
+                // Get unique names of on-duty supervisors
                 const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
 
                 if (onDutyNames.length > 0) {
