@@ -623,7 +623,10 @@
                         if (req.type === 'shift') { date = req.change_date; details = `With ${req.colleague_name} (${req.requester_shift}↔${req.colleague_shift})`; }
                         else if (req.type === 'pp') { date = req.request_date; details = req.remarks; }
                         else if (req.type === 'coff') { date = req.avail_date; details = `For C/Off earned on ${req.earned_date}`; }
-                        else if (req.type === 'leave') { date = req.start_date; details = `${req.total_days} days until ${req.end_date}`; }
+                        else if (req.type === 'leave') { 
+                            date = req.start_date; // Use correct field
+                            details = `${req.total_days} days until ${req.end_date}`; 
+                        }
                         return `<tr><td class="p-3">${date}</td><td class="p-3 uppercase font-semibold text-xs">${req.type}</td><td class="p-3">${details || ''}</td><td class="p-3">${getStatusBadge(req.status)}</td></tr>`;
                     }).join('') || `<tr><td colspan="4" class="p-4 text-center">No requests found.</td></tr>`;
                 });
@@ -642,7 +645,6 @@
                 allAdminRecords = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 applyAdminFilters(isFullAdmin);
                 updateShiftSummary();
-                updateOnDutySupervisor();
             }, (error) => { console.error("Admin records listener failed:", error); showMessage("Could not load attendance records."); });
         }
         function applyAdminFilters(isFullAdmin) {
@@ -657,7 +659,6 @@
         function createAdminRequestListener(collectionName, tableBody, counterElement, type) {
             return onSnapshot(query(collection(db, collectionName)), (snapshot) => {
                 const allRequests = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-                // **CRITICAL FIX**: Safely sort by timestamp, handling records that might not have it.
                 allRequests.sort((a, b) => (b.timestamp?.toDate()?.getTime() || 0) - (a.timestamp?.toDate()?.getTime() || 0));
 
                 const pendingCount = allRequests.filter(req =>
@@ -711,7 +712,7 @@
                     const { earned_coff_doc_id, avail_date } = reqDoc.data();
                     const batch = writeBatch(db);
                     batch.update(requestRef, updateData);
-                    batch.update(doc(db, 'coffs', earned_coff_doc_id), { status: 'availed', availed_date });
+                    batch.update(doc(db, 'coffs', earned_coff_doc_id), { status: 'availed', availed_date: avail_date });
                     await batch.commit();
                 } else {
                     await updateDoc(requestRef, updateData);
@@ -769,11 +770,12 @@
             toggleLoader(true);
             const formData = new FormData(form);
             const requestData = { requester_uid: currentUser.uid, requester_name: currentUser.displayName, status: 'pending_engineer', engineer_comment: '', admin_comment: '', timestamp: Timestamp.now() };
-            for(let [key, value] of formData.entries()) { requestData[key.replace(/_(\w)/g, (_, c) => c.toUpperCase())] = value; }
+            // FIX: Removed the incorrect camelCase conversion. Saves fields like 'start_date' correctly.
+            for(let [key, value] of formData.entries()) { requestData[key] = value; }
 
             try {
                 if(formInfo.collection === 'shift_requests'){
-                    const colleague = allUsers.find(u => u.empId === requestData.colleagueEmpid);
+                    const colleague = allUsers.find(u => u.empId === requestData.colleague_empid);
                     if (!colleague) throw new Error("Colleague ID not found.");
                     if (colleague.uid === currentUser.uid) throw new Error("Cannot request with yourself.");
                     requestData.colleague_uid = colleague.uid;
@@ -1050,21 +1052,27 @@
             document.getElementById('shift-c-count').textContent = counts.C;
             document.getElementById('shift-g-count').textContent = counts.G;
         }
-        function updateOnDutySupervisor() {
-            if (!allAdminRecords.length) {
-                onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
-                return;
-            }
+        // FIX: Replaced function with a self-contained version that queries DB directly, making it work for all users.
+        async function updateOnDutySupervisor() {
             const supervisorNames = ["Rajan tyagi", "Sudhir Singh"];
-            const lowerCaseSupervisorNames = supervisorNames.map(name => name.toLowerCase());
             const todayStr = formatDate(new Date());
-            const onDutySupervisors = allAdminRecords.filter(record => {
-                const isClockedInToday = record.date === todayStr && record.in_time && !record.out_time;
-                if (!isClockedInToday || !record.employee_name) return false;
-                return lowerCaseSupervisorNames.includes(record.employee_name.trim().toLowerCase());
-            });
-            const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
-            onDutySupervisorElement.textContent = `On Duty Supervisor: ${onDutyNames.length > 0 ? onDutyNames.join(', ') : 'None'}`;
+            onDutySupervisorElement.textContent = 'On Duty Supervisor: Loading...';
+
+            try {
+                const q = query(collection(db, "attendance"),
+                    where("date", "==", todayStr),
+                    where("employee_name", "in", supervisorNames),
+                    where("out_time", "==", null)
+                );
+                const querySnapshot = await getDocs(q);
+                const onDutySupervisors = querySnapshot.docs.map(d => d.data());
+                
+                const onDutyNames = [...new Set(onDutySupervisors.map(record => record.employee_name))];
+                onDutySupervisorElement.textContent = `On Duty Supervisor: ${onDutyNames.length > 0 ? onDutyNames.join(', ') : 'None'}`;
+            } catch (error) {
+                console.error("Error fetching supervisor status:", error);
+                onDutySupervisorElement.textContent = 'On Duty Supervisor: Error';
+            }
         }
     </script>
 </body>
