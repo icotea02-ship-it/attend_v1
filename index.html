@@ -230,7 +230,6 @@
                 <p class="text-center mt-4">Don't have an account? <a href="#" id="show-signup" class="text-blue-500 hover:underline">Sign Up</a></p>
             </div>
             <div id="signup-container" class="hidden">
-                <!-- UPDATED SIGNUP FORM -->
                 <form id="signup-form" class="space-y-4">
                     <input type="text" id="signup-name" placeholder="Full Name" class="w-full px-4 py-2 border rounded-lg" required>
                     <input type="email" id="signup-email" placeholder="Email" class="w-full px-4 py-2 border rounded-lg" required>
@@ -282,7 +281,6 @@
                         <div><p class="text-2xl font-bold" id="shift-g-count">0</p><p class="text-sm text-gray-300">General</p></div>
                     </div>
 
-                    <!-- NEW SECTION FOR DEPARTMENT COUNTS -->
                     <div class="mt-6 border-t border-gray-600 pt-4">
                         <h3 class="text-lg font-bold mb-4 text-white">Today's Live Department Count</h3>
                         <div id="department-live-counts" class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
@@ -305,18 +303,18 @@
                 <div id="admin-attendance-view">
                     <h2 class="text-xl font-semibold mb-4">All Employee Records</h2>
                     <div class="space-y-4 mb-4">
-                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                        <div class="flex flex-col sm:flex-row items-center gap-2 mb-2">
                             <input type="date" id="filter-date" class="p-2 border rounded-lg w-full sm:w-auto">
                             <input type="text" id="filter-name" placeholder="Filter by Employee Name" class="p-2 border rounded-lg w-full sm:w-auto flex-grow">
-                            <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg w-full sm:w-auto flex-shrink-0">Export Daily</button>
                         </div>
+                        <!-- BUTTON ALIGNMENT FIX -->
                         <div class="flex flex-wrap items-center gap-2">
+                            <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Export Daily</button>
                             <button id="monthly-report-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">Monthly Report</button>
                             <button id="set-week-off-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg">Set Week Offs</button>
                             <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Set Holidays</button>
                         </div>
                     </div>
-                    <!-- UPDATED TABLE HEADER WITH DESIGNATION -->
                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Name</th><th class="p-3">Designation</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-table-body"></tbody></table></div>
                 </div>
                 <div id="admin-shift-requests-view" class="hidden">
@@ -616,8 +614,8 @@
                     showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                 }
                 
+                // FIX: This now fetches from `allUsers` array which is available to all users.
                 const userDoc = allUsers.find(u => u.uid === currentUser.uid);
-                // FIX: Handle cases where old users (without designation/department) clock in.
                 await addDoc(collection(db, "attendance"), { 
                     uid: currentUser.uid, 
                     employee_name: currentUser.displayName, 
@@ -1118,7 +1116,6 @@
             document.getElementById('shift-g-count').textContent = counts.G;
         }
 
-        // NEW FUNCTION FOR DEPARTMENT SUMMARY
         function updateDepartmentSummary() {
             if (!allAdminRecords.length || !allUsers.length) return;
 
@@ -1126,9 +1123,9 @@
             const activeToday = allAdminRecords.filter(r => r.date === formatDate(new Date()) && r.in_time && !r.out_time);
 
             activeToday.forEach(record => {
-                const user = allUsers.find(u => u.uid === record.uid);
-                if (user && user.department) {
-                    departmentCounts[user.department] = (departmentCounts[user.department] || 0) + 1;
+                // Here we use the department data saved directly in the attendance record
+                if (record.department && record.department !== 'N/A') {
+                    departmentCounts[record.department] = (departmentCounts[record.department] || 0) + 1;
                 }
             });
 
