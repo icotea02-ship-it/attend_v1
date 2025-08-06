@@ -80,6 +80,28 @@
                 </div>
             </div>
         </div>
+        
+        <!-- NEW MODAL FOR MANUAL C/OFF -->
+        <div id="manual-coff-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
+                <h3 class="text-lg font-bold mb-4">Add Manual C/Off</h3>
+                <form id="manual-coff-form">
+                    <div class="mb-4">
+                        <label for="manual-coff-employee" class="block text-sm font-medium text-gray-700">Select Employee</label>
+                        <select id="manual-coff-employee" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select>
+                    </div>
+                    <div class="mb-4">
+                        <label for="manual-coff-date" class="block text-sm font-medium text-gray-700">Date Earned</label>
+                        <input type="date" id="manual-coff-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                    </div>
+                    <div class="flex justify-end space-x-4 mt-6">
+                        <button type="button" id="cancel-manual-coff-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save C/Off</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
 
         <!-- Edit Entry Modal -->
         <div id="edit-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
@@ -284,7 +306,16 @@
                     <div class="mt-6 border-t border-gray-600 pt-4">
                         <h3 class="text-lg font-bold mb-4 text-white">Today's Live Department Count</h3>
                         <div id="department-live-counts" class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
-                            <!-- JavaScript will fill this dynamically -->
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 border-t border-gray-600 pt-4">
+                        <h3 class="text-lg font-bold mb-4 text-white">Pending Requests</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            <div><p class="text-2xl font-bold" id="dashboard-shift-request-count">0</p><p class="text-sm text-gray-300">Shift</p></div>
+                            <div><p class="text-2xl font-bold" id="dashboard-pp-request-count">0</p><p class="text-sm text-gray-300">PP</p></div>
+                            <div><p class="text-2xl font-bold" id="dashboard-coff-request-count">0</p><p class="text-sm text-gray-300">C/Off</p></div>
+                            <div><p class="text-2xl font-bold" id="dashboard-leave-request-count">0</p><p class="text-sm text-gray-300">Leave</p></div>
                         </div>
                     </div>
                 </div>
@@ -292,10 +323,10 @@
                 <div class="mb-4 border-b border-gray-200">
                     <nav class="flex space-x-1 overflow-x-auto pb-2" aria-label="Tabs">
                         <button id="tab-attendance" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg flex-shrink-0">Attendance</button>
-                        <button id="tab-shift-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">Shift Changes<span id="shift-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
-                        <button id="tab-pp-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">PP Requests<span id="pp-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
-                        <button id="tab-coff-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">C/Off Requests<span id="coff-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
-                        <button id="tab-leave-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">Leave Requests<span id="leave-request-counter" class="absolute top-0 right-0 -mt-2 -mr-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center hidden"></span></button>
+                        <button id="tab-shift-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">Shift Changes<span id="shift-request-counter" class="absolute top-1 right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden"></span></button>
+                        <button id="tab-pp-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">PP Requests<span id="pp-request-counter" class="absolute top-1 right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden"></span></button>
+                        <button id="tab-coff-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">C/Off Requests<span id="coff-request-counter" class="absolute top-1 right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden"></span></button>
+                        <button id="tab-leave-requests" class="tab-btn px-4 py-2 font-medium text-sm rounded-t-lg relative flex-shrink-0">Leave Requests<span id="leave-request-counter" class="absolute top-1 right-1 bg-red-500 text-white text-xs font-bold rounded-full h-4 w-4 flex items-center justify-center hidden"></span></button>
                     </nav>
                 </div>
 
@@ -303,34 +334,35 @@
                 <div id="admin-attendance-view">
                     <h2 class="text-xl font-semibold mb-4">All Employee Records</h2>
                     <div class="space-y-4 mb-4">
-                        <div class="flex flex-col sm:flex-row items-center gap-2 mb-2">
+                        <div class="flex flex-col sm:flex-row items-center gap-2">
                             <input type="date" id="filter-date" class="p-2 border rounded-lg w-full sm:w-auto">
                             <input type="text" id="filter-name" placeholder="Filter by Employee Name" class="p-2 border rounded-lg w-full sm:w-auto flex-grow">
+                            <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg w-full sm:w-auto flex-shrink-0">Export Daily</button>
                         </div>
                         <div class="flex flex-wrap items-center gap-2">
-                            <button id="export-btn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Export Daily</button>
                             <button id="monthly-report-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg">Monthly Report</button>
                             <button id="set-week-off-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg">Set Week Offs</button>
                             <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Set Holidays</button>
+                            <button id="add-manual-coff-btn" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg">Add Manual C/Off</button>
                         </div>
                     </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Name</th><th class="p-3">Designation</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-table-body"></tbody></table></div>
+                    <div class="overflow-x-auto max-h-[60vh] overflow-y-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Name</th><th class="p-3">Designation</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-table-body"></tbody></table></div>
                 </div>
                 <div id="admin-shift-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">Shift Change Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-pp-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">PP Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-coff-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">C/Off Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-leave-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">Leave Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
                 </div>
             </div>
 
@@ -354,7 +386,7 @@
                 </div>
                 <div class="card-gradient rounded-xl shadow-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">My Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Details</th><th class="p-3">Status</th></tr></thead><tbody id="employee-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Type</th><th class="p-3">Details</th><th class="p-3">Status</th><th class="p-3">Comment</th></tr></thead><tbody id="employee-requests-body"></tbody></table></div>
                 </div>
             </div>
 
@@ -426,6 +458,10 @@
         const employeeActionsSection = document.getElementById('employee-actions-section');
         const employeeDataSection = document.getElementById('employee-data-section');
         const onDutySupervisorElement = document.getElementById('on-duty-supervisor');
+        const manualCoffModal = document.getElementById('manual-coff-modal');
+        const addManualCoffBtn = document.getElementById('add-manual-coff-btn');
+        const cancelManualCoffBtn = document.getElementById('cancel-manual-coff-btn');
+        const manualCoffForm = document.getElementById('manual-coff-form');
         
         const requestForms = {
             shift: { btn: document.getElementById('shift-change-request-btn'), modal: document.getElementById('shift-change-modal'), form: document.getElementById('shift-change-form'), collection: 'shift_requests' },
@@ -435,10 +471,10 @@
         };
         const adminViews = {
             attendance: { tab: document.getElementById('tab-attendance'), view: document.getElementById('admin-attendance-view') },
-            shift: { tab: document.getElementById('tab-shift-requests'), view: document.getElementById('admin-shift-requests-view'), table: document.getElementById('admin-requests-body'), counter: document.getElementById('shift-request-counter'), collection: 'shift_requests'},
-            pp: { tab: document.getElementById('tab-pp-requests'), view: document.getElementById('admin-pp-requests-view'), table: document.getElementById('admin-pp-requests-body'), counter: document.getElementById('pp-request-counter'), collection: 'pp_requests'},
-            coff: { tab: document.getElementById('tab-coff-requests'), view: document.getElementById('admin-coff-requests-view'), table: document.getElementById('admin-coff-requests-body'), counter: document.getElementById('coff-request-counter'), collection: 'coff_requests'},
-            leave: { tab: document.getElementById('tab-leave-requests'), view: document.getElementById('admin-leave-requests-view'), table: document.getElementById('admin-leave-requests-body'), counter: document.getElementById('leave-request-counter'), collection: 'leave_requests'},
+            shift: { tab: document.getElementById('tab-shift-requests'), view: document.getElementById('admin-shift-requests-view'), table: document.getElementById('admin-requests-body'), counter: document.getElementById('shift-request-counter'), collection: 'shift_requests', dashboardCounterId: 'dashboard-shift-request-count' },
+            pp: { tab: document.getElementById('tab-pp-requests'), view: document.getElementById('admin-pp-requests-view'), table: document.getElementById('admin-pp-requests-body'), counter: document.getElementById('pp-request-counter'), collection: 'pp_requests', dashboardCounterId: 'dashboard-pp-request-count'},
+            coff: { tab: document.getElementById('tab-coff-requests'), view: document.getElementById('admin-coff-requests-view'), table: document.getElementById('admin-coff-requests-body'), counter: document.getElementById('coff-request-counter'), collection: 'coff_requests', dashboardCounterId: 'dashboard-coff-request-count'},
+            leave: { tab: document.getElementById('tab-leave-requests'), view: document.getElementById('admin-leave-requests-view'), table: document.getElementById('admin-leave-requests-body'), counter: document.getElementById('leave-request-counter'), collection: 'leave_requests', dashboardCounterId: 'dashboard-leave-request-count'},
         };
 
         let currentUser = null;
@@ -535,7 +571,7 @@
                         const { table, counter, collection } = adminViews[key];
                         allUnsubscribes.push(createAdminRequestListener(collection, table, counter, key));
                     });
-                    [monthlyReportBtn, setHolidaysBtn, setWeekOffBtn].forEach(btn => btn.classList.toggle('hidden', !currentUser.is_admin));
+                    [monthlyReportBtn, setHolidaysBtn, setWeekOffBtn, addManualCoffBtn].forEach(btn => btn.classList.toggle('hidden', !currentUser.is_admin));
                 } else {
                     adminDashboard.classList.add('hidden');
                     employeeActionsSection.classList.remove('hidden');
@@ -613,16 +649,13 @@
                     showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                 }
                 
-                const userDoc = allUsers.find(u => u.uid === currentUser.uid);
                 await addDoc(collection(db, "attendance"), { 
                     uid: currentUser.uid, 
                     employee_name: currentUser.displayName, 
                     date: dateStr, 
                     in_time: now, 
                     in_location: location, 
-                    out_time: null,
-                    designation: (userDoc && userDoc.designation) || 'N/A',
-                    department: (userDoc && userDoc.department) || 'N/A'
+                    out_time: null
                 });
                 showMessage("Successfully clocked in!");
             } catch (error) { showMessage(`Clock-in failed: ${error.message || error}`); }
@@ -666,6 +699,7 @@
                     allRequests.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
                     employeeRequestsBody.innerHTML = allRequests.map(req => {
                         let date, details;
+                        const comment = req.admin_comment || req.engineer_comment || 'N/A';
                         if (req.type === 'shift') { date = req.change_date; details = `With ${req.colleague_name} (${req.requester_shift}↔${req.colleague_shift})`; }
                         else if (req.type === 'pp') { date = req.request_date; details = req.remarks; }
                         else if (req.type === 'coff') { date = req.avail_date; details = `For C/Off earned on ${req.earned_date}`; }
@@ -673,8 +707,8 @@
                             date = req.start_date || req.startDate; 
                             details = `${req.total_days} days until ${req.end_date || req.endDate}`; 
                         }
-                        return `<tr><td class="p-3">${date}</td><td class="p-3 uppercase font-semibold text-xs">${req.type}</td><td class="p-3">${details || ''}</td><td class="p-3">${getStatusBadge(req.status)}</td></tr>`;
-                    }).join('') || `<tr><td colspan="4" class="p-4 text-center">No requests found.</td></tr>`;
+                        return `<tr><td class="p-3">${date}</td><td class="p-3 uppercase font-semibold text-xs">${req.type}</td><td class="p-3">${details || ''}</td><td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 text-sm">${comment}</td></tr>`;
+                    }).join('') || `<tr><td colspan="5" class="p-4 text-center">No requests found.</td></tr>`;
                 });
             });
             return () => unsubscribes.forEach(unsub => unsub());
@@ -702,7 +736,7 @@
             filtered.sort((a,b) => (b.in_time?.toDate() || 0) - (a.in_time?.toDate() || 0));
             adminTableBody.innerHTML = filtered.map(rec => {
                 const user = allUsers.find(u => u.uid === rec.uid);
-                const designation = user ? user.designation : (rec.designation || 'N/A');
+                const designation = (user && user.designation) ? user.designation : 'N/A';
                 return `<tr>
                             <td class="p-3">${rec.date}</td>
                             <td class="p-3 font-medium">${rec.employee_name||'N/A'}</td>
@@ -716,8 +750,8 @@
         }
         [filterDate, filterName].forEach(el => el.addEventListener('input', () => applyAdminFilters(currentUser.is_admin)));
 
-        // --- ADMIN/ENGINEER REQUEST LISTENER (REUSABLE) ---
         function createAdminRequestListener(collectionName, tableBody, counterElement, type) {
+            const { dashboardCounterId } = adminViews[type];
             return onSnapshot(query(collection(db, collectionName)), (snapshot) => {
                 const allRequests = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 allRequests.sort((a, b) => (b.timestamp?.toDate()?.getTime() || 0) - (a.timestamp?.toDate()?.getTime() || 0));
@@ -727,8 +761,11 @@
                     (currentUser.is_admin && req.status === 'pending_admin')
                 ).length;
                 
-                counterElement.textContent = pendingCount;
                 counterElement.classList.toggle('hidden', pendingCount === 0);
+                if (dashboardCounterId) {
+                    const dashboardCounterElement = document.getElementById(dashboardCounterId);
+                    if(dashboardCounterElement) dashboardCounterElement.textContent = pendingCount;
+                }
 
                 tableBody.innerHTML = allRequests.map(req => {
                     let actions = 'N/A';
@@ -738,13 +775,16 @@
                     }
                     
                     let cells = '';
-                    if (type === 'shift') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td>`;
-                    else if (type === 'pp') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td>`;
-                    else if (type === 'coff') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td>`;
-                    else if (type === 'leave') cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>`;
+                    let adminCommentCell = `<td class="p-3">${req.admin_comment || 'N/A'}</td>`;
+                    let colspan = 10;
+
+                    if (type === 'shift') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    else if (type === 'pp') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; colspan = 8; }
+                    else if (type === 'coff') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; colspan = 9; }
+                    else if (type === 'leave') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
                     
-                    return `<tr>${cells}<td class="p-3">${req.engineer_comment || 'N/A'}</td><td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td></tr>`;
-                }).join('') || `<tr><td colspan="8" class="p-4 text-center">No requests found.</td></tr>`;
+                    return `<tr>${cells}${adminCommentCell}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td></tr>`;
+                }).join('') || `<tr><td colspan="${colspan}" class="p-4 text-center">No requests found.</td></tr>`;
             }, (error) => { console.error(`Listener for ${collectionName} failed:`, error); showMessage(`Could not load ${type} requests.`); });
         }
         
@@ -898,6 +938,32 @@
                 deleteConfirmModal.classList.add('hidden');
                 toggleLoader(false);
             }
+        });
+        
+        // --- MANUAL C/OFF LOGIC ---
+        addManualCoffBtn.addEventListener('click', () => {
+            const employeeSelect = document.getElementById('manual-coff-employee');
+            employeeSelect.innerHTML = allUsers.map(user => `<option value="${user.uid}" data-name="${user.name}">${user.name} (${user.empId || ''})</option>`).join('');
+            manualCoffModal.classList.remove('hidden');
+        });
+        cancelManualCoffBtn.addEventListener('click', () => manualCoffModal.classList.add('hidden'));
+        manualCoffForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            toggleLoader(true);
+            const employeeSelect = document.getElementById('manual-coff-employee');
+            const selectedOption = employeeSelect.options[employeeSelect.selectedIndex];
+            const uid = selectedOption.value;
+            const name = selectedOption.dataset.name;
+            const earnedDate = document.getElementById('manual-coff-date').value;
+
+            if (uid && name && earnedDate) {
+                try {
+                    await addDoc(collection(db, 'coffs'), { uid, name, earned_date: earnedDate, status: 'earned' });
+                    showMessage(`C/Off for ${name} on ${earnedDate} added successfully.`);
+                    manualCoffModal.classList.add('hidden');
+                } catch (error) { showMessage(`Error: ${error.message}`); }
+            } else { showMessage('Please fill all fields.'); }
+            toggleLoader(false);
         });
         
         // --- ORIGINAL EXPORT LOGIC ---
@@ -1100,12 +1166,23 @@
             if (!allAdminRecords.length) return;
             let counts = { A: 0, B: 0, C: 0, G: 0 };
             const activeToday = allAdminRecords.filter(r => r.date === formatDate(new Date()) && r.in_time && !r.out_time);
+            
             activeToday.forEach(r => {
                 const inTimeMins = r.in_time.toDate().getHours() * 60 + r.in_time.toDate().getMinutes();
                 let shift = 'G';
-                if (inTimeMins >= 405 && inTimeMins <= 450) shift = 'A';       // 6:45 - 7:30
-                else if (inTimeMins >= 825 && inTimeMins <= 870) shift = 'B';  // 13:45 - 14:30
-                else if (inTimeMins >= 1245 && inTimeMins <= 1290) shift = 'C';// 20:45 - 21:30
+
+                if (inTimeMins >= 390 && inTimeMins < 810) { 
+                    shift = 'A';
+                } else if (inTimeMins >= 810 && inTimeMins < 1290) { 
+                    shift = 'B';
+                } else { 
+                    shift = 'C';
+                }
+                
+                if (inTimeMins >= 540 && inTimeMins < 780) {
+                     shift = 'G';
+                }
+                
                 counts[shift]++;
             });
             document.getElementById('shift-a-count').textContent = counts.A;
@@ -1114,15 +1191,15 @@
             document.getElementById('shift-g-count').textContent = counts.G;
         }
 
-        // FIXED DEPARTMENT SUMMARY FUNCTION
         function updateDepartmentSummary() {
-            if (!allAdminRecords.length) return;
+            if (!allAdminRecords.length || !allUsers.length) return;
             
             const departmentCounts = {};
             const activeToday = allAdminRecords.filter(r => r.date === formatDate(new Date()) && r.in_time && !r.out_time);
 
             activeToday.forEach(record => {
-                const department = record.department || 'N/A';
+                const user = allUsers.find(u => u.uid === record.uid);
+                const department = (user && user.department) ? user.department : "N/A";
                 departmentCounts[department] = (departmentCounts[department] || 0) + 1;
             });
 
