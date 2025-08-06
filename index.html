@@ -187,6 +187,40 @@
             </div>
         </div>
 
+        <!-- NEW: Bulk Present Modal -->
+        <div id="bulk-present-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-2/3 max-h-screen overflow-y-auto animate-fade-in">
+                <h3 class="text-lg font-bold mb-4">Mark Bulk Attendance</h3>
+                <form id="bulk-present-form">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                        <div>
+                            <label for="bulk-date" class="block text-sm font-medium text-gray-700">Date</label>
+                            <input type="date" id="bulk-date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label for="bulk-in-time" class="block text-sm font-medium text-gray-700">In Time</label>
+                            <input type="time" id="bulk-in-time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                        <div>
+                            <label for="bulk-out-time" class="block text-sm font-medium text-gray-700">Out Time</label>
+                            <input type="time" id="bulk-out-time" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <button type="button" id="bulk-select-all" class="text-sm text-blue-600 hover:underline">Select All</button> /
+                        <button type="button" id="bulk-deselect-all" class="text-sm text-blue-600 hover:underline">Deselect All</button>
+                    </div>
+                    <div id="bulk-employee-list" class="space-y-2 border p-2 rounded-md max-h-60 overflow-y-auto">
+                        <!-- Employee checkboxes will be populated here -->
+                    </div>
+                    <div class="flex justify-end space-x-4 mt-6">
+                        <button type="button" id="cancel-bulk-present-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg">Save Attendance</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <!-- ALL REQUEST MODALS (Shift, PP, C/Off, Leave) -->
         <div id="shift-change-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
@@ -344,6 +378,7 @@
                             <button id="set-week-off-btn" class="bg-teal-500 hover:bg-teal-600 text-white font-bold py-2 px-4 rounded-lg">Set Week Offs</button>
                             <button id="set-holidays-btn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Set Holidays</button>
                             <button id="add-manual-coff-btn" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg">Add Manual C/Off</button>
+                            <button id="bulk-present-btn" class="bg-green-700 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-lg">Mark Bulk Present</button>
                         </div>
                     </div>
                     <div class="overflow-x-auto max-h-[60vh] overflow-y-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Date</th><th class="p-3">Name</th><th class="p-3">Designation</th><th class="p-3">In</th><th class="p-3">Out</th><th class="p-3">Hours</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-table-body"></tbody></table></div>
@@ -462,6 +497,11 @@
         const addManualCoffBtn = document.getElementById('add-manual-coff-btn');
         const cancelManualCoffBtn = document.getElementById('cancel-manual-coff-btn');
         const manualCoffForm = document.getElementById('manual-coff-form');
+        const bulkPresentModal = document.getElementById('bulk-present-modal');
+        const bulkPresentBtn = document.getElementById('bulk-present-btn');
+        const cancelBulkPresentBtn = document.getElementById('cancel-bulk-present-btn');
+        const bulkPresentForm = document.getElementById('bulk-present-form');
+        const bulkEmployeeList = document.getElementById('bulk-employee-list');
         
         const requestForms = {
             shift: { btn: document.getElementById('shift-change-request-btn'), modal: document.getElementById('shift-change-modal'), form: document.getElementById('shift-change-form'), collection: 'shift_requests' },
@@ -571,7 +611,7 @@
                         const { table, counter, collection } = adminViews[key];
                         allUnsubscribes.push(createAdminRequestListener(collection, table, counter, key));
                     });
-                    [monthlyReportBtn, setHolidaysBtn, setWeekOffBtn, addManualCoffBtn].forEach(btn => btn.classList.toggle('hidden', !currentUser.is_admin));
+                    [monthlyReportBtn, setHolidaysBtn, setWeekOffBtn, addManualCoffBtn, bulkPresentBtn].forEach(btn => btn.classList.toggle('hidden', !currentUser.is_admin));
                 } else {
                     adminDashboard.classList.add('hidden');
                     employeeActionsSection.classList.remove('hidden');
@@ -986,8 +1026,11 @@
         }
         exportBtn.addEventListener('click', exportDailyToCSV);
 
-        // --- ORIGINAL MONTHLY REPORT LOGIC ---
-        monthlyReportBtn.addEventListener('click', () => monthlyReportModal.classList.remove('hidden'));
+        // --- MONTHLY REPORT LOGIC (CORRECTED) ---
+        monthlyReportBtn.addEventListener('click', () => {
+            document.getElementById('report-month').valueAsDate = new Date();
+            monthlyReportModal.classList.remove('hidden')
+        });
         cancelMonthlyReportBtn.addEventListener('click', () => monthlyReportModal.classList.add('hidden'));
         monthlyReportForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1000,94 +1043,135 @@
         });
         async function exportMonthlyReport(year, month) {
             toggleLoader(true);
-            await fetchAllUsers();
+            try {
+                await fetchAllUsers();
 
-            const today = new Date();
-            const isCurrentMonth = today.getFullYear() === year && (today.getMonth() + 1) === month;
-            const daysInMonth = new Date(year, month, 0).getDate();
-            const daysToReport = isCurrentMonth ? today.getDate() : daysInMonth;
+                const today = new Date();
+                const isCurrentMonth = today.getFullYear() === year && (today.getMonth() + 1) === month;
+                const daysInMonth = new Date(year, month, 0).getDate();
+                const daysToReport = isCurrentMonth ? today.getDate() : daysInMonth;
 
-            const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
-            const endDate = `${year}-${String(month).padStart(2, '0')}-${String(daysInMonth).padStart(2, '0')}`;
-            const monthQuery = query(collection(db, 'attendance'), where("date", ">=", startDate), where("date", "<=", endDate));
-            const attendanceSnapshot = await getDocs(monthQuery);
-            const monthRecords = attendanceSnapshot.docs.map(doc => doc.data());
+                const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
+                const endDate = `${year}-${String(month).padStart(2, '0')}-${String(daysInMonth).padStart(2, '0')}`;
+                
+                // Fetch all data first
+                const attendanceQuery = query(collection(db, 'attendance'), where("date", ">=", startDate), where("date", "<=", endDate));
+                const weekOffsQuery = query(collection(db, 'weekoffs'), where("year", "==", year), where("month", "==", month));
+                const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
+                const ppQuery = query(collection(db, 'pp_requests'), where("status", "==", "approved"));
+                const coffReqQuery = query(collection(db, 'coff_requests'), where("status", "==", "approved"));
+                const leaveReqQuery = query(collection(db, 'leave_requests'), where("status", "==", "approved"));
 
-            const weekOffsQuery = query(collection(db, 'weekoffs'), where("year", "==", year), where("month", "==", month));
-            const weekOffsSnapshot = await getDocs(weekOffsQuery);
-            const monthWeekOffs = {};
-            weekOffsSnapshot.forEach(doc => monthWeekOffs[doc.data().uid] = doc.data().dates || []);
+                const [
+                    attendanceSnapshot, 
+                    weekOffsSnapshot, 
+                    holidayDoc, 
+                    ppSnapshot, 
+                    coffReqSnapshot, 
+                    leaveReqSnapshot
+                ] = await Promise.all([
+                    getDocs(attendanceQuery),
+                    getDocs(weekOffsQuery),
+                    getDoc(holidayDocRef),
+                    getDocs(ppQuery),
+                    getDocs(coffReqQuery),
+                    getDocs(leaveReqQuery)
+                ]);
 
-            const holidayDoc = await getDoc(doc(db, 'holidays', `${year}-${month}`));
-            const holidaysInMonth = holidayDoc.exists() ? holidayDoc.data().dates : [];
-            
-            const ppQuery = query(collection(db, 'pp_requests'), where("year", "==", year), where("month", "==", month), where("status", "==", "approved"));
-            const ppSnapshot = await getDocs(ppQuery);
-            const approvedPPs = {};
-            ppSnapshot.forEach(doc => {
-                const data = doc.data();
-                if (!approvedPPs[data.requester_uid]) approvedPPs[data.requester_uid] = {};
-                approvedPPs[data.requester_uid][new Date(data.request_date).getUTCDate()] = true;
-            });
+                // Process all fetched data
+                const monthRecords = attendanceSnapshot.docs.map(doc => doc.data());
+                
+                const monthWeekOffs = {};
+                weekOffsSnapshot.forEach(doc => {
+                    monthWeekOffs[doc.data().uid] = doc.data().dates || [];
+                });
+                
+                const holidaysInMonth = holidayDoc.exists() ? holidayDoc.data().dates : [];
+                
+                const approvedPPs = {};
+                ppSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const requestDate = new Date(data.request_date + 'T00:00:00Z');
+                    if (requestDate.getUTCFullYear() === year && (requestDate.getUTCMonth() + 1) === month) {
+                        if (!approvedPPs[data.requester_uid]) approvedPPs[data.requester_uid] = {};
+                        approvedPPs[data.requester_uid][requestDate.getUTCDate()] = true;
+                    }
+                });
 
-            const coffReqQuery = query(collection(db, 'coff_requests'), where("status", "==", "approved"));
-            const coffReqSnapshot = await getDocs(coffReqQuery);
-            const approvedCoffRequests = {};
-            coffReqSnapshot.forEach(doc => {
-                const data = doc.data();
-                const availDate = new Date(data.avail_date + 'T00:00:00');
-                if (availDate.getFullYear() === year && (availDate.getMonth() + 1) === month) {
-                    if (!approvedCoffRequests[data.requester_uid]) approvedCoffRequests[data.requester_uid] = [];
-                    approvedCoffRequests[data.requester_uid].push(availDate.getDate());
+                const approvedCoffRequests = {};
+                coffReqSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const availDate = new Date(data.avail_date + 'T00:00:00Z');
+                    if (availDate.getUTCFullYear() === year && (availDate.getUTCMonth() + 1) === month) {
+                        if (!approvedCoffRequests[data.requester_uid]) approvedCoffRequests[data.requester_uid] = [];
+                        approvedCoffRequests[data.requester_uid].push(availDate.getUTCDate());
+                    }
+                });
+                
+                const approvedLeaveRequests = {};
+                leaveReqSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    const sDate = new Date((data.start_date || data.startDate) + 'T00:00:00Z');
+                    const eDate = new Date((data.end_date || data.endDate) + 'T00:00:00Z');
+                    if (sDate.getUTCFullYear() === year && (sDate.getUTCMonth() + 1) === month || eDate.getUTCFullYear() === year && (eDate.getUTCMonth() + 1) === month) {
+                       if (!approvedLeaveRequests[data.requester_uid]) approvedLeaveRequests[data.requester_uid] = [];
+                       approvedLeaveRequests[data.requester_uid].push({ start: sDate, end: eDate });
+                    }
+                });
+
+                // Generate report data
+                const reportData = {};
+                allUsers.forEach(user => {
+                    reportData[user.uid] = { name: user.name, empId: user.empId, days: Array(daysInMonth + 1).fill('A') };
+                });
+                
+                monthRecords.forEach(rec => {
+                    if (reportData[rec.uid]) {
+                        const dayOfMonth = new Date(rec.date + 'T00:00:00Z').getUTCDate();
+                        reportData[rec.uid].days[dayOfMonth] = 'P';
+                    }
+                });
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                    const currentDate = new Date(Date.UTC(year, month - 1, day));
+                    for (const uid in reportData) {
+                        let status = reportData[uid].days[day];
+                        
+                        if (status === 'P' && approvedPPs[uid]?.[day]) { reportData[uid].days[day] = 'PP'; continue; }
+                        
+                        let isOnLeave = approvedLeaveRequests[uid]?.some(l => currentDate >= l.start && currentDate <= l.end);
+                        if (status !== 'P' && status !== 'PP' && isOnLeave) { reportData[uid].days[day] = 'L'; continue; }
+                        
+                        if (status !== 'P' && status !== 'PP' && approvedCoffRequests[uid]?.includes(day)) { reportData[uid].days[day] = 'CO'; continue; }
+                        
+                        if (status === 'A' && holidaysInMonth.includes(day)) { reportData[uid].days[day] = 'H'; continue; }
+                        
+                        if (status === 'A' && (monthWeekOffs[uid] || []).includes(day)) { reportData[uid].days[day] = 'WO'; continue; }
+                    }
                 }
-            });
-            const leaveReqQuery = query(collection(db, 'leave_requests'), where("status", "==", "approved"));
-            const leaveReqSnapshot = await getDocs(leaveReqQuery);
-            const approvedLeaveRequests = {};
-            leaveReqSnapshot.forEach(doc => {
-                const data = doc.data();
-                if (!approvedLeaveRequests[data.requester_uid]) approvedLeaveRequests[data.requester_uid] = [];
-                const sDate = data.start_date || data.startDate;
-                const eDate = data.end_date || data.endDate;
-                approvedLeaveRequests[data.requester_uid].push({ start: new Date(sDate + 'T00:00:00'), end: new Date(eDate + 'T00:00:00') });
-            });
+                
+                const headers = ['NAME', 'EMP ID', ...Array.from({ length: daysToReport }, (_, i) => `${i + 1}-${month}-${year}`), 'P', 'PP', 'A', 'WO', 'H', 'CO', 'L', 'TOTAL'];
+                const rows = Object.values(reportData).map(emp => {
+                    const counts = emp.days.slice(1, daysToReport + 1).reduce((acc, val) => { acc[val] = (acc[val] || 0) + 1; return acc; }, {});
+                    const presentDays = (counts['P'] || 0) + (counts['PP'] || 0) * 2; // Count PP as 2
+                    return [`"${emp.name}"`, `"${emp.empId || ''}"`, ...emp.days.slice(1, daysToReport + 1), counts['P'] || 0, counts['PP'] || 0, counts['A'] || 0, counts['WO'] || 0, counts['H'] || 0, counts['CO'] || 0, counts['L'] || 0, presentDays].join(',');
+                });
 
-            const reportData = {};
-            allUsers.forEach(user => reportData[user.uid] = { name: user.name, empId: user.empId, days: Array(daysInMonth + 1).fill('A') });
-            
-            monthRecords.forEach(rec => {
-                if (reportData[rec.uid]) {
-                    reportData[rec.uid].days[new Date(rec.date).getUTCDate()] = 'P';
-                }
-            });
-
-            for (let day = 1; day <= daysInMonth; day++) {
-                const currentDate = new Date(year, month - 1, day);
-                for (const uid in reportData) {
-                    let status = reportData[uid].days[day];
-                    if (status === 'P' && approvedPPs[uid]?.[day]) { reportData[uid].days[day] = 'PP'; continue; }
-                    let isOnLeave = approvedLeaveRequests[uid]?.some(l => currentDate >= l.start && currentDate <= l.end);
-                    if (status !== 'P' && status !== 'PP' && isOnLeave) { reportData[uid].days[day] = 'L'; continue; }
-                    if (status !== 'P' && status !== 'PP' && approvedCoffRequests[uid]?.includes(day)) { reportData[uid].days[day] = 'CO'; continue; }
-                    if (status === 'A' && holidaysInMonth.includes(day)) { reportData[uid].days[day] = 'H'; continue; }
-                    if (status === 'A' && monthWeekOffs[uid]?.includes(day)) { reportData[uid].days[day] = 'WO'; continue; }
-                }
+                const csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.join("\n");
+                const link = document.createElement("a");
+                link.href = encodeURI(csvContent);
+                link.download = `monthly_report_${year}_${month}.csv`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } catch (error) {
+                console.error("Failed to generate monthly report:", error);
+                showMessage("Error generating report. Check console for details.");
+            } finally {
+                toggleLoader(false);
             }
-            
-            const headers = ['NAME', 'EMP ID', ...Array.from({ length: daysToReport }, (_, i) => `${i + 1}-${month}-${year}`), 'P', 'PP', 'A', 'WO', 'H', 'CO', 'L', 'TOTAL'];
-            const rows = Object.values(reportData).map(emp => {
-                const counts = emp.days.slice(1, daysToReport + 1).reduce((acc, val) => { acc[val] = (acc[val] || 0) + 1; return acc; }, {});
-                return [`"${emp.name}"`, `"${emp.empId}"`, ...emp.days.slice(1, daysToReport + 1), counts['P'] || 0, counts['PP'] || 0, counts['A'] || 0, counts['WO'] || 0, counts['H'] || 0, counts['CO'] || 0, counts['L'] || 0, (counts['P'] || 0) + (counts['PP'] || 0)].join(',');
-            });
-
-            const csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.join("\n");
-            const link = document.createElement("a");
-            link.href = encodeURI(csvContent);
-            link.download = `monthly_report_${year}_${month}.csv`;
-            link.click();
-            link.remove();
-            toggleLoader(false);
         }
+
 
         // --- ORIGINAL WEEK OFF & HOLIDAY LOGIC ---
         setWeekOffBtn.addEventListener('click', () => { weekOffModal.classList.remove('hidden'); document.getElementById('week-off-month').valueAsDate = new Date(); weekOffEmployeeList.innerHTML = ''; });
@@ -1150,6 +1234,88 @@
             toggleLoader(false);
         });
         
+        // --- NEW: BULK PRESENT LOGIC ---
+        bulkPresentBtn.addEventListener('click', () => {
+            bulkEmployeeList.innerHTML = allUsers.map(user => `
+                <label class="flex items-center p-2 rounded hover:bg-gray-100 cursor-pointer">
+                    <input type="checkbox" class="form-checkbox h-4 w-4" value="${user.uid}" data-name="${user.name}">
+                    <span class="ml-2 text-sm">${user.name} (${user.empId || 'No ID'})</span>
+                </label>
+            `).join('');
+            bulkPresentForm.reset();
+            document.getElementById('bulk-date').valueAsDate = new Date();
+            bulkPresentModal.classList.remove('hidden');
+        });
+
+        cancelBulkPresentBtn.addEventListener('click', () => {
+            bulkPresentModal.classList.add('hidden');
+        });
+
+        document.getElementById('bulk-select-all').addEventListener('click', () => {
+            bulkEmployeeList.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = true);
+        });
+
+        document.getElementById('bulk-deselect-all').addEventListener('click', () => {
+            bulkEmployeeList.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        });
+
+        bulkPresentForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const dateStr = document.getElementById('bulk-date').value;
+            const inTimeStr = document.getElementById('bulk-in-time').value;
+            const outTimeStr = document.getElementById('bulk-out-time').value;
+
+            if (!dateStr || !inTimeStr || !outTimeStr) {
+                return showMessage("Please fill in the date, in time, and out time.");
+            }
+
+            const selectedCheckboxes = Array.from(bulkEmployeeList.querySelectorAll('input:checked'));
+            if (selectedCheckboxes.length === 0) {
+                return showMessage("Please select at least one employee.");
+            }
+
+            toggleLoader(true);
+            try {
+                const batch = writeBatch(db);
+                const inTime = new Date(`${dateStr}T${inTimeStr}`);
+                const outTime = new Date(`${dateStr}T${outTimeStr}`);
+                const totalHours = calculateTotalHours(inTime, outTime);
+                
+                const uids = selectedCheckboxes.map(cb => cb.value);
+                const q = query(collection(db, 'attendance'), where('date', '==', dateStr), where('uid', 'in', uids));
+                const existingDocsSnapshot = await getDocs(q);
+
+                // Delete any existing records for these users on this day to prevent duplicates.
+                existingDocsSnapshot.forEach(doc => {
+                    batch.delete(doc.ref);
+                });
+
+                // Create the new records
+                selectedCheckboxes.forEach(cb => {
+                    const newDocRef = doc(collection(db, 'attendance')); // Create ref for a new doc
+                    batch.set(newDocRef, {
+                        uid: cb.value,
+                        employee_name: cb.dataset.name,
+                        date: dateStr,
+                        in_time: inTime,
+                        out_time: outTime,
+                        total_hours: totalHours,
+                        is_bulk_entry: true
+                    });
+                });
+
+                await batch.commit();
+                showMessage(`Successfully updated attendance for ${selectedCheckboxes.length} employees. Existing entries for this day were overwritten.`);
+                bulkPresentModal.classList.add('hidden');
+            } catch (error) {
+                console.error("Bulk attendance error:", error);
+                showMessage(`An error occurred: ${error.message}`);
+            } finally {
+                toggleLoader(false);
+            }
+        });
+
+
         // --- TAB SWITCHING ---
         Object.values(adminViews).forEach(({tab, view}) => tab.addEventListener('click', () => {
             Object.values(adminViews).forEach(v => {
