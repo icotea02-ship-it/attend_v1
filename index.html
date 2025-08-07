@@ -673,11 +673,26 @@
         clockInBtn.addEventListener('click', async () => {
             toggleLoader(true);
             try {
-                if (!(await getDocs(query(collection(db, "attendance"), where("uid", "==", currentUser.uid), where("out_time", "==", null)))).empty) {
-                    throw new Error("You have a pending clock-out from a previous day.");
+                const now = new Date();
+                const dateStr = formatDate(now);
+                
+                // *** NEW/MODIFIED CHECK FOR EXISTING ENTRIES ON THE SAME DAY ***
+                const todayQuery = query(collection(db, "attendance"), where("uid", "==", currentUser.uid), where("date", "==", dateStr));
+                const todaySnapshot = await getDocs(todayQuery);
+
+                if (!todaySnapshot.empty) {
+                    const hasOpenClockIn = todaySnapshot.docs.some(d => d.data().out_time === null);
+                    if (hasOpenClockIn) {
+                        throw new Error("You have a pending clock-out. Please clock-out first.");
+                    } else {
+                        // This is the new part for the user's request
+                        throw new Error("Shift already completed for today. To work an additional shift, please use the 'Apply for PP' option.");
+                    }
                 }
+                
+                // Continue with original clock-in logic if no entries for today exist
                 const location = await checkLocation();
-                const now = new Date(), dateStr = formatDate(now), year = now.getFullYear(), month = now.getMonth() + 1, day = now.getDate();
+                const year = now.getFullYear(), month = now.getMonth() + 1, day = now.getDate();
 
                 const weekOffDoc = await getDoc(doc(db, 'weekoffs', `${currentUser.uid}_${year}_${month}`));
                 const holidayDoc = await getDoc(doc(db, 'holidays', `${year}-${month}`));
@@ -1327,26 +1342,32 @@
         }));
         adminViews.attendance.tab.click();
 
-        // --- SHIFT & SUPERVISOR SUMMARY ---
+        // --- *** SHIFT & SUPERVISOR SUMMARY (REVISED) *** ---
         function updateShiftSummary() {
             if (!allAdminRecords.length) return;
             let counts = { A: 0, B: 0, C: 0, G: 0 };
             const activeToday = allAdminRecords.filter(r => r.date === formatDate(new Date()) && r.in_time && !r.out_time);
             
+            // Define shift windows in minutes from midnight (with 15 min grace period)
+            const A_SHIFT_START = 6 * 60 + 45; // 6:45 AM
+            const A_SHIFT_END = 7 * 60 + 15;   // 7:15 AM
+            const B_SHIFT_START = 13 * 60 + 45; // 1:45 PM
+            const B_SHIFT_END = 14 * 60 + 15;   // 2:15 PM
+            const C_SHIFT_START = 21 * 60 + 45; // 9:45 PM
+            const C_SHIFT_END = 22 * 60 + 15;   // 10:15 PM
+
             activeToday.forEach(r => {
                 const inTimeMins = r.in_time.toDate().getHours() * 60 + r.in_time.toDate().getMinutes();
-                let shift = 'G';
+                let shift;
 
-                if (inTimeMins >= 390 && inTimeMins < 810) { 
+                if (inTimeMins >= A_SHIFT_START && inTimeMins <= A_SHIFT_END) {
                     shift = 'A';
-                } else if (inTimeMins >= 810 && inTimeMins < 1290) { 
+                } else if (inTimeMins >= B_SHIFT_START && inTimeMins <= B_SHIFT_END) {
                     shift = 'B';
-                } else { 
+                } else if (inTimeMins >= C_SHIFT_START && inTimeMins <= C_SHIFT_END) {
                     shift = 'C';
-                }
-                
-                if (inTimeMins >= 540 && inTimeMins < 780) {
-                     shift = 'G';
+                } else {
+                    shift = 'G'; // If not in any specific shift window, it's General
                 }
                 
                 counts[shift]++;
