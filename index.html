@@ -81,6 +81,18 @@
             </div>
         </div>
         
+        <!-- NEW: Early Clock-Out Confirmation Modal -->
+        <div id="early-clock-out-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 text-center animate-fade-in">
+                <h3 class="text-lg font-bold mb-4 text-orange-600">Confirm Early Clock-Out</h3>
+                <p class="mb-6">You are clocking out before completing 6 duty hours. This may be considered a half-day. Are you sure you want to continue?</p>
+                <div class="flex justify-center space-x-4">
+                    <button id="cancel-early-clock-out-btn" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button>
+                    <button id="confirm-early-clock-out-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg">Agree & Clock Out</button>
+                </div>
+            </div>
+        </div>
+
         <!-- NEW MODAL FOR MANUAL C/OFF -->
         <div id="manual-coff-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 md:w-1/3 animate-fade-in">
@@ -232,6 +244,7 @@
                         <div><label for="colleague-shift" class="block text-sm font-medium text-gray-700">Colleague's Shift</label><select id="colleague-shift" name="colleague_shift" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required><option value="A">A</option><option value="B">B</option><option value="C">C</option><option value="G">G</option></select></div>
                     </div>
                     <div class="mb-4"><label for="colleague-empid" class="block text-sm font-medium text-gray-700">Colleague's Employee ID</label><input type="text" id="colleague-empid" name="colleague_empid" placeholder="Enter Colleague's EMP ID" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
+                    <div class="mb-4"><label for="shift-change-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="shift-change-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
                     <div class="mb-4"><label for="shift-change-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="shift-change-remarks" name="remarks" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Send</button></div>
                 </form>
@@ -242,6 +255,7 @@
                 <h3 class="text-lg font-bold mb-4">Apply for Additional Present (PP)</h3>
                 <form id="pp-request-form">
                     <div class="mb-4"><label for="pp-request-date" class="block text-sm font-medium text-gray-700">Date for PP</label><input type="date" id="pp-request-date" name="request_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
+                    <div class="mb-4"><label for="pp-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="pp-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
                     <div class="mb-4"><label for="pp-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="pp-request-remarks" name="remarks" rows="3" placeholder="Reason for dual shift..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Submit</button></div>
                 </form>
@@ -253,6 +267,7 @@
                 <form id="coff-request-form">
                     <div class="mb-4"><label for="coff-avail-date" class="block text-sm font-medium text-gray-700">Date to Avail C/Off</label><input type="date" id="coff-avail-date" name="avail_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
                     <div class="mb-4"><label for="coff-earned-select" class="block text-sm font-medium text-gray-700">Against which earned C/Off?</label><select id="coff-earned-select" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select><p id="no-coff-message" class="text-sm text-red-500 mt-1 hidden">You have no available C/Offs.</p></div>
+                    <div class="mb-4"><label for="coff-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="coff-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
                     <div class="mb-4"><label for="coff-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="coff-request-remarks" name="remarks" rows="3" placeholder="Reason..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg">Submit</button></div>
                 </form>
@@ -267,6 +282,7 @@
                         <div><label for="leave-end-date" class="block text-sm font-medium text-gray-700">End Date</label><input type="date" id="leave-end-date" name="end_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
                     </div>
                     <p class="text-center text-sm font-medium text-gray-700 mb-4">Total Days: <span id="leave-total-days">0</span></p>
+                    <div class="mb-4"><label for="leave-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="leave-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
                     <div class="mb-4"><label for="leave-request-remarks" class="block text-sm font-medium text-gray-700">Reason</label><textarea id="leave-request-remarks" name="reason" rows="3" placeholder="Reason..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
                     <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md"><label class="flex items-start"><input type="checkbox" id="leave-terms-ack" class="h-4 w-4 text-orange-600 mt-1"><span class="ml-2 text-xs text-gray-600">I acknowledge leave approval is subject to company policy.</span></label></div>
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" id="submit-leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg disabled:bg-gray-400" disabled>Submit</button></div>
@@ -385,19 +401,19 @@
                 </div>
                 <div id="admin-shift-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">Shift Change Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-pp-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">PP Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-coff-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">C/Off Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-leave-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">Leave Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
                 </div>
             </div>
 
@@ -414,6 +430,26 @@
                 </div>
                  <p id="location-status" class="mt-4 text-sm text-gray-600"></p>
             </div>
+            
+            <div id="consent-requests-section" class="hidden card-gradient rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-xl font-semibold mb-4">Requests for My Consent</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-gray-200">
+                                <th class="p-3">From</th>
+                                <th class="p-3">Type</th>
+                                <th class="p-3">Details</th>
+                                <th class="p-3">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="consent-requests-body">
+                            <!-- Consent requests will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
             <div id="employee-data-section" class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                 <div class="card-gradient rounded-xl shadow-lg p-6">
                     <h2 class="text-xl font-semibold mb-4">My Attendance</h2>
@@ -447,6 +483,7 @@
         const ENGINEER_UIDS = ['I14JL1kidHfhRTiFHcBw5YdtlNH2', '103BiCUsRThS2i610GMvMog9Wj22'];
         const OFFICE_LOCATION = { latitude: 28.530243, longitude: 77.357587 };
         const GEOFENCE_RADIUS_METERS = 500;
+        const MINIMUM_DUTY_HOURS = 6;
 
         // --- DOM ELEMENT REFERENCES ---
         const loadingOverlay = document.getElementById('loading-overlay');
@@ -468,6 +505,9 @@
         const deleteConfirmModal = document.getElementById('delete-confirm-modal');
         const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
         const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+        const earlyClockOutModal = document.getElementById('early-clock-out-modal');
+        const confirmEarlyClockOutBtn = document.getElementById('confirm-early-clock-out-btn');
+        const cancelEarlyClockOutBtn = document.getElementById('cancel-early-clock-out-btn');
         const editModal = document.getElementById('edit-modal');
         const editForm = document.getElementById('edit-form');
         const cancelEditBtn = document.getElementById('cancel-edit-btn');
@@ -502,6 +542,8 @@
         const cancelBulkPresentBtn = document.getElementById('cancel-bulk-present-btn');
         const bulkPresentForm = document.getElementById('bulk-present-form');
         const bulkEmployeeList = document.getElementById('bulk-employee-list');
+        const consentRequestsSection = document.getElementById('consent-requests-section');
+        const consentRequestsBody = document.getElementById('consent-requests-body');
         
         const requestForms = {
             shift: { btn: document.getElementById('shift-change-request-btn'), modal: document.getElementById('shift-change-modal'), form: document.getElementById('shift-change-form'), collection: 'shift_requests' },
@@ -557,8 +599,8 @@
             return `${String(Math.floor(diffMs / 3600000)).padStart(2, '0')}:${String(Math.round((diffMs % 3600000) / 60000)).padStart(2, '0')}`;
         };
         const getStatusBadge = (status) => {
-            const colors = { approved: 'green', rejected: 'red', pending_admin: 'blue', pending_engineer: 'yellow' };
-            const statusKey = status || 'pending_engineer';
+            const colors = { approved: 'green', rejected: 'red', pending_admin: 'blue', pending_engineer: 'yellow', pending_colleague_consent: 'purple' };
+            const statusKey = status || 'pending_colleague_consent';
             const text = statusKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
             return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${colors[statusKey]}-100 text-${colors[statusKey]}-800">${text}</span>`;
         };
@@ -587,12 +629,15 @@
             allUnsubscribes = [];
             
             if (user && !user.isAnonymous) {
-                currentUser = user;
                 const userDocSnap = await getDoc(doc(db, "users", user.uid));
-                currentUser.displayName = userDocSnap.exists() ? userDocSnap.data().name : user.email;
-                currentUser.empId = userDocSnap.exists() ? userDocSnap.data().empId : '';
+                if (!userDocSnap.exists()) { // If user exists in Auth but not Firestore (rare), sign out
+                    signOut(auth);
+                    return;
+                }
                 
-                userInfo.textContent = `Welcome, ${currentUser.displayName}`;
+                currentUser = { uid: user.uid, ...userDocSnap.data() };
+                
+                userInfo.textContent = `Welcome, ${currentUser.name}`;
                 authSection.classList.add('hidden');
                 appContent.classList.remove('hidden');
 
@@ -605,6 +650,7 @@
                     adminDashboard.classList.remove('hidden');
                     employeeActionsSection.classList.add('hidden');
                     employeeDataSection.classList.add('hidden');
+                    consentRequestsSection.classList.add('hidden');
                     
                     allUnsubscribes.push(listenForAdminRecords(currentUser.is_admin));
                     Object.keys(adminViews).filter(k => k !== 'attendance').forEach(key => {
@@ -616,7 +662,8 @@
                     adminDashboard.classList.add('hidden');
                     employeeActionsSection.classList.remove('hidden');
                     employeeDataSection.classList.remove('hidden');
-                    allUnsubscribes.push(listenForUserRecords(user.uid), listenForUserRequests(user.uid));
+                    consentRequestsSection.classList.remove('hidden');
+                    allUnsubscribes.push(listenForUserRecords(user.uid), listenForUserRequests(user.uid), listenForConsentRequests(user.uid));
                 }
                 updateOnDutySupervisor();
                 setInterval(updateOnDutySupervisor, 60000);
@@ -650,12 +697,7 @@
             try {
                 const cred = await createUserWithEmailAndPassword(auth, email, password);
                 await setDoc(doc(db, "users", cred.user.uid), { 
-                    uid: cred.user.uid, 
-                    name, 
-                    email, 
-                    empId, 
-                    designation, 
-                    department 
+                    name, email, empId, designation, department 
                 });
             } catch (error) { showMessage(error.message); }
             finally { toggleLoader(false); }
@@ -676,7 +718,6 @@
                 const now = new Date();
                 const dateStr = formatDate(now);
                 
-                // *** NEW/MODIFIED CHECK FOR EXISTING ENTRIES ON THE SAME DAY ***
                 const todayQuery = query(collection(db, "attendance"), where("uid", "==", currentUser.uid), where("date", "==", dateStr));
                 const todaySnapshot = await getDocs(todayQuery);
 
@@ -685,12 +726,10 @@
                     if (hasOpenClockIn) {
                         throw new Error("You have a pending clock-out. Please clock-out first.");
                     } else {
-                        // This is the new part for the user's request
                         throw new Error("Shift already completed for today. To work an additional shift, please use the 'Apply for PP' option.");
                     }
                 }
                 
-                // Continue with original clock-in logic if no entries for today exist
                 const location = await checkLocation();
                 const year = now.getFullYear(), month = now.getMonth() + 1, day = now.getDate();
 
@@ -700,13 +739,13 @@
                 const isHoliday = holidayDoc.exists() && holidayDoc.data().dates.includes(day);
 
                 if (isWeekOff || isHoliday) {
-                    await addDoc(collection(db, 'coffs'), { uid: currentUser.uid, name: currentUser.displayName, earned_date: dateStr, status: 'earned' });
+                    await addDoc(collection(db, 'coffs'), { uid: currentUser.uid, name: currentUser.name, earned_date: dateStr, status: 'earned' });
                     showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                 }
                 
                 await addDoc(collection(db, "attendance"), { 
                     uid: currentUser.uid, 
-                    employee_name: currentUser.displayName, 
+                    employee_name: currentUser.name, 
                     date: dateStr, 
                     in_time: now, 
                     in_location: location, 
@@ -716,8 +755,8 @@
             } catch (error) { showMessage(`Clock-in failed: ${error.message || error}`); }
             finally { toggleLoader(false); }
         });
-        clockOutBtn.addEventListener('click', async () => {
-            toggleLoader(true);
+        
+        async function performClockOut() {
             try {
                 const location = await checkLocation();
                 const now = new Date();
@@ -727,9 +766,44 @@
                 const docToUpdate = snapshot.docs[0];
                 await updateDoc(docToUpdate.ref, { out_time: now, out_location: location, total_hours: calculateTotalHours(docToUpdate.data().in_time.toDate(), now) });
                 showMessage("Successfully clocked out!");
-            } catch (error) { showMessage(`Clock-out failed: ${error.message || error}`); }
-            finally { toggleLoader(false); }
+                earlyClockOutModal.classList.add('hidden'); // Ensure modal is hidden after successful clock out
+            } catch (error) {
+                showMessage(`Clock-out failed: ${error.message || error}`);
+            }
+        }
+
+        clockOutBtn.addEventListener('click', async () => {
+            toggleLoader(true);
+            try {
+                const q = query(collection(db, "attendance"), where("uid", "==", currentUser.uid), where("out_time", "==", null));
+                const snapshot = await getDocs(q);
+                if (snapshot.empty) throw new Error("No open clock-in record found.");
+
+                const inTime = snapshot.docs[0].data().in_time.toDate();
+                const hoursWorked = (new Date() - inTime) / 3600000;
+
+                if (hoursWorked < MINIMUM_DUTY_HOURS) {
+                    earlyClockOutModal.classList.remove('hidden');
+                } else {
+                    await performClockOut();
+                }
+            } catch (error) {
+                showMessage(`Clock-out failed: ${error.message || error}`);
+            } finally {
+                toggleLoader(false);
+            }
         });
+        
+        confirmEarlyClockOutBtn.addEventListener('click', async () => {
+            toggleLoader(true);
+            await performClockOut();
+            toggleLoader(false);
+        });
+
+        cancelEarlyClockOutBtn.addEventListener('click', () => {
+            earlyClockOutModal.classList.add('hidden');
+        });
+
 
         // --- EMPLOYEE-SPECIFIC LISTENERS ---
         function listenForUserRecords(uid) {
@@ -754,7 +828,7 @@
                     allRequests.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
                     employeeRequestsBody.innerHTML = allRequests.map(req => {
                         let date, details;
-                        const comment = req.admin_comment || req.engineer_comment || 'N/A';
+                        const comment = req.admin_comment || req.engineer_comment || req.colleague_consent_comment ||'N/A';
                         if (req.type === 'shift') { date = req.change_date; details = `With ${req.colleague_name} (${req.requester_shift}↔${req.colleague_shift})`; }
                         else if (req.type === 'pp') { date = req.request_date; details = req.remarks; }
                         else if (req.type === 'coff') { date = req.avail_date; details = `For C/Off earned on ${req.earned_date}`; }
@@ -769,10 +843,74 @@
             return () => unsubscribes.forEach(unsub => unsub());
         }
 
+        // --- NEW LISTENER FOR CONSENT ---
+        function listenForConsentRequests(uid) {
+            const collections = ['shift_requests', 'pp_requests', 'coff_requests', 'leave_requests'];
+            let allConsentRequests = [];
+             const unsubscribes = collections.map(coll => {
+                const q = query(collection(db, coll), where("colleague_consent_uid", "==", uid), where("status", "==", "pending_colleague_consent"));
+                return onSnapshot(q, snapshot => {
+                    const type = coll.split('_')[0];
+                    allConsentRequests = allConsentRequests.filter(r => r.type !== type);
+                    snapshot.forEach(d => allConsentRequests.push({ id: d.id, ...d.data(), type, collection: coll }));
+                    
+                    allConsentRequests.sort((a, b) => (b.timestamp?.toDate() || 0) - (a.timestamp?.toDate() || 0));
+                    
+                    if (allConsentRequests.length > 0) {
+                        consentRequestsSection.classList.remove('hidden');
+                        consentRequestsBody.innerHTML = allConsentRequests.map(req => {
+                            let details;
+                            if (req.type === 'shift') { details = `Shift change on ${req.change_date}`; }
+                            else if (req.type === 'pp') { details = `PP on ${req.request_date}`; }
+                            else if (req.type === 'coff') { details = `C/Off on ${req.avail_date}`; }
+                            else if (req.type === 'leave') { details = `Leave from ${req.start_date}`; }
+                            
+                            return `<tr>
+                                <td class="p-3">${req.requester_name}</td>
+                                <td class="p-3 uppercase font-semibold text-xs">${req.type}</td>
+                                <td class="p-3 text-sm">${details}</td>
+                                <td class="p-3 space-x-2">
+                                    <button class="consent-approve-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-coll="${req.collection}">Approve</button>
+                                    <button class="consent-reject-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-coll="${req.collection}">Reject</button>
+                                </td>
+                            </tr>`;
+                        }).join('');
+                    } else {
+                        consentRequestsSection.classList.add('hidden');
+                    }
+                });
+            });
+            return () => unsubscribes.forEach(unsub => unsub());
+        }
+        
+        async function handleConsentApprovalClick(e) {
+            const { id, coll } = e.target.dataset;
+            if (!id) return;
+            const isApprove = e.target.classList.contains('consent-approve-btn');
+            const comment = prompt(`Enter comment for ${isApprove ? 'approval' : 'rejection'}:`);
+            if (comment === null) return;
+            
+            toggleLoader(true);
+            const requestRef = doc(db, coll, id);
+            
+            let updateData = {
+                colleague_consent_comment: comment,
+                status: isApprove ? 'pending_engineer' : 'rejected'
+            };
+            
+            try {
+                await updateDoc(requestRef, updateData);
+                showMessage(`Request has been processed.`);
+            } catch(err) { showMessage(`Error: ${err.message}`); }
+            finally { toggleLoader(false); }
+        }
+        consentRequestsBody.addEventListener('click', e => e.target.tagName === 'BUTTON' && handleConsentApprovalClick(e));
+
+
         // --- ADMIN/ENGINEER LISTENERS & VIEWS ---
         async function fetchAllUsers() {
             try {
-                allUsers = (await getDocs(collection(db, 'users'))).docs.map(d => ({ id: d.id, ...d.data(), uid: d.id }));
+                allUsers = (await getDocs(collection(db, 'users'))).docs.map(d => ({ ...d.data(), uid: d.id }));
             } catch (error) { console.error("Failed to fetch users:", error); }
         }
         function listenForAdminRecords(isFullAdmin) {
@@ -830,16 +968,16 @@
                     }
                     
                     let cells = '';
+                    let colleagueConsentCell = `<td class="p-3">${req.colleague_consent_name || 'N/A'}<br><span class="text-xs text-gray-500">${req.colleague_consent_comment || ''}</span></td>`;
                     let adminCommentCell = `<td class="p-3">${req.admin_comment || 'N/A'}</td>`;
-                    let colspan = 10;
 
-                    if (type === 'shift') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
-                    else if (type === 'pp') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; colspan = 8; }
-                    else if (type === 'coff') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; colspan = 9; }
-                    else if (type === 'leave') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td><td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    if (type === 'shift') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    else if (type === 'pp') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    else if (type === 'coff') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    else if (type === 'leave') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
                     
                     return `<tr>${cells}${adminCommentCell}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td></tr>`;
-                }).join('') || `<tr><td colspan="${colspan}" class="p-4 text-center">No requests found.</td></tr>`;
+                }).join('') || `<tr><td colspan="11" class="p-4 text-center">No requests found.</td></tr>`;
             }, (error) => { console.error(`Listener for ${collectionName} failed:`, error); showMessage(`Could not load ${type} requests.`); });
         }
         
@@ -880,8 +1018,26 @@
         Object.values(adminViews).filter(v => v.table).forEach(v => v.table.addEventListener('click', e => e.target.tagName === 'BUTTON' && handleApprovalClick(e)));
 
         // --- EMPLOYEE REQUEST FORM HANDLING ---
+        function populateColleagueConsentDropdown(selectElementId) {
+            const selectElement = document.getElementById(selectElementId);
+            const colleagues = allUsers.filter(user => user.department === currentUser.department && user.uid !== currentUser.uid);
+            
+            selectElement.innerHTML = '<option value="">-- Select a colleague --</option>'; // Reset
+            if (colleagues.length > 0) {
+                 selectElement.innerHTML += colleagues.map(c => `<option value="${c.uid}" data-name="${c.name}">${c.name}</option>`).join('');
+            } else {
+                selectElement.innerHTML += '<option value="" disabled>No colleagues in your department</option>';
+            }
+        }
+        
         Object.values(requestForms).forEach(({ btn, modal, form }) => {
-            btn.addEventListener('click', () => { form.reset(); modal.classList.remove('hidden'); });
+            btn.addEventListener('click', () => { 
+                form.reset(); 
+                modal.classList.remove('hidden'); 
+                // Populate the specific dropdown for this modal
+                const selectId = form.querySelector('select[name="colleague_consent_uid"]').id;
+                populateColleagueConsentDropdown(selectId);
+            });
             form.querySelector('button[type="button"]').addEventListener('click', () => modal.classList.add('hidden'));
         });
 
@@ -925,10 +1081,26 @@
 
             toggleLoader(true);
             const formData = new FormData(form);
-            const requestData = { requester_uid: currentUser.uid, requester_name: currentUser.displayName, status: 'pending_engineer', engineer_comment: '', admin_comment: '', timestamp: Timestamp.now() };
+            const requestData = { 
+                requester_uid: currentUser.uid, 
+                requester_name: currentUser.name, 
+                status: 'pending_colleague_consent', 
+                colleague_consent_comment: '',
+                engineer_comment: '', 
+                admin_comment: '', 
+                timestamp: Timestamp.now() 
+            };
             for(let [key, value] of formData.entries()) { requestData[key] = value; }
 
             try {
+                // Get colleague consent name from the dropdown
+                const consentSelect = form.querySelector('select[name="colleague_consent_uid"]');
+                if (consentSelect && consentSelect.value) {
+                    requestData.colleague_consent_name = consentSelect.options[consentSelect.selectedIndex].dataset.name;
+                } else {
+                    throw new Error("You must select a colleague for consent.");
+                }
+
                 if(formInfo.collection === 'shift_requests'){
                     const colleague = allUsers.find(u => u.empId === requestData.colleague_empid);
                     if (!colleague) throw new Error("Colleague ID not found.");
@@ -948,7 +1120,7 @@
                 }
                 
                 await addDoc(collection(db, formInfo.collection), requestData);
-                showMessage("Request submitted successfully.");
+                showMessage("Request submitted for colleague consent.");
                 formInfo.modal.classList.add('hidden');
             } catch(err) { showMessage("Error: " + err.message); } 
             finally { toggleLoader(false); }
@@ -1168,8 +1340,9 @@
                 const headers = ['NAME', 'EMP ID', ...Array.from({ length: daysToReport }, (_, i) => `${i + 1}-${month}-${year}`), 'P', 'PP', 'A', 'WO', 'H', 'CO', 'L', 'TOTAL'];
                 const rows = Object.values(reportData).map(emp => {
                     const counts = emp.days.slice(1, daysToReport + 1).reduce((acc, val) => { acc[val] = (acc[val] || 0) + 1; return acc; }, {});
-                    const presentDays = (counts['P'] || 0) + (counts['PP'] || 0) * 2; // Count PP as 2
-                    return [`"${emp.name}"`, `"${emp.empId || ''}"`, ...emp.days.slice(1, daysToReport + 1), counts['P'] || 0, counts['PP'] || 0, counts['A'] || 0, counts['WO'] || 0, counts['H'] || 0, counts['CO'] || 0, counts['L'] || 0, presentDays].join(',');
+                    // *** NEW TOTAL CALCULATION ***
+                    const totalPayableDays = (counts['P'] || 0) + (counts['PP'] || 0) + (counts['WO'] || 0) + (counts['H'] || 0) + (counts['CO'] || 0) + (counts['L'] || 0);
+                    return [`"${emp.name}"`, `"${emp.empId || ''}"`, ...emp.days.slice(1, daysToReport + 1), counts['P'] || 0, counts['PP'] || 0, counts['A'] || 0, counts['WO'] || 0, counts['H'] || 0, counts['CO'] || 0, counts['L'] || 0, totalPayableDays].join(',');
                 });
 
                 const csvContent = "data:text/csv;charset=utf-8," + headers.join(",") + "\n" + rows.join("\n");
@@ -1202,8 +1375,8 @@
             const existingWeekOffs = {};
             snapshot.forEach(d => existingWeekOffs[d.data().uid] = d.data().dates || []);
             weekOffEmployeeList.innerHTML = allUsers.map(user => {
-                const userWeekOffs = existingWeekOffs[user.id] || [];
-                const checkboxes = Array.from({length: daysInMonth}, (_, i) => `<label class="inline-flex items-center mr-2"><input type="checkbox" class="form-checkbox h-4 w-4" value="${i+1}" data-uid="${user.id}" ${userWeekOffs.includes(i+1) ? 'checked' : ''}><span class="ml-1 text-sm">${i+1}</span></label>`).join('');
+                const userWeekOffs = existingWeekOffs[user.uid] || [];
+                const checkboxes = Array.from({length: daysInMonth}, (_, i) => `<label class="inline-flex items-center mr-2"><input type="checkbox" class="form-checkbox h-4 w-4" value="${i+1}" data-uid="${user.uid}" ${userWeekOffs.includes(i+1) ? 'checked' : ''}><span class="ml-1 text-sm">${i+1}</span></label>`).join('');
                 return `<div class="p-2 border rounded"><p class="font-semibold">${user.name}</p><div class="flex flex-wrap mt-2">${checkboxes}</div></div>`;
             }).join('');
             toggleLoader(false);
@@ -1213,7 +1386,7 @@
             toggleLoader(true);
             const [year, month] = document.getElementById('week-off-month').value.split('-').map(Number);
             const weekOffsByEmployee = {};
-            allUsers.forEach(user => weekOffsByEmployee[user.id] = []);
+            allUsers.forEach(user => weekOffsByEmployee[user.uid] = []);
             weekOffEmployeeList.querySelectorAll('input:checked').forEach(cb => weekOffsByEmployee[cb.dataset.uid].push(parseInt(cb.value)));
             
             const batch = writeBatch(db);
