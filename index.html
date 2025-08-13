@@ -360,7 +360,7 @@
                     </div>
                     
                     <div class="mt-6 border-t border-gray-600 pt-4">
-                        <h3 class="text-lg font-bold mb-4 text-white">Pending Requests</h3>
+                        <h3 class="text-lg font-bold mb-4 text-white">Pending Requests for Engineer Approval</h3>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                             <div><p class="text-2xl font-bold" id="dashboard-shift-request-count">0</p><p class="text-sm text-gray-300">Shift</p></div>
                             <div><p class="text-2xl font-bold" id="dashboard-pp-request-count">0</p><p class="text-sm text-gray-300">PP</p></div>
@@ -401,19 +401,19 @@
                 </div>
                 <div id="admin-shift-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">Shift Change Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-pp-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">PP Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-coff-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">C/Off Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-leave-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">Leave Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Admin Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
                 </div>
             </div>
 
@@ -599,7 +599,7 @@
             return `${String(Math.floor(diffMs / 3600000)).padStart(2, '0')}:${String(Math.round((diffMs % 3600000) / 60000)).padStart(2, '0')}`;
         };
         const getStatusBadge = (status) => {
-            const colors = { approved: 'green', rejected: 'red', pending_admin: 'blue', pending_engineer: 'yellow', pending_colleague_consent: 'purple' };
+            const colors = { approved: 'green', rejected: 'red', pending_engineer: 'yellow', pending_colleague_consent: 'purple' };
             const statusKey = status || 'pending_colleague_consent';
             const text = statusKey.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
             return `<span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${colors[statusKey]}-100 text-${colors[statusKey]}-800">${text}</span>`;
@@ -712,6 +712,8 @@
             clockInBtn.disabled = !snapshot.empty;
             clockOutBtn.disabled = snapshot.empty;
         }
+
+        // MODIFIED: clockInBtn listener
         clockInBtn.addEventListener('click', async () => {
             toggleLoader(true);
             try {
@@ -738,8 +740,14 @@
                 const isWeekOff = weekOffDoc.exists() && weekOffDoc.data().dates.includes(day);
                 const isHoliday = holidayDoc.exists() && holidayDoc.data().dates.includes(day);
 
+                // NEW: Auto C/Off Generation
                 if (isWeekOff || isHoliday) {
-                    await addDoc(collection(db, 'coffs'), { uid: currentUser.uid, name: currentUser.name, earned_date: dateStr, status: 'earned' });
+                    await addDoc(collection(db, 'coffs'), { 
+                        uid: currentUser.uid, 
+                        name: currentUser.name, 
+                        earned_date: dateStr, 
+                        status: 'earned' 
+                    });
                     showMessage(`C/off generated for working on a ${isWeekOff ? 'week off' : 'holiday'}.`);
                 }
                 
@@ -943,16 +951,15 @@
         }
         [filterDate, filterName].forEach(el => el.addEventListener('input', () => applyAdminFilters(currentUser.is_admin)));
 
+        // MODIFIED: createAdminRequestListener function
         function createAdminRequestListener(collectionName, tableBody, counterElement, type) {
             const { dashboardCounterId } = adminViews[type];
             return onSnapshot(query(collection(db, collectionName)), (snapshot) => {
                 const allRequests = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 allRequests.sort((a, b) => (b.timestamp?.toDate()?.getTime() || 0) - (a.timestamp?.toDate()?.getTime() || 0));
 
-                const pendingCount = allRequests.filter(req =>
-                    (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') ||
-                    (currentUser.is_admin && req.status === 'pending_admin')
-                ).length;
+                // Count requests pending for engineer approval
+                const pendingCount = allRequests.filter(req => req.status === 'pending_engineer').length;
                 
                 counterElement.classList.toggle('hidden', pendingCount === 0);
                 if (dashboardCounterId) {
@@ -962,25 +969,28 @@
 
                 tableBody.innerHTML = allRequests.map(req => {
                     let actions = 'N/A';
-                    if ((currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') || (currentUser.is_admin && req.status === 'pending_admin')) {
+                    // Show buttons only to engineers for pending_engineer requests
+                    if (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') {
                         actions = `<button class="approve-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-type="${type}" data-coll="${collectionName}">Approve</button>
                                    <button class="reject-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-type="${type}" data-coll="${collectionName}">Reject</button>`;
                     }
                     
                     let cells = '';
                     let colleagueConsentCell = `<td class="p-3">${req.colleague_consent_name || 'N/A'}<br><span class="text-xs text-gray-500">${req.colleague_consent_comment || ''}</span></td>`;
-                    let adminCommentCell = `<td class="p-3">${req.admin_comment || 'N/A'}</td>`;
-
+                    
                     if (type === 'shift') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
                     else if (type === 'pp') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
                     else if (type === 'coff') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
                     else if (type === 'leave') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
                     
-                    return `<tr>${cells}${adminCommentCell}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td></tr>`;
-                }).join('') || `<tr><td colspan="11" class="p-4 text-center">No requests found.</td></tr>`;
+                    // Admin comment column removed from some views for simplicity
+                    let finalCells = (type === 'shift') ? `${cells}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td>` : `${cells}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td>`;
+                    return `<tr>${finalCells}</tr>`;
+                }).join('') || `<tr><td colspan="10" class="p-4 text-center">No requests found.</td></tr>`;
             }, (error) => { console.error(`Listener for ${collectionName} failed:`, error); showMessage(`Could not load ${type} requests.`); });
         }
         
+        // MODIFIED: handleApprovalClick function
         async function handleApprovalClick(e) {
             const { id, type, coll } = e.target.dataset;
             if (!id) return;
@@ -994,14 +1004,12 @@
             
             if (currentUser.is_engineer) {
                 updateData.engineer_comment = comment;
-                updateData.status = isApprove ? 'pending_admin' : 'rejected';
-            } else if (currentUser.is_admin) {
-                updateData.admin_comment = comment;
-                updateData.status = isApprove ? 'approved' : 'rejected';
-            }
+                updateData.status = isApprove ? 'approved' : 'rejected'; // Engineer approval is final
+            } 
+            // Admin no longer has approval actions in this workflow.
 
             try {
-                if (isApprove && currentUser.is_admin && type === 'coff') {
+                if (isApprove && currentUser.is_engineer && type === 'coff') {
                     const reqDoc = await getDoc(requestRef);
                     const { earned_coff_doc_id, avail_date } = reqDoc.data();
                     const batch = writeBatch(db);
@@ -1213,7 +1221,7 @@
         }
         exportBtn.addEventListener('click', exportDailyToCSV);
 
-        // --- MONTHLY REPORT LOGIC (CORRECTED) ---
+        // --- MONTHLY REPORT LOGIC (MODIFIED) ---
         monthlyReportBtn.addEventListener('click', () => {
             document.getElementById('report-month').valueAsDate = new Date();
             monthlyReportModal.classList.remove('hidden')
@@ -1228,10 +1236,18 @@
                 monthlyReportModal.classList.add('hidden');
             }
         });
+
+        // MODIFIED: exportMonthlyReport function
         async function exportMonthlyReport(year, month) {
             toggleLoader(true);
             try {
                 await fetchAllUsers();
+                
+                // NEW: Exclude admin and specific engineers from the report
+                const excludedEmpIds = ['2', '3']; // Emp IDs for Vishal and Rahul
+                const usersForReport = allUsers.filter(user => 
+                    user.uid !== ADMIN_UID && !excludedEmpIds.includes(user.empId)
+                );
 
                 const today = new Date();
                 const isCurrentMonth = today.getFullYear() === year && (today.getMonth() + 1) === month;
@@ -1241,7 +1257,6 @@
                 const startDate = `${year}-${String(month).padStart(2, '0')}-01`;
                 const endDate = `${year}-${String(month).padStart(2, '0')}-${String(daysInMonth).padStart(2, '0')}`;
                 
-                // Fetch all data first
                 const attendanceQuery = query(collection(db, 'attendance'), where("date", ">=", startDate), where("date", "<=", endDate));
                 const weekOffsQuery = query(collection(db, 'weekoffs'), where("year", "==", year), where("month", "==", month));
                 const holidayDocRef = doc(db, 'holidays', `${year}-${month}`);
@@ -1265,7 +1280,6 @@
                     getDocs(leaveReqQuery)
                 ]);
 
-                // Process all fetched data
                 const monthRecords = attendanceSnapshot.docs.map(doc => doc.data());
                 
                 const monthWeekOffs = {};
@@ -1306,9 +1320,8 @@
                     }
                 });
 
-                // Generate report data
                 const reportData = {};
-                allUsers.forEach(user => {
+                usersForReport.forEach(user => { // Use the filtered list of users
                     reportData[user.uid] = { name: user.name, empId: user.empId, days: Array(daysInMonth + 1).fill('A') };
                 });
                 
@@ -1340,7 +1353,6 @@
                 const headers = ['NAME', 'EMP ID', ...Array.from({ length: daysToReport }, (_, i) => `${i + 1}-${month}-${year}`), 'P', 'PP', 'A', 'WO', 'H', 'CO', 'L', 'TOTAL'];
                 const rows = Object.values(reportData).map(emp => {
                     const counts = emp.days.slice(1, daysToReport + 1).reduce((acc, val) => { acc[val] = (acc[val] || 0) + 1; return acc; }, {});
-                    // *** NEW TOTAL CALCULATION ***
                     const totalPayableDays = (counts['P'] || 0) + (counts['PP'] || 0) + (counts['WO'] || 0) + (counts['H'] || 0) + (counts['CO'] || 0) + (counts['L'] || 0);
                     return [`"${emp.name}"`, `"${emp.empId || ''}"`, ...emp.days.slice(1, daysToReport + 1), counts['P'] || 0, counts['PP'] || 0, counts['A'] || 0, counts['WO'] || 0, counts['H'] || 0, counts['CO'] || 0, counts['L'] || 0, totalPayableDays].join(',');
                 });
