@@ -245,7 +245,7 @@
                     </div>
                     <div class="mb-4"><label for="colleague-empid" class="block text-sm font-medium text-gray-700">Colleague's Employee ID</label><input type="text" id="colleague-empid" name="colleague_empid" placeholder="Enter Colleague's EMP ID" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
                     <div class="mb-4"><label for="shift-change-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="shift-change-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
-                    <div class="mb-4"><label for="shift-change-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="shift-change-remarks" name="remarks" rows="3" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <!-- REMARKS REMOVED -->
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Send</button></div>
                 </form>
             </div>
@@ -256,7 +256,7 @@
                 <form id="pp-request-form">
                     <div class="mb-4"><label for="pp-request-date" class="block text-sm font-medium text-gray-700">Date for PP</label><input type="date" id="pp-request-date" name="request_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
                     <div class="mb-4"><label for="pp-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="pp-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
-                    <div class="mb-4"><label for="pp-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="pp-request-remarks" name="remarks" rows="3" placeholder="Reason for dual shift..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <!-- REMARKS REMOVED -->
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg">Submit</button></div>
                 </form>
             </div>
@@ -268,7 +268,7 @@
                     <div class="mb-4"><label for="coff-avail-date" class="block text-sm font-medium text-gray-700">Date to Avail C/Off</label><input type="date" id="coff-avail-date" name="avail_date" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></div>
                     <div class="mb-4"><label for="coff-earned-select" class="block text-sm font-medium text-gray-700">Against which earned C/Off?</label><select id="coff-earned-select" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select><p id="no-coff-message" class="text-sm text-red-500 mt-1 hidden">You have no available C/Offs.</p></div>
                     <div class="mb-4"><label for="coff-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="coff-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
-                    <div class="mb-4"><label for="coff-request-remarks" class="block text-sm font-medium text-gray-700">Remarks</label><textarea id="coff-request-remarks" name="remarks" rows="3" placeholder="Reason..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <!-- REMARKS REMOVED -->
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" class="bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded-lg">Submit</button></div>
                 </form>
             </div>
@@ -283,7 +283,7 @@
                     </div>
                     <p class="text-center text-sm font-medium text-gray-700 mb-4">Total Days: <span id="leave-total-days">0</span></p>
                     <div class="mb-4"><label for="leave-consent-colleague" class="block text-sm font-medium text-gray-700">Select Colleague for Consent</label><select name="colleague_consent_uid" id="leave-consent-colleague" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></select></div>
-                    <div class="mb-4"><label for="leave-request-remarks" class="block text-sm font-medium text-gray-700">Reason</label><textarea id="leave-request-remarks" name="reason" rows="3" placeholder="Reason..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md" required></textarea></div>
+                    <!-- REASON REMOVED -->
                     <div class="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md"><label class="flex items-start"><input type="checkbox" id="leave-terms-ack" class="h-4 w-4 text-orange-600 mt-1"><span class="ml-2 text-xs text-gray-600">I acknowledge leave approval is subject to company policy.</span></label></div>
                     <div class="flex justify-end space-x-4 mt-6"><button type="button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg">Cancel</button><button type="submit" id="submit-leave-request-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded-lg disabled:bg-gray-400" disabled>Submit</button></div>
                 </form>
@@ -401,19 +401,19 @@
                 </div>
                 <div id="admin-shift-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">Shift Change Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Requester</th><th class="p-3">Colleague</th><th class="p-3">Date</th><th class="p-3">Shift Change</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-pp-requests-view" class="hidden">
                      <h2 class="text-xl font-semibold mb-4">PP Requests</h2>
-                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
+                     <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Name</th><th class="p-3">Date</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-pp-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-coff-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">C/Off Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Remarks</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">Avail Date</th><th class="p-3">Earned On</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-coff-requests-body"></tbody></table></div>
                 </div>
                 <div id="admin-leave-requests-view" class="hidden">
                     <h2 class="text-xl font-semibold mb-4">Leave Requests</h2>
-                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Reason</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
+                    <div class="overflow-x-auto"><table class="w-full text-left"><thead><tr class="bg-gray-200"><th class="p-3">Employee</th><th class="p-3">From</th><th class="p-3">To</th><th class="p-3">Days</th><th class="p-3">Colleague Consent</th><th class="p-3">Engineer Comment</th><th class="p-3">Status</th><th class="p-3">Actions</th></tr></thead><tbody id="admin-leave-requests-body"></tbody></table></div>
                 </div>
             </div>
 
@@ -838,7 +838,7 @@
                         let date, details;
                         const comment = req.admin_comment || req.engineer_comment || req.colleague_consent_comment ||'N/A';
                         if (req.type === 'shift') { date = req.change_date; details = `With ${req.colleague_name} (${req.requester_shift}↔${req.colleague_shift})`; }
-                        else if (req.type === 'pp') { date = req.request_date; details = req.remarks; }
+                        else if (req.type === 'pp') { date = req.request_date; details = `Approved for PP`; }
                         else if (req.type === 'coff') { date = req.avail_date; details = `For C/Off earned on ${req.earned_date}`; }
                         else if (req.type === 'leave') { 
                             date = req.start_date || req.startDate; 
@@ -851,7 +851,7 @@
             return () => unsubscribes.forEach(unsub => unsub());
         }
 
-        // --- NEW LISTENER FOR CONSENT ---
+        // --- UPDATED LISTENER FOR CONSENT ---
         function listenForConsentRequests(uid) {
             const collections = ['shift_requests', 'pp_requests', 'coff_requests', 'leave_requests'];
             let allConsentRequests = [];
@@ -873,13 +873,15 @@
                             else if (req.type === 'coff') { details = `C/Off on ${req.avail_date}`; }
                             else if (req.type === 'leave') { details = `Leave from ${req.start_date}`; }
                             
+                            const consentMessage = `आपके साथी ${req.requester_name} ने ${details} के लिए आवेदन किया है। आपको उनकी जगह पर ड्यूटी करनी होगी। क्या आप सहमत हैं?`;
+
                             return `<tr>
                                 <td class="p-3">${req.requester_name}</td>
                                 <td class="p-3 uppercase font-semibold text-xs">${req.type}</td>
-                                <td class="p-3 text-sm">${details}</td>
+                                <td class="p-3 text-sm">${consentMessage}</td>
                                 <td class="p-3 space-x-2">
-                                    <button class="consent-approve-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-coll="${req.collection}">Approve</button>
-                                    <button class="consent-reject-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-coll="${req.collection}">Reject</button>
+                                    <button class="consent-approve-btn bg-green-500 text-white px-3 py-1 rounded-md text-sm" data-id="${req.id}" data-coll="${req.collection}">हाँ</button>
+                                    <button class="consent-reject-btn bg-red-500 text-white px-3 py-1 rounded-md text-sm" data-id="${req.id}" data-coll="${req.collection}">नहीं</button>
                                 </td>
                             </tr>`;
                         }).join('');
@@ -891,18 +893,17 @@
             return () => unsubscribes.forEach(unsub => unsub());
         }
         
+        // --- UPDATED CONSENT HANDLING ---
         async function handleConsentApprovalClick(e) {
             const { id, coll } = e.target.dataset;
             if (!id) return;
             const isApprove = e.target.classList.contains('consent-approve-btn');
-            const comment = prompt(`Enter comment for ${isApprove ? 'approval' : 'rejection'}:`);
-            if (comment === null) return;
             
             toggleLoader(true);
             const requestRef = doc(db, coll, id);
             
             let updateData = {
-                colleague_consent_comment: comment,
+                colleague_consent_comment: isApprove ? 'Agreed by Colleague' : 'Rejected by Colleague',
                 status: isApprove ? 'pending_engineer' : 'rejected'
             };
             
@@ -951,14 +952,13 @@
         }
         [filterDate, filterName].forEach(el => el.addEventListener('input', () => applyAdminFilters(currentUser.is_admin)));
 
-        // MODIFIED: createAdminRequestListener function
+        // --- UPDATED ADMIN REQUEST LISTENER ---
         function createAdminRequestListener(collectionName, tableBody, counterElement, type) {
             const { dashboardCounterId } = adminViews[type];
             return onSnapshot(query(collection(db, collectionName)), (snapshot) => {
                 const allRequests = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
                 allRequests.sort((a, b) => (b.timestamp?.toDate()?.getTime() || 0) - (a.timestamp?.toDate()?.getTime() || 0));
 
-                // Count requests pending for engineer approval
                 const pendingCount = allRequests.filter(req => req.status === 'pending_engineer').length;
                 
                 counterElement.classList.toggle('hidden', pendingCount === 0);
@@ -969,7 +969,6 @@
 
                 tableBody.innerHTML = allRequests.map(req => {
                     let actions = 'N/A';
-                    // Show buttons only to engineers for pending_engineer requests
                     if (currentUser.is_engineer && !currentUser.is_admin && req.status === 'pending_engineer') {
                         actions = `<button class="approve-btn bg-green-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-type="${type}" data-coll="${collectionName}">Approve</button>
                                    <button class="reject-btn bg-red-500 text-white px-2 py-1 rounded-md text-sm" data-id="${req.id}" data-type="${type}" data-coll="${collectionName}">Reject</button>`;
@@ -978,13 +977,12 @@
                     let cells = '';
                     let colleagueConsentCell = `<td class="p-3">${req.colleague_consent_name || 'N/A'}<br><span class="text-xs text-gray-500">${req.colleague_consent_comment || ''}</span></td>`;
                     
-                    if (type === 'shift') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
-                    else if (type === 'pp') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
-                    else if (type === 'coff') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td><td class="p-3">${req.remarks}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
-                    else if (type === 'leave') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td><td class="p-3">${req.reason}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    if (type === 'shift') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.colleague_name}</td><td class="p-3">${req.change_date}</td><td class="p-3">${req.requester_shift}↔${req.colleague_shift}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    else if (type === 'pp') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.request_date}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    else if (type === 'coff') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.avail_date}</td><td class="p-3">${req.earned_date}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
+                    else if (type === 'leave') { cells = `<td class="p-3">${req.requester_name}</td><td class="p-3">${req.start_date || req.startDate}</td><td class="p-3">${req.end_date || req.endDate}</td><td class="p-3 text-center">${req.total_days}</td>${colleagueConsentCell}<td class="p-3">${req.engineer_comment || 'N/A'}</td>`; }
                     
-                    // Admin comment column removed from some views for simplicity
-                    let finalCells = (type === 'shift') ? `${cells}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td>` : `${cells}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td>`;
+                    let finalCells = `${cells}<td class="p-3">${getStatusBadge(req.status)}</td><td class="p-3 space-x-2">${actions}</td>`;
                     return `<tr>${finalCells}</tr>`;
                 }).join('') || `<tr><td colspan="10" class="p-4 text-center">No requests found.</td></tr>`;
             }, (error) => { console.error(`Listener for ${collectionName} failed:`, error); showMessage(`Could not load ${type} requests.`); });
@@ -1042,7 +1040,6 @@
             btn.addEventListener('click', () => { 
                 form.reset(); 
                 modal.classList.remove('hidden'); 
-                // Populate the specific dropdown for this modal
                 const selectId = form.querySelector('select[name="colleague_consent_uid"]').id;
                 populateColleagueConsentDropdown(selectId);
             });
@@ -1101,7 +1098,6 @@
             for(let [key, value] of formData.entries()) { requestData[key] = value; }
 
             try {
-                // Get colleague consent name from the dropdown
                 const consentSelect = form.querySelector('select[name="colleague_consent_uid"]');
                 if (consentSelect && consentSelect.value) {
                     requestData.colleague_consent_name = consentSelect.options[consentSelect.selectedIndex].dataset.name;
@@ -1243,8 +1239,7 @@
             try {
                 await fetchAllUsers();
                 
-                // NEW: Exclude admin and specific engineers from the report
-                const excludedEmpIds = ['2', '3']; // Emp IDs for Vishal and Rahul
+                const excludedEmpIds = ['2', '3']; 
                 const usersForReport = allUsers.filter(user => 
                     user.uid !== ADMIN_UID && !excludedEmpIds.includes(user.empId)
                 );
@@ -1321,7 +1316,7 @@
                 });
 
                 const reportData = {};
-                usersForReport.forEach(user => { // Use the filtered list of users
+                usersForReport.forEach(user => { 
                     reportData[user.uid] = { name: user.name, empId: user.empId, days: Array(daysInMonth + 1).fill('A') };
                 });
                 
